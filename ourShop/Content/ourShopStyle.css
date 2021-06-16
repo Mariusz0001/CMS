@@ -1,7 +1,7 @@
 ﻿body {
-    background-image: url("/Content/Images/background.jpg");
+  /*  background-image: url("/Content/Images/background.jpg");
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: cover;*/
 
     display: flex;
     min-height: 100vh;
@@ -64,10 +64,10 @@ select, input, textarea, control-label, btn {
 .treeView {
     background-color: #f9f9f9;
     border: 1px solid #e6e6e6;
-    border-radius: 10px;
-    padding: 12px 10px 10px 15px;
-    float:left;
-    min-width:200px;
+    float: left;
+    overflow: auto;
+    display: block;
+    max-height:500px;
 }
 .treeNode {
     transition: all .3s;
@@ -87,21 +87,19 @@ select, input, textarea, control-label, btn {
 .selectedNode {
     color: black;
     background-color: #dff7ff;
-    border: 1px outset #d3d3d3;
-    border-left: none;
-    border-right: none;
-    border-top: none;
+    border: none;
+    font-size: 1.2rem;
+    font-stretch: extra-expanded;
+    font-weight: 900;
 }
 .leafNode {
-    border: 1px dotted #d3d3d3;
+    border: none;
 }
 .hoverNode {
     color: black !important;
     background-color: #dff7ff;
-    text-align: center;
     text-decoration: none;
-    border: 1px outset #d3d3d3;
-    border-left: none;
-    border-right: none;
-    border-top: none;
+    font-size: 1.2rem;
+    font-stretch: extra-expanded;
+    border: none;
 }

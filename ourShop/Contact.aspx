@@ -2,11 +2,6 @@
 <%@ Register TagPrefix="UC" TagName="ContactUC" Src="~/Modules/UC/ContactUC.ascx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-
-
-    <script type="text/javascript">
-
-</script>
     <body>
         <form id="mainForm" class="form-group" runat="server">
             <div class="panel panel-default">

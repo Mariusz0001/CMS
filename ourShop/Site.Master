@@ -1,8 +1,12 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ourShop.SiteMaster" %>
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-<head id="Head1" runat="server">
+<html lang="en">
+
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
     <title>ourShop</title>
 
     <%--    <link href="Content/bootstrap.css" rel="stylesheet" />
@@ -11,7 +15,6 @@
     <script src="../Scripts/jquery-3.6.0.min.js"></script>
     <script src="../Scripts/lib/jquery-1.11.1.js"></script>
     <script src="../Scripts/jquery-3.6.0.js"></script>
-
     <%--    
     <script src="../Scripts/bootstrap.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>--%>
@@ -23,7 +26,6 @@
     <link href="Content/ourShopStyle.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
     <nav class="navbar-light-transparent" style="z-index:100000;">
@@ -68,13 +70,17 @@
         $(document).ready(function () {
             $('.sidenav').sidenav();
         });
+
     </script>
 
 </body>
 
-<asp:ContentPlaceHolder ID="MainContent" runat="server">
-</asp:ContentPlaceHolder>
+    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+        <body></body>
+    </asp:ContentPlaceHolder>
+
      <asp:ContentPlaceHolder ID="BodyContent" runat="server">
+          <body></body>
      </asp:ContentPlaceHolder>
 
     <asp:ContentPlaceHolder ID="FooterContent" runat="server">

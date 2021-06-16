@@ -40,6 +40,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -855,7 +856,6 @@
     <Content Include="Content\icons\zone.png" />
     <Content Include="Content\icons\zones.png" />
     <Content Include="Content\icons\zone_money.png" />
-    <Content Include="Content\Images\background1.jpg" />
     <Content Include="Content\Images\home2.jpg" />
     <Content Include="Content\Images\home1.jpg" />
     <Content Include="Content\Images\background.jpg" />
@@ -903,6 +903,7 @@
     <Content Include="Scripts\jquery-3.6.0.slim.js" />
     <Content Include="Scripts\jquery-3.6.0.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.mobile-1.4.5.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\lib\jquery-1.11.1.js" />
@@ -1098,6 +1099,7 @@
     </Compile>
     <Compile Include="Tests\DBTest.cs" />
     <Compile Include="Tests\TestMethodAttribute.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

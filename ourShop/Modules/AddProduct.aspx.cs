@@ -26,9 +26,22 @@ namespace ourShop.Modules
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
-            { 
+            {
                 LoadCategoriesBook();
-                RegisterInitialProduct();
+
+                if (IdFromURL > 0)
+                {
+                   /* to do
+                    * pobrać z dbo kontrolera i ustawić w kontrolkach 
+                    * */
+                }
+                else
+                {
+                    /* to do
+                    * użyć dbo kontrolera
+                    * */
+                    RegisterInitialProduct();
+                }
             }
         }
         private void RegisterInitialProduct()
@@ -110,7 +123,6 @@ namespace ourShop.Modules
                     }
                     else
                     {
-                        //child.Selected = true;
                         treeNode.ChildNodes.Add(child);
                     }
                 }
