@@ -1,0 +1,107 @@
+﻿body {
+    background-image: url("/Content/Images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+main {
+    flex: 1 0 auto;
+}
+.bcg-img {
+    background-image: url("/Content/Images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@font-face {
+    font-family: 'Font1';
+    src: url(/Content/font1.ttf);
+}
+
+.navbar-light-transparent {
+    background-color: rgba(44, 62, 80, 0.9) !important;
+    border-bottom: 0.5px solid #e6e6e6;
+    padding: 0px 10px;
+    margin-right:10px;
+    position: fixed;
+}
+.footer-light-transparent {
+    background-color: rgba(44, 62, 80, 0.9) !important;
+    border-bottom: 0.5px solid #e6e6e6;
+    padding: 0px 10px;
+    margin-right: 10px;
+    position: fixed;
+}
+
+.h1, h2, h3, h4, h5, p {
+    font-family: Font1, Helvetica, sans-serif;
+}
+select, input, textarea, control-label, btn {
+    font-family: Font1, Helvetica, sans-serif;
+    font-size: 11px;
+}
+
+.form-group {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #e6e6e6;
+    padding: 30px 30px 30px 30px;
+    margin-left:0px;
+    float:left;
+    width:100%;
+}
+
+.invalid {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 10px;
+    color: #dc3545;
+    font-family: Font1;
+}
+
+.treeView {
+    background-color: #f9f9f9;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    padding: 12px 10px 10px 15px;
+    float:left;
+    min-width:200px;
+}
+.treeNode {
+    transition: all .3s;
+    text-align: center;
+    margin: 0;
+    min-width: 100px !important;
+    color: black;
+    text-decoration: none !important;
+    cursor: pointer;
+    text-align: center;
+    font-family: Font1;
+    border: 1px outset #d3d3d3;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+.selectedNode {
+    color: black;
+    background-color: #dff7ff;
+    border: 1px outset #d3d3d3;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+.leafNode {
+    border: 1px dotted #d3d3d3;
+}
+.hoverNode {
+    color: black !important;
+    background-color: #dff7ff;
+    text-align: center;
+    text-decoration: none;
+    border: 1px outset #d3d3d3;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
