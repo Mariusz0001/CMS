@@ -21,15 +21,15 @@
     <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
 </head>
 <body>
- <nav class="navbar-light-transparent" style="z-index:100;">
+ <nav id="navbar" class="navbar-light-transparent" runat="server" style="z-index:100;">
         <div class="nav-wrapper z-depth-1-half" style="z-index:101;">
-            <a href="/Home" class="brand-logo">ourShop</a>
+            <a href="/Home" class="brand-logo right">ourShop</a>
 
             <a href="#" class="sidenav-trigger" data-target="mobile-nav">
                 <i class="material-icons">menu</i>
             </a>
 
-            <ul class="right hide-on-med-and-down">
+            <ul class="left hide-on-med-and-down">
                 <li><a href="/Home">Home</a></li>
                 <li><a href="/Contact">Contact</a></li>
                 <li><a href="/Modules/Configuration"><i class="material-icons right">settings_applications</i>Configuration</a></li>

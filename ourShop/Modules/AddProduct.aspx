@@ -106,7 +106,7 @@
              </div></div>
             </div>
                 <div class="row">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#fileUploadModal">
+                    <button type="button" class="btn modal-trigger" data-target="fileUploadModal">
                     </button>
                     <asp:Button runat="server" ID="Button1" class="btn btn-light" Text="Upload" CausesValidation="True" OnClick="UploadButton_Click" ValidationGroup="PictureUpload" UseSubmitBehavior="False" />
 
@@ -134,9 +134,9 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="fileUploadModal" data-controls-modal="fileUploadModal" data-backdrop="static" data-keyboard="false">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
+
+                <div class="modal" id="fileUploadModal" data-controls-modal="fileUploadModal" data-backdrop="static" data-keyboard="false">
+                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="fileUploadModalLabel">Picture uploading</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -168,7 +168,6 @@
                         </div>
                     </div>
                 </div>
-                </div>
             <script type="text/javascript">
                 function setTwoNumberDecimal(event) {
                     alert("s");
@@ -196,12 +195,12 @@
                         ]
                     });
                 });
-
+                $(document).ready(function () {
+                    $('.modal').modal();
+                });
             </script>
         </form>
     </body>
-    </html>
-    </span>
 </asp:Content>
     
 

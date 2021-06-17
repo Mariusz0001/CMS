@@ -856,11 +856,10 @@
     <Content Include="Content\icons\zone.png" />
     <Content Include="Content\icons\zones.png" />
     <Content Include="Content\icons\zone_money.png" />
-    <Content Include="Content\Images\home2.jpg" />
-    <Content Include="Content\Images\home1.jpg" />
+    <Content Include="Content\Images\home1.png" />
     <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\Images\city-blurred-hd.jpg" />
-    <Content Include="Content\Images\home3.jpg" />
+    <Content Include="Content\Images\home2.png" />
     <Content Include="Content\materialize.css" />
     <Content Include="Content\materialize.min.css" />
     <Content Include="Content\ourShopStyle.css" />
