@@ -1,5 +1,6 @@
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Mobile.master.cs" Inherits="ourShop.Site_Mobile" %>
 <%@ Register Src="~/ViewSwitcher.ascx" TagPrefix="friendlyUrls" TagName="ViewSwitcher" %>
+<%@ Register TagPrefix="UC" TagName="LoginUC" Src="~/Modules/UC/LoginUC.ascx" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -21,27 +22,31 @@
     <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
 </head>
 <body>
- <nav id="navbar" class="navbar-light-transparent" runat="server" style="z-index:100;">
-        <div class="nav-wrapper z-depth-1-half" style="z-index:101;">
-            <a href="/Home" class="brand-logo right">ourShop</a>
+ <nav id="navbar" runat="server" class="navbar-light-transparent" style="z-index:100000;">
+        <div class="nav-wrapper">
+            <a href="/Home" class="brand-logo center">ourShop</a>
 
             <a href="#" class="sidenav-trigger" data-target="mobile-nav">
                 <i class="material-icons">menu</i>
             </a>
 
-            <ul class="left hide-on-med-and-down">
+            <ul class="left  hide-on-med-and-down">
                 <li><a href="/Home">Home</a></li>
                 <li><a href="/Contact">Contact</a></li>
                 <li><a href="/Modules/Configuration"><i class="material-icons right">settings_applications</i>Configuration</a></li>
                 <li><a class="dropdown-trigger" href="#!" data-target="ProductDropDown">Products<i class="material-icons right">inventory arrow_drop_down</i></a></li>
-                <li>
-                    <form class="form-inline" style="margin-right: 10px;">
+
+            </ul>
+             <ul class="right  hide-on-med-and-down">
+                <li><a href="/Modules/Configuration"><i class="material-icons right">shopping_cart</i></a></li>
+                <li><a href="/Modules/Configuration"><i class="material-icons right  modal-trigger" data-target="LoginModal">login</i></a></li>
+                 <li>
                         <input class="form-control right-align white-text" type="search" placeholder="Search" />
-                    </form>
                 </li>
             </ul>
         </div>
     </nav>
+
 
     <ul id="ProductDropDown" class="dropdown-content collection"> 
         <li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
@@ -55,6 +60,12 @@
         <li><a href="/About">About</a></li>
         <li><a href="/Modules/AddProduct">Add product</a></li>
     </ul>
+
+      <div id="LoginModal" class="modal_tight modal z-depth-3 ">
+            <UC:LoginUC ID="LoginUC1" runat="server" />
+    </div>
+     
+
     <br />
 
     <script type="text/javascript">
@@ -62,6 +73,9 @@
 
         $(document).ready(function () {
             $('.sidenav').sidenav();
+        });
+        $(document).ready(function () {
+            $('.modal').modal();
         });
 
     </script>

@@ -2,8 +2,6 @@
 <%@ Register TagPrefix="UC" TagName="ContactUC" Src="~/Modules/UC/ContactUC.ascx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    <body>
-        <form id="mainForm" class="form-group" runat="server">
             <div class="panel panel-default">
                 <div class="panel-body border-bottom">
                      <div class="container">
@@ -25,7 +23,5 @@
                       </div>
                 </div>
             </div>
-        </form>
-    </body>
 </asp:Content>
 

@@ -1,12 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddProduct.aspx.cs" Inherits="ourShop.Modules.AddProduct"  ValidateRequest="false"%>
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="BodyContent" runat="server">
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <body>
         <script src="../Content/Controls/tinymce/tinymce.js"></script>
         <script src="../Scripts/utils.js"></script>
 
-        <form id="mainForm" class="form-group col" runat="server">
             <div class="container row">
             <div class="panel panel-default">
                         <div class="panel-body border-bottom">
@@ -199,8 +197,6 @@
                     $('.modal').modal();
                 });
             </script>
-        </form>
-    </body>
 </asp:Content>
     
 

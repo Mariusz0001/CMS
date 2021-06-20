@@ -7,20 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ourShop
+namespace ourShop.Modules
 {
 
 
-    public partial class Contact
+    public partial class Login
     {
 
         /// <summary>
-        /// ContactUC1 control.
+        /// LoginUC1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::ourShop.Modules.UC.ContactUC ContactUC1;
+        protected global::ourShop.Modules.UC.LoginUC LoginUC1;
     }
 }

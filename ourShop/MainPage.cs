@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.UI;
 
 namespace ourShop
@@ -6,7 +7,32 @@ namespace ourShop
     public abstract class MainPage : Page
     {
         public abstract int IdModule { get; }
+        public virtual bool LoginRequired 
+        { 
+            get 
+            { 
+                return true;
+            }  
+        }
 
+        protected override void OnInit(EventArgs e)
+        {
+            if (!this.IsPostBack)
+            {
+                if (LoginRequired && HttpContext.Current.Session["UserId"] == null)
+                {
+                    if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
+                    {
+                        if (Request.Cookies["returnUrl"] != null)
+                            Request.Cookies["returnUrl"].Value = HttpContext.Current.Request.Url.AbsolutePath;
+                        else
+                            Request.Cookies.Add(new HttpCookie("returnUrl", HttpContext.Current.Request.Url.AbsolutePath));
+                    }
+
+                    Response.Redirect("~/Login.aspx");
+                }
+            }
+        }
 
         public int? IdFromURL
         {

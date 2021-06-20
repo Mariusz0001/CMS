@@ -15,6 +15,13 @@ namespace ourShop.Modules
 {
     public partial class AddProduct : MainPage
     {
+        public override bool LoginRequired
+        {
+            get
+            {
+                return true;
+            }
+        }
         public override int IdModule
         {
             get

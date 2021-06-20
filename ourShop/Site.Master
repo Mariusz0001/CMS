@@ -1,5 +1,6 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ourShop.SiteMaster" %>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,95 +23,122 @@
 
 </head>
 <body>
-    <nav id="navbar" runat="server" class="navbar-light-transparent" style="z-index:100000;">
-        <div class="nav-wrapper">
-            <a href="/Home" class="brand-logo right">ourShop</a>
+    <form id="form1" runat="server">
+        <div id="mainPage" runat="server">
+            <nav id="navbar" class="navbar-light-transparent" style="z-index: 100000;">
+                <div class="nav-wrapper">
+                    <a href="/Home" class="brand-logo center">ourShop</a>
 
-            <a href="#" class="sidenav-trigger" data-target="mobile-nav">
-                <i class="material-icons">menu</i>
-            </a>
+                    <a href="#" class="sidenav-trigger" data-target="mobile-nav">
+                        <i class="material-icons">menu</i>
+                    </a>
 
-            <ul class="left  hide-on-med-and-down">
+                    <ul class="left  hide-on-med-and-down">
+                        <li><a href="/Home">Home</a></li>
+                        <li><a href="/Contact">Contact</a></li>
+                        <li><a href="/Modules/Configuration"><i class="material-icons right">settings_applications</i>Configuration</a></li>
+                        <li><a class="dropdown-trigger" href="#!" data-target="ProductDropDown">Products<i class="material-icons right">inventory arrow_drop_down</i></a></li>
+
+                    </ul>
+                    <ul class="right  hide-on-med-and-down">
+                        <li><a href="/Modules/Configuration"><i class="material-icons right">shopping_cart</i></a></li>
+                        <li><a id="LoginButton"><i class="material-icons right">person</i></a></li>
+                        <li>
+                            <input class="form-control right-align white-text" type="search" placeholder="Search" />
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <ul id="ProductDropDown" class="dropdown-content collection">
+                <li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
+
+                <li><a href="/Modules/AddProduct#"><span>Manage</span><i class="material-icons">inventory_2</i></a></li>
+                <li class="divider"></li>
+            </ul>
+            <ul class="sidenav" id="mobile-nav">
                 <li><a href="/Home">Home</a></li>
                 <li><a href="/Contact">Contact</a></li>
-                <li><a href="/Modules/Configuration"><i class="material-icons right">settings_applications</i>Configuration</a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="ProductDropDown">Products<i class="material-icons right">inventory arrow_drop_down</i></a></li>
-                <li>
-                    <form class="form-inline" style="margin-right: 10px;">
-                        <input class="form-control right-align white-text" type="search" placeholder="Search" />
-                    </form>
-                </li>
+                <li><a href="/About">About</a></li>
+                <li><a href="/Modules/AddProduct">Add product</a></li>
             </ul>
+
+            <div id="LoginCard" class="loginCard z-depth-3">
+                <br />
+                <div class="container row">
+                    <div class="col s12 center">
+                        <a href="/Login" class="btn btn-link"><i class="material-icons right">login</i> Login</a>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <script type="text/javascript">
+
+                const $menu = $('#LoginCard');
+                var userId = '<%= Session["UserId"] %>';
+
+                $(".dropdown-trigger").dropdown();
+
+                $(document).ready(function () {
+                    $('.sidenav').sidenav();
+                });
+
+                $("#LoginButton").click(function () {
+                    if ($menu.is(':hidden')) {
+                        $menu.slideDown(500, function () {
+                        });
+                    }
+                });
+                $(document).mouseup(e => {
+                    if (!$menu.is(e.target)
+                        && $menu.has(e.target).length === 0) {
+                        $menu.slideUp(500, function () {
+                        });
+                    }
+                });
+            </script>
+
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <asp:ContentPlaceHolder ID="BodyContent" runat="server">
+            </asp:ContentPlaceHolder>
+
+            <asp:ContentPlaceHolder ID="FooterContent" runat="server">
+                </asp:ContentPlaceHolder>
         </div>
-    </nav>
+    
+    <main>
+    </main>
+    <footer class="page-footer teal" style="bottom: 0; left: 0; width: 100%;">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Company</h5>
+                    <p class="grey-text text-lighten-4">We are a team </p>
 
-    <ul id="ProductDropDown" class="dropdown-content collection"> 
-        <li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
 
-        <li><a href="/Modules/AddProduct#"><span >Manage</span><i class="material-icons">inventory_2</i></a></li>
-        <li class="divider"></li>
-    </ul>
-    <ul class="sidenav" id="mobile-nav">
-        <li><a href="/Home">Home</a></li>
-        <li><a href="/Contact">Contact</a></li>
-        <li><a href="/About">About</a></li>
-        <li><a href="/Modules/AddProduct">Add product</a></li>
-    </ul>
-    <br />
-
-    <script type="text/javascript">
-        $(".dropdown-trigger").dropdown();
-
-        $(document).ready(function () {
-            $('.sidenav').sidenav();
-        });
-
-    </script>
-
+                </div>
+                <div class="col l3 s12">
+                    <h5 class="white-text">Settings</h5>
+                    <ul>
+                        <li><a class="white-text" href="#!">Link 1</a></li>
+                    </ul>
+                </div>
+                <div class="col l3 s12">
+                    <h5 class="white-text">Connect</h5>
+                    <ul>
+                        <li><a class="white-text" href="#!">Link 1</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+            </div>
+        </div>
+    </footer>
+        </form>
 </body>
-
-    <asp:ContentPlaceHolder ID="MainContent" runat="server">
-        <body></body>
-    </asp:ContentPlaceHolder>
-
-     <asp:ContentPlaceHolder ID="BodyContent" runat="server">
-          <body></body>
-     </asp:ContentPlaceHolder>
-
-    <asp:ContentPlaceHolder ID="FooterContent" runat="server">
-        <body>
-            <main>
-            </main>
-          <footer class="page-footer teal" style="bottom:0;left:0;width:100%;">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company</h5>
-          <p class="grey-text text-lighten-4">We are a team </p>
-
-
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
-  </footer>
-        </body>
-     </asp:ContentPlaceHolder>
          
 </html>

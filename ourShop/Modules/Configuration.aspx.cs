@@ -5,12 +5,25 @@ using System.Web.Services;
 
 namespace ourShop.Modules
 {
-    public partial class Configuration : System.Web.UI.Page
+    public partial class Configuration : MainPage
     {
-        protected void Page_Load(object sender, EventArgs e)
+        public override bool LoginRequired
         {
+            get
+            {
+                return true;
+            }
         }
-        protected void Page_Init(object sender, EventArgs e)
+
+        public override int IdModule
+        {
+            get
+            {
+                return 2;
+            }
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
             {

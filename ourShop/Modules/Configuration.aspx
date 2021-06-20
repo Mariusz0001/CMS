@@ -1,12 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Configuration.aspx.cs" Inherits="ourShop.Modules.Configuration" %>
 <%@ Register TagPrefix="UC" TagName="ContactUC" Src="~/Modules/UC/ContactUC.ascx" %>
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="BodyContent" runat="server">
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-    <html xmlns="http://www.w3.org/1999/xhtml">
-    <body>
-
-        <form id="mainForm" class="form-group" runat="server">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
@@ -50,8 +46,4 @@
                 };
 
             </script>
-
-        </form>
-    </body>
-    </html>
 </asp:Content>
