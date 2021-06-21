@@ -27,5 +27,6 @@ namespace ourShop.DataBase
     
         public virtual DbSet<CategoriesBook> CategoriesBook { get; set; }
         public virtual DbSet<Settings> Settings { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
     }
 }

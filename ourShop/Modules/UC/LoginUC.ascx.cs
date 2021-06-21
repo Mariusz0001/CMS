@@ -20,7 +20,7 @@ namespace ourShop.Modules.UC
 
                 if (userId > 0)
                 {
-                    Session["UserId"] = userId;
+                    LoadUserProperties(userId.Value);
 
                     HttpCookie returnCookie = Request.Cookies["returnUrl"];
 
@@ -88,6 +88,35 @@ namespace ourShop.Modules.UC
                     return int.Parse(_userId.NpgsqlValue.ToString());
                 else
                     return null;
+            }
+        }
+        private void LoadUserProperties(int userId)
+        {
+            try
+            {
+                if (userId > 0)
+                {
+                    using (var dbo = new ourShopEntities())
+                    {
+                        var user = dbo.Users.Where(s => s.Id == userId).FirstOrDefault();
+                        if (user != null)
+                        {
+                            Session["UserId"] = user.Id;
+                            Session["FirstName"] = user.FirstName;
+                            Session["LastName"] = user.LastName;
+                            Session["Name"] = user.Name;
+                            Session["Number"] = user.Number;
+                            Session["Position"] = user.Position;
+                            Session["Phone"] = user.Phone;
+                            Session["Email"] = user.Email;
+                            Session["IdLanguageBook"] = user.IdLanguageBook;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
         private bool IsValidEmail(string email)

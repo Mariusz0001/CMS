@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -12,19 +13,50 @@ namespace ourShop
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            FillLoginCard();
         }
-        private void LoadUserProperties()
+        private void FillLoginCard()
         {
-            using (var dbo = new ourShopEntities())
+            try
             {
-          /*      var user = dbo.Us
-                           .Where(s => s.Enabled == true && (s.IdCategoriesBook_Parent == null || s.IdCategoriesBook_Parent == 0));
-                if (categories != null)
+                if (Session["UserId"] != null)
                 {
-                    var categoriesList = categories.ToList();
-                    this.PopulateCategoriesTreeView(categoriesList, 0, null);
-                }*/
+                    LoggedCard.Visible = true;
+                    UnLoggedCard.Visible = false;
+
+                    NickLabel.Text = GetSessionString("Name");
+                    NameLabel.Text = GetSessionString("FirstName") + " " + GetSessionString("LastName");
+                    PositionLabel.Text = GetSessionString("Position");
+                }
+                else
+                {
+                    LoggedCard.Visible = false;
+                    UnLoggedCard.Visible = true;
+
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        private string GetSessionString(String sessionVariableName)
+        {
+            try
+            {
+                if (Session[sessionVariableName] != null)
+                    return Session[sessionVariableName].ToString();
+            }
+            catch
+            {
+            }
+            return String.Empty;
+        }
+        protected void LogoutButton_OnClick(object sender, EventArgs e)
+        {
+            Session.Abandon();
+            Session.Clear();
+            Response.Redirect("~/Home.aspx");
         }
     }
 }

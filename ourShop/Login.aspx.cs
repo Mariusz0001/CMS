@@ -22,6 +22,5 @@ namespace ourShop.Modules
                 return 3;
             }
         }
-
     }
 }

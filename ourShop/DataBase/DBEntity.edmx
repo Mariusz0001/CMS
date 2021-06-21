@@ -26,9 +26,28 @@
           <Property Name="ValueInt" Type="int4" />
           <Property Name="ValueDate" Type="date" />
         </EntityType>
+		<EntityType Name="Users">
+			<Key>
+				<PropertyRef Name="Id" />
+			</Key>
+			<Property Name="Id" Type="int4" Nullable="false" />
+			<Property Name="IdLanguageBook" Type="int4" />
+			<Property Name="Number" Type="varchar" MaxLength="200" />
+			<Property Name="Name" Type="varchar" MaxLength="200" />
+			<Property Name="FirstName" Type="varchar" MaxLength="200" />
+			<Property Name="LastName" Type="varchar" MaxLength="200" />
+			<Property Name="Password" Type="varchar" MaxLength="200" />
+			<Property Name="Position" Type="varchar" MaxLength="200" />
+			<Property Name="Email" Type="varchar" MaxLength="200" />
+			<Property Name="Phone" Type="varchar" MaxLength="200" />
+			<Property Name="CreationDate" Type="date" />
+			<Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+			<Property Name="Enabled" Type="bool"/>
+		</EntityType>
         <EntityContainer Name="ourShopModel1StoreContainer">
           <EntitySet Name="CategoriesBook" EntityType="Self.CategoriesBook" Schema="public" store:Type="Tables" />
           <EntitySet Name="Settings" EntityType="Self.Settings" Schema="public" store:Type="Tables" />
+		<EntitySet Name="Users" EntityType="Self.Users" Schema="public" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -37,6 +56,7 @@
         <EntityContainer Name="ourShopEntities" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="CategoriesBook" EntityType="ourShopModel1.CategoriesBook" />
           <EntitySet Name="Settings" EntityType="ourShopModel1.Settings" />
+	    <EntitySet Name="Users" EntityType="ourShopModel1.Users" />
         </EntityContainer>
         <EntityType Name="CategoriesBook">
           <Key>
@@ -59,6 +79,24 @@
           <Property Name="ValueInt" Type="Int32" />
           <Property Name="ValueDate" Type="DateTime" Precision="0" />
         </EntityType>
+		  <EntityType Name="Users">
+			  <Key>
+				  <PropertyRef Name="Id" />
+			  </Key>
+			  <Property Name="Id" Type="Int32" Nullable="false" />
+			  <Property Name="IdLanguageBook" Type="Int32" Nullable="false" />
+			  <Property Name="Number" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+			  <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+			  <Property Name="FirstName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+			  <Property Name="LastName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+			  <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+			  <Property Name="Position" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+			  <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+			  <Property Name="Phone" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+			  <Property Name="CreationDate" Type="DateTime" Precision="0" />
+			  <Property Name="CreatedBy" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+			  <Property Name="Enabled" Type="Boolean" />
+		  </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -88,7 +126,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+			<EntitySetMapping Name="Users">
+				<EntityTypeMapping TypeName="ourShopModel1.Users">
+					<MappingFragment StoreEntitySet="Users">
+						<ScalarProperty Name="Id" ColumnName="Id" />
+						<ScalarProperty Name="IdLanguageBook" ColumnName="IdLanguageBook" />
+						<ScalarProperty Name="Number" ColumnName="Number" />
+						<ScalarProperty Name="Name" ColumnName="Name" />
+						<ScalarProperty Name="FirstName" ColumnName="FirstName" />
+						<ScalarProperty Name="LastName" ColumnName="LastName" />
+						<ScalarProperty Name="Password" ColumnName="Password" />
+						<ScalarProperty Name="Position" ColumnName="Position" />
+						<ScalarProperty Name="Email" ColumnName="Email" />
+						<ScalarProperty Name="Phone" ColumnName="Phone" />
+						<ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+						<ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+						<ScalarProperty Name="Enabled" ColumnName="Enabled" />
+					</MappingFragment>
+				</EntityTypeMapping>
+			</EntitySetMapping>
+			
         </EntityContainerMapping>
+		  
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

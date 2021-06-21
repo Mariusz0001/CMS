@@ -3,7 +3,7 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
-            <div class="container">
+            <div class="container_margin">
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2">
                         <div class="page-header">

@@ -4,7 +4,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
             <div class="panel panel-default">
                 <div class="panel-body border-bottom">
-                     <div class="container">
+                     <div class="container_margin">
                         <div class="section">
 
                           <div class="row">

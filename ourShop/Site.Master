@@ -25,7 +25,8 @@
 <body>
     <form id="form1" runat="server">
         <div id="mainPage" runat="server">
-            <nav id="navbar" class="navbar-light-transparent" style="z-index: 100000;">
+            <header>
+            <nav id="navbar" class="navbar-light-transparent" style="z-index: 100000; position:center;">
                 <div class="nav-wrapper">
                     <a href="/Home" class="brand-logo center">ourShop</a>
 
@@ -36,6 +37,7 @@
                     <ul class="left  hide-on-med-and-down">
                         <li><a href="/Home">Home</a></li>
                         <li><a href="/Contact">Contact</a></li>
+                        <li><a href="/About">About</a></li>
                         <li><a href="/Modules/Configuration"><i class="material-icons right">settings_applications</i>Configuration</a></li>
                         <li><a class="dropdown-trigger" href="#!" data-target="ProductDropDown">Products<i class="material-icons right">inventory arrow_drop_down</i></a></li>
 
@@ -63,15 +65,45 @@
                 <li><a href="/Modules/AddProduct">Add product</a></li>
             </ul>
 
-            <div id="LoginCard" class="loginCard z-depth-3">
+            <div id="LoginCard" class="loginCard z-depth-5">
                 <br />
-                <div class="container row">
-                    <div class="col s12 center">
-                        <a href="/Login" class="btn btn-link"><i class="material-icons right">login</i> Login</a>
+                <div class="">
+                    <div id="UnLoggedCard" class="center" runat="server" visible="true">
+                        <i class="material-icons">no_accounts</i>
+                        <div class="container row s12 center">
+                             
+                                <asp:Label runat="server" ID="NotLoggedInLabel" ForeColor="DimGray" Text="Not logged in..."></asp:Label>
+                            </div>
+                        <div class="loginCardFooter">
+                            <a href="/Login" class="btn btn-link"><i class="material-icons right">login</i> Login</a>
+                        </div>
                     </div>
+
+                    <div id="LoggedCard" class="center" runat="server" visible="false">
+                            <div class="container row s12 center">
+                                <asp:Label runat="server" ID="NickLabel" ForeColor="Black" Font-Size="X-Large" Font-Bold="true" CssClass="h4"></asp:Label>
+                            </div>
+                            <i class="material-icons ">face</i>
+
+                            <div class="row center">
+                                <asp:Label runat="server" ID="NameLabel" ForeColor="DimGray"></asp:Label>
+                            </div>
+                            <div class="row center">
+                                <asp:Label runat="server" ID="PositionLabel" ForeColor="DimGray" Font-Size="Small"></asp:Label>
+                            </div>
+                          
+                            <div class="loginCardFooter">
+                                 <asp:LinkButton ID="LogoutButton" runat="server" CssClass="btn btn-primary" OnClick="LogoutButton_OnClick">Logout<i class="material-icons right">logout</i></asp:LinkButton>
+                            </div>
+                </div>
+                    
                 </div>
             </div>
-            <br />
+            
+        </header>
+            </div>
+        
+    <main>
             <script type="text/javascript">
 
                 const $menu = $('#LoginCard');
@@ -85,19 +117,18 @@
 
                 $("#LoginButton").click(function () {
                     if ($menu.is(':hidden')) {
-                        $menu.slideDown(500, function () {
+                        $menu.fadeIn(200, function () {
                         });
                     }
                 });
                 $(document).mouseup(e => {
                     if (!$menu.is(e.target)
                         && $menu.has(e.target).length === 0) {
-                        $menu.slideUp(500, function () {
+                        $menu.fadeOut(200, function () {
                         });
                     }
                 });
             </script>
-
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <asp:ContentPlaceHolder ID="BodyContent" runat="server">
@@ -105,11 +136,9 @@
 
             <asp:ContentPlaceHolder ID="FooterContent" runat="server">
                 </asp:ContentPlaceHolder>
-        </div>
     
-    <main>
     </main>
-    <footer class="page-footer teal" style="bottom: 0; left: 0; width: 100%;">
+    <footer class="page-footer teal" style="bottom:0;">
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">

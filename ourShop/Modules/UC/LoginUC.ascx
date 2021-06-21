@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="LoginUC.ascx.cs" Inherits="ourShop.Modules.UC.LoginUC" %>
 
 <body>
+    <asp:Panel ID="Panel1" runat="server" DefaultButton="btnLogin">
     <div class="container">
         <div class="col s12 row">
             <div class="row">
@@ -21,7 +22,6 @@
                     <i class="material-icons prefix">lock_outline</i>
                     <label class="col control-label" for="Password">Password</label>
                     <input id="Password" class="form-control" type="password" runat="server" >
-<%--                    <asp:TextBox ID="Password" runat="server" CssClass="form-control" TextMode="Password"></asp:TextBox>--%>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
                         ControlToValidate="Password" ErrorMessage="Password is required." CssClass="invalid align-items-baseline"></asp:RequiredFieldValidator>
                 </div>
@@ -43,4 +43,5 @@
     </div>
     <script type="text/javascript">
 </script>
+        </asp:Panel>
 </body>

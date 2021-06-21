@@ -5,7 +5,7 @@
         <script src="../Content/Controls/tinymce/tinymce.js"></script>
         <script src="../Scripts/utils.js"></script>
 
-            <div class="container row">
+            <div class="container_margin row">
             <div class="panel panel-default">
                         <div class="panel-body border-bottom">
                             <h2>Add product</h2>

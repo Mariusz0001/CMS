@@ -1,19 +1,11 @@
 ﻿body {
-  /*  background-image: url("/Content/Images/background.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;*/
-
     display: flex;
     min-height: 100vh;
     flex-direction: column;
 }
 main {
     flex: 1 0 auto;
-}
-.bcg-img {
-    background-image: url("/Content/Images/background.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+    min-height: calc(100vh - 265px);
 }
 
 @font-face {
@@ -110,7 +102,7 @@ select, input, textarea, control-label, btn {
     left: 0;
     right: 0;
     float: right;
-    background-color: rgba(44, 62, 80, 0.9) !important;
+    background-color: #e0e0e0;
     padding: 0;
     max-height: 70%;
     width: 300px;
@@ -118,12 +110,39 @@ select, input, textarea, control-label, btn {
     overflow-y: auto;
     border-radius: 2px;
     will-change: top, opacity;
-    margin-top: 60px;
+    margin-top: 63px;
     margin-right: 10px;
-    z-index:10000;
+    z-index: 100001;
+}
+.loginCardFooter {
+    background-color: lightgray;
+    z-index: 100001;
+    width: 100%;
+    border-top: 2px solid #C8C8C8;
+    padding: 10px;
 }
 @media only screen and (max-width: 992px) {
     .loginCard {
         width: 80%;
+    }
+}
+.container_margin {
+    margin: 0 auto;
+    margin-top:80px;
+    max-width: 1280px;
+    width: 90%;
+}
+
+@media only screen and (min-width: 601px) {
+    .container_margin {
+        width: 85%;
+        margin-top: 80px;
+    }
+}
+
+@media only screen and (min-width: 993px) {
+    .container_margin {
+        width: 70%;
+        margin-top: 80px;
     }
 }
