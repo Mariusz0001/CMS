@@ -26,60 +26,60 @@
     <form id="form1" runat="server">
         <div id="mainPage" runat="server">
             <header>
-            <nav id="navbar" class="navbar-light-transparent" style="z-index: 100000; position:center;">
-                <div class="nav-wrapper">
-                    <a href="/Home" class="brand-logo center">ourShop</a>
+                <nav id="navbar" class="navbar-light-transparent" style="z-index: 100000; position: center;">
+                    <div class="nav-wrapper">
+                        <a href="/Home" class="brand-logo center">ourShop</a>
 
-                    <a href="#" class="sidenav-trigger" data-target="mobile-nav">
-                        <i class="material-icons">menu</i>
-                    </a>
+                        <a href="#" class="sidenav-trigger" data-target="mobile-nav">
+                            <i class="material-icons">menu</i>
+                        </a>
 
-                    <ul class="left  hide-on-med-and-down">
-                        <li><a href="/Home">Home</a></li>
-                        <li><a href="/Contact">Contact</a></li>
-                        <li><a href="/About">About</a></li>
-                        <li><a href="/Modules/Configuration"><i class="material-icons right">settings_applications</i>Configuration</a></li>
-                        <li><a class="dropdown-trigger" href="#!" data-target="ProductDropDown">Products<i class="material-icons right">inventory arrow_drop_down</i></a></li>
+                        <ul class="left  hide-on-med-and-down">
+                            <li><a href="/Home">Home</a></li>
+                            <li><a href="/Contact">Contact</a></li>
+                            <li><a href="/About">About</a></li>
+                            <li><a href="/Modules/Configuration"><i class="material-icons right">settings_applications</i>Configuration</a></li>
+                            <li><a class="dropdown-trigger" href="#!" data-target="ProductDropDown">Products<i class="material-icons right">inventory arrow_drop_down</i></a></li>
 
-                    </ul>
-                    <ul class="right  hide-on-med-and-down">
-                        <li><a href="/Modules/Configuration"><i class="material-icons right">shopping_cart</i></a></li>
-                        <li><a id="LoginButton"><i class="material-icons right">person</i></a></li>
-                        <li>
-                            <input class="form-control right-align white-text" type="search" placeholder="Search" />
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+                        </ul>
+                        <ul class="right  hide-on-med-and-down">
+                            <li><a href="/Modules/Configuration"><i class="material-icons right">shopping_cart</i></a></li>
+                            <li><a id="LoginButton"><i class="material-icons right">person</i></a></li>
+                            <li>
+                                <input class="form-control right-align white-text" type="search" placeholder="Search" />
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
 
-            <ul id="ProductDropDown" class="dropdown-content collection">
-                <li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
+                <ul id="ProductDropDown" class="dropdown-content collection">
+                    <li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
 
-                <li><a href="/Modules/AddProduct#"><span>Manage</span><i class="material-icons">inventory_2</i></a></li>
-                <li class="divider"></li>
-            </ul>
-            <ul class="sidenav" id="mobile-nav">
-                <li><a href="/Home">Home</a></li>
-                <li><a href="/Contact">Contact</a></li>
-                <li><a href="/About">About</a></li>
-                <li><a href="/Modules/AddProduct">Add product</a></li>
-            </ul>
+                    <li><a href="/Modules/AddProduct#"><span>Manage</span><i class="material-icons">inventory_2</i></a></li>
+                    <li class="divider"></li>
+                </ul>
+                <ul class="sidenav" id="mobile-nav">
+                    <li><a href="/Home">Home</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                    <li><a href="/About">About</a></li>
+                    <li><a href="/Modules/AddProduct">Add product</a></li>
+                </ul>
 
-            <div id="LoginCard" class="loginCard z-depth-5">
-                <br />
-                <div class="">
-                    <div id="UnLoggedCard" class="center" runat="server" visible="true">
-                        <i class="material-icons">no_accounts</i>
-                        <div class="container row s12 center">
-                             
+                <div id="LoginCard" class="loginCard z-depth-5">
+                    <br />
+                    <div class="">
+                        <div id="UnLoggedCard" class="center" runat="server" visible="true">
+                            <i class="material-icons">no_accounts</i>
+                            <div class="container row s12 center">
+
                                 <asp:Label runat="server" ID="NotLoggedInLabel" ForeColor="DimGray" Text="Not logged in..."></asp:Label>
                             </div>
-                        <div class="loginCardFooter">
-                            <a href="/Login" class="btn btn-link"><i class="material-icons right">login</i> Login</a>
+                            <div class="loginCardFooter">
+                                <a href="/Login" class="btn btn-link"><i class="material-icons right">login</i> Login</a>
+                            </div>
                         </div>
-                    </div>
 
-                    <div id="LoggedCard" class="center" runat="server" visible="false">
+                        <div id="LoggedCard" class="center" runat="server" visible="false">
                             <div class="container row s12 center">
                                 <asp:Label runat="server" ID="NickLabel" ForeColor="Black" Font-Size="X-Large" Font-Bold="true" CssClass="h4"></asp:Label>
                             </div>
@@ -91,19 +91,19 @@
                             <div class="row center">
                                 <asp:Label runat="server" ID="PositionLabel" ForeColor="DimGray" Font-Size="Small"></asp:Label>
                             </div>
-                          
+
                             <div class="loginCardFooter">
-                                 <asp:LinkButton ID="LogoutButton" runat="server" CssClass="btn btn-primary" OnClick="LogoutButton_OnClick">Logout<i class="material-icons right">logout</i></asp:LinkButton>
+                                <asp:LinkButton ID="LogoutButton" runat="server" CssClass="btn btn-primary" OnClick="LogoutButton_OnClick">Logout<i class="material-icons right">logout</i></asp:LinkButton>
                             </div>
+                        </div>
+
+                    </div>
                 </div>
-                    
-                </div>
-            </div>
-            
-        </header>
-            </div>
-        
-    <main>
+
+            </header>
+        </div>
+
+        <main>
             <script type="text/javascript">
 
                 const $menu = $('#LoginCard');
@@ -135,39 +135,39 @@
             </asp:ContentPlaceHolder>
 
             <asp:ContentPlaceHolder ID="FooterContent" runat="server">
-                </asp:ContentPlaceHolder>
-    
-    </main>
-    <footer class="page-footer teal" style="bottom:0;">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Company</h5>
-                    <p class="grey-text text-lighten-4">We are a team </p>
+            </asp:ContentPlaceHolder>
 
-
-                </div>
-                <div class="col l3 s12">
-                    <h5 class="white-text">Settings</h5>
-                    <ul>
-                        <li><a class="white-text" href="#!">Link 1</a></li>
-                    </ul>
-                </div>
-                <div class="col l3 s12">
-                    <h5 class="white-text">Connect</h5>
-                    <ul>
-                        <li><a class="white-text" href="#!">Link 1</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
+        </main>
+        <footer class="page-footer teal" style="bottom: 0;">
             <div class="container">
-                Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">Company</h5>
+                        <p class="grey-text text-lighten-4">We are a team </p>
+
+
+                    </div>
+                    <div class="col l3 s12">
+                        <h5 class="white-text">Settings</h5>
+                        <ul>
+                            <li><a class="white-text" href="#!">Link 1</a></li>
+                        </ul>
+                    </div>
+                    <div class="col l3 s12">
+                        <h5 class="white-text">Connect</h5>
+                        <ul>
+                            <li><a class="white-text" href="#!">Link 1</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
-    </footer>
-        </form>
+            <div class="footer-copyright">
+                <div class="container">
+                    Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+                </div>
+            </div>
+        </footer>
+    </form>
 </body>
          
 </html>
