@@ -26,7 +26,7 @@
     <form id="form1" runat="server">
         <div id="mainPage" runat="server">
             <header>
-                <nav id="navbar" class="navbar-light-transparent" style="z-index: 100000; position: center;">
+                <nav id="navbar" class="navbar-light-transparent">
                     <div class="nav-wrapper">
                         <a href="/Home" class="brand-logo center">ourShop</a>
 
@@ -65,7 +65,7 @@
                     <li><a href="/Modules/AddProduct">Add product</a></li>
                 </ul>
 
-                <div id="LoginCard" class="loginCard z-depth-5">
+                <div id="LoginCard" class="loginCard z-depth-2">
                     <br />
                     <div class="">
                         <div id="UnLoggedCard" class="center" runat="server" visible="true">
@@ -138,32 +138,43 @@
             </asp:ContentPlaceHolder>
 
         </main>
-        <footer class="page-footer teal" style="bottom: 0;">
-            <div class="container">
+        <footer class="page-footer">
+            <div class="container" style="padding: 5px !important;">
                 <div class="row">
-                    <div class="col l6 s12">
-                        <h5 class="white-text">Company</h5>
-                        <p class="grey-text text-lighten-4">We are a team </p>
-
-
+                    <div class="col s6">
+                        <div class="row">
+                            <a class="white-text" href="/Home">
+                                <h5>Home</h5>
+                            </a>
+                        </div>
+                        <div class="row">
+                            <a class="white-text" href="/About">
+                                <p>About</p>
+                            </a>
+                        </div>
+                        <div class="row">
+                            <a class="white-text" href="/Contact">
+                                <p>Contact</p>
+                            </a>
+                        </div>
                     </div>
-                    <div class="col l3 s12">
-                        <h5 class="white-text">Settings</h5>
-                        <ul>
-                            <li><a class="white-text" href="#!">Link 1</a></li>
-                        </ul>
-                    </div>
-                    <div class="col l3 s12">
-                        <h5 class="white-text">Connect</h5>
-                        <ul>
-                            <li><a class="white-text" href="#!">Link 1</a></li>
-                        </ul>
+                    <div class="col s6">
+                        <div class="row">
+                             <a href="https://github.com/trouty" target="_blank">
+                                <img src="../Content/icons/git_icon.png" alt="GitHub" style="width: 100px; float:left; margin-left:-12px;"></a>
+                        </div>
+                        <div class="row">
+                            <a class="white-text" target="_blank" href="http://materializecss.com">Materialize</a>
+                        </div>
+                         <div class="row">
+                            <a class="white-text" target="_blank" href="https://www.postgresql.org/">PostgreSQL</a>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="footer-copyright">
                 <div class="container">
-                    Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+                    <a class="brown-text text-lighten-3" href="https://github.com/trouty">© 2021 Mariusz Pawlus</a>
                 </div>
             </div>
         </footer>
