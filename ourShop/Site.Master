@@ -35,9 +35,6 @@
                         </a>
 
                         <ul class="left  hide-on-med-and-down">
-                            <li><a href="/Home">Home</a></li>
-                            <li><a href="/Contact">Contact</a></li>
-                            <li><a href="/About">About</a></li>
                             <li><a href="/Modules/Configuration"><i class="material-icons right">settings_applications</i>Configuration</a></li>
                             <li><a class="dropdown-trigger" href="#!" data-target="ProductDropDown">Products<i class="material-icons right">inventory arrow_drop_down</i></a></li>
 
@@ -138,35 +135,35 @@
             </asp:ContentPlaceHolder>
 
         </main>
-        <footer class="page-footer">
-            <div class="container" style="padding: 5px !important;">
-                <div class="row">
+        <footer class="page-footer" style="padding:5px;">
+            <div class="container" style="padding:0px;">
+                <div class="row"  style="margin-bottom:0px !important;">
                     <div class="col s6">
-                        <div class="row">
+                        <div class="row-footer">
                             <a class="white-text" href="/Home">
                                 <h5>Home</h5>
                             </a>
                         </div>
-                        <div class="row">
+                        <div class="row-footer">
                             <a class="white-text" href="/About">
                                 <p>About</p>
                             </a>
                         </div>
-                        <div class="row">
+                        <div class="row-footer">
                             <a class="white-text" href="/Contact">
                                 <p>Contact</p>
                             </a>
                         </div>
                     </div>
                     <div class="col s6">
-                        <div class="row">
+                        <div class="row-footer" style="min-height:50px; margin-top:5px; ">
                              <a href="https://github.com/trouty" target="_blank">
                                 <img src="../Content/icons/git_icon.png" alt="GitHub" style="width: 100px; float:left; margin-left:-12px;"></a>
                         </div>
-                        <div class="row">
+                        <div class="row-footer">
                             <a class="white-text" target="_blank" href="http://materializecss.com">Materialize</a>
                         </div>
-                         <div class="row">
+                         <div class="row-footer">
                             <a class="white-text" target="_blank" href="https://www.postgresql.org/">PostgreSQL</a>
                         </div>
                     </div>
