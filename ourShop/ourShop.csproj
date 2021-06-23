@@ -364,7 +364,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Images\b1.png" />
     <Content Include="Content\icons\git_icon.png" />
+    <Content Include="Content\Images\b2.png" />
     <Content Include="e404.aspx" />
     <Content Include="About.aspx" />
     <Content Include="Contact.aspx" />
