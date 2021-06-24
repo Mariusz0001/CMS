@@ -26,6 +26,9 @@
                         ControlToValidate="Password" ErrorMessage="Password is required." CssClass="invalid align-items-baseline"></asp:RequiredFieldValidator>
                 </div>
             </div>
+                <div id="progressBar" runat="server" class="progress">
+                      <div class="indeterminate"></div>
+                  </div>
                 <div class="row">
                     <asp:Label ID="ResultLabel" runat="server" Text="" CssClass="red-text"></asp:Label>
                 </div>
@@ -41,7 +44,14 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-</script>
         </asp:Panel>
+        <script type="text/javascript">
+            $(".progress").hide(100);
+
+            function OnSubmit(s, e) {
+                $(".progress").show(100);
+                $("#ResultLabel").fadeOut();
+                $("#btnLogin").fadeOut();
+            };
+        </script>
 </body>

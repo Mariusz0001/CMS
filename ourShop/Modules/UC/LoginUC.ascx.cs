@@ -2,11 +2,9 @@
 using NpgsqlTypes;
 using ourShop.DataBase;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace ourShop.Modules.UC
 {
@@ -86,10 +84,11 @@ namespace ourShop.Modules.UC
                 _number.Direction = System.Data.ParameterDirection.Input;
                 _number.Value = "";
 
-
+                
                 var _IPv4 = new NpgsqlParameter("_IPv4", NpgsqlDbType.Varchar);
                 _IPv4.Direction = System.Data.ParameterDirection.Input;
-                _IPv4.Value = "127.0.0.1";
+                var httpRequestBase = new HttpRequestWrapper(Request);
+                _IPv4.Value = Utils.GetClientIpAddress(httpRequestBase);
 
                 var ret = new NpgsqlParameter("_userId", NpgsqlDbType.Integer);
                 ret.Direction = System.Data.ParameterDirection.InputOutput;

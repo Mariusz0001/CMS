@@ -23,7 +23,7 @@
 
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" onsubmit="OnSubmit();">
         <div id="mainPage" runat="server">
             <header>
                 <nav id="navbar" class="navbar-light-transparent">
@@ -98,8 +98,7 @@
                 </div>
 
             </header>
-        </div>
-
+            </div>
         <main>
             <script type="text/javascript">
 
@@ -110,6 +109,8 @@
 
                 $(document).ready(function () {
                     $('.sidenav').sidenav();
+
+                    $("#Loader").hide(100);
                 });
 
                 $("#LoginButton").click(function () {
@@ -125,10 +126,31 @@
                         });
                     }
                 });
+
+                function OnSubmit(s, e) {
+                    $("#Loader").show(100);
+                };
             </script>
+            <div id="Loader" class="center-loader left-align">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-green-only">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                   <h6>Saving...</h6>
+            </div>
+
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                     
             </asp:ContentPlaceHolder>
             <asp:ContentPlaceHolder ID="BodyContent" runat="server">
+
             </asp:ContentPlaceHolder>
 
             <asp:ContentPlaceHolder ID="FooterContent" runat="server">

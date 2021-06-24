@@ -156,3 +156,11 @@ select, input, textarea, control-label, btn {
         margin-top: 80px;
     }
 }
+
+.center-loader {
+    position: fixed;
+    left: 49%;
+    top: 50%;
+    z-index: 99999;
+    float: left;
+}
