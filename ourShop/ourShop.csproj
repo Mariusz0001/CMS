@@ -1065,6 +1065,7 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Beens\Result_Been.cs" />
     <Compile Include="e404.aspx.cs">
       <DependentUpon>e404.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

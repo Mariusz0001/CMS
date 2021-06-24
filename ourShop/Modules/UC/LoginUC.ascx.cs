@@ -16,35 +16,45 @@ namespace ourShop.Modules.UC
         {
             try
             {
-                var userId = Login();
+                var retLogin = Login();
 
-                if (userId > 0)
+                if (retLogin != null)
                 {
-                    LoadUserProperties(userId.Value);
-
-                    HttpCookie returnCookie = Request.Cookies["returnUrl"];
-
-                    if (returnCookie != null && !string.IsNullOrEmpty(returnCookie.Value) && !returnCookie.Value.Contains("Login"))
+                    if (retLogin.IsError)
                     {
-                        Response.Redirect(returnCookie.Value);
-                        Response.Cookies.Remove("returnUrl");
+                        ResultLabel.Text = retLogin.Message;
+                        return;
                     }
-                    else
+                    else if (retLogin.Id > 0)
                     {
-                        Response.Redirect("/Home");
+                        LoadUserProperties(retLogin.Id.Value);
+
+                        HttpCookie returnCookie = Request.Cookies["returnUrl"];
+
+                        if (returnCookie != null && !string.IsNullOrEmpty(returnCookie.Value) && !returnCookie.Value.Contains("Login"))
+                        {
+                            Response.Redirect(returnCookie.Value);
+                            Response.Cookies.Remove("returnUrl");
+                        }
+                        else
+                        {
+                            Response.Redirect("/Home");
+                        }
                     }
                 }
                 else
                 {
-                    ResultLabel.Text = "Wrong username or password.";
+                    ResultLabel.Text = "Wrong username or password";
+                    return;
                 }
             }
             catch(Exception ex)
             {
-                ResultLabel.Text = "Can not login " + ex.Message;
+                Console.WriteLine(ex.Message);
+                ResultLabel.Text = "Can not login - check logs messages";
             }
         }
-        private int? Login()
+        private Beens.Result_Been Login()
         {
             using (var dbo = new ourShopEntities())
             {
@@ -77,17 +87,42 @@ namespace ourShop.Modules.UC
                 _number.Value = "";
 
 
-                var _userId = new NpgsqlParameter("_userId", NpgsqlDbType.Integer);
-                _userId.Direction = System.Data.ParameterDirection.InputOutput;
-                _userId.Value = -1;
+                var _IPv4 = new NpgsqlParameter("_IPv4", NpgsqlDbType.Varchar);
+                _IPv4.Direction = System.Data.ParameterDirection.Input;
+                _IPv4.Value = "127.0.0.1";
+
+                var ret = new NpgsqlParameter("_userId", NpgsqlDbType.Integer);
+                ret.Direction = System.Data.ParameterDirection.InputOutput;
+                ret.Value = -1;
 
 
-                dbo.Database.ExecuteSqlCommand("select public.get_usercanlogin(@_password, @_username, @_email, @_number, @_userId);", _password, _username, _email, _number, _userId);
+                dbo.Database.ExecuteSqlCommand("select public.get_usercanlogin(@_password, @_username, @_email, @_number, @_IPv4, @_userId);",
+                           _password, _username, _email, _number, _IPv4, ret);
 
-                if (_userId != null && !String.IsNullOrEmpty(_userId.NpgsqlValue.ToString()) && int.Parse(_userId.NpgsqlValue.ToString()) > 0)
-                    return int.Parse(_userId.NpgsqlValue.ToString());
+                if (ret != null)
+                {
+                    var type = ret.Value.GetType();
+
+                    if (type != null && type.IsArray)
+                    {
+                        if (int.Parse(((object[])ret.Value)[0].ToString()) > 0)
+                        {
+                            return new Beens.Result_Been { Id = int.Parse(((object[])ret.Value)[0].ToString()), IsError = false, Message = ((object[])ret.Value)[1].ToString() };
+                        }
+                        else
+                        {
+                            return new Beens.Result_Been { Id = int.Parse(((object[])ret.Value)[0].ToString()), IsError = true, Message = ((object[])ret.Value)[1].ToString() };
+                        }
+                    }
+                    else
+                    {
+                        return new Beens.Result_Been { Id = null, IsError =true, Message = "Can not fetch data. Check connection."  };
+                    }
+                }
                 else
-                    return null;
+                {
+                    return new Beens.Result_Been { Id = null, IsError = true, Message = "Can not fetch data. Check connection." };
+                }
             }
         }
         private void LoadUserProperties(int userId)
