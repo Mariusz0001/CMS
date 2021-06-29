@@ -69,5 +69,10 @@ namespace ourShop.Tests
 
             }
         }
+        [Test]
+        public void PermissionCheck()
+        {
+           Assert.IsTrue(DbFunction.Instance().IsUserHasPermission(27, "CHANGE_PAGE_SETTINGS"));
+        }
     }
 }
