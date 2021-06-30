@@ -26,8 +26,14 @@
     <form id="form1" runat="server" onsubmit="OnSubmit();">
         <div id="mainPage" runat="server">
             <header>
+
+                   
+
                 <nav id="navbar" class="navbar-light-transparent">
                     <div class="nav-wrapper">
+
+                        <asp:Panel ID="Panel1" runat="server" Width="913px" Style="margin: 0px">    
+                        </asp:Panel>
                         <a href="/Home" class="brand-logo center">ourShop</a>
 
                         <a href="#" class="sidenav-trigger" data-target="mobile-nav">
@@ -39,7 +45,9 @@
                             <li><a class="dropdown-trigger" href="#!" data-target="ProductDropDown">Products<i class="material-icons right">inventory arrow_drop_down</i></a></li>
 
                         </ul>
+                       
                         <ul class="right  hide-on-med-and-down">
+                            <li id="ManageWebsiteToolbar"><a href="/Modules/ManageWebsite"><i class="material-icons right">dashboard</i>Manage website</a></li>
                             <li><a href="/Modules/Configuration"><i class="material-icons right">shopping_cart</i></a></li>
                             <li><a id="LoginButton"><i class="material-icons right">person</i></a></li>
                             <li>
@@ -49,18 +57,26 @@
                     </div>
                 </nav>
 
-                <ul id="ProductDropDown" class="dropdown-content collection">
-                    <li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
-
-                    <li><a href="/Modules/AddProduct#"><span>Manage</span><i class="material-icons">inventory_2</i></a></li>
-                    <li class="divider"></li>
-                </ul>
+                
                 <ul class="sidenav" id="mobile-nav">
                     <li><a href="/Home">Home</a></li>
                     <li><a href="/Contact">Contact</a></li>
                     <li><a href="/About">About</a></li>
                     <li><a href="/Modules/AddProduct">Add product</a></li>
                 </ul>
+
+                 <div id="ProductDropDown" class="navbar-dropdown-content">
+                    <div class="container col s12">
+                    <div class="row">
+                            <div class="col s4 left-align"><a class="hoverNode" href="/Home">Home</a></div>
+                            <div class="col s8"><a class="hoverNode" href="/Home">Home</a></div>
+                        </div>
+                                                    </div>
+                    <%--<li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
+
+                    <li><a href="/Modules/AddProduct#"><span>Manage</span><i class="material-icons">inventory_2</i></a></li>
+                    <li class="divider"></li>--%>
+                </div>
 
                 <div id="LoginCard" class="loginCard z-depth-2">
                     <br />
@@ -146,6 +162,18 @@
                    <h6>Saving...</h6>
             </div>
 
+             <div id="ProductDropDown" class="navbar-dropdown-content">
+                    <div class="container col s12">
+                    <div class="row">
+                            <div class="col s7"><span class="flow-text">This div is 7-columns wide on pushed to the right by 5-columns.</span></div>
+                            <div class="col s5"><span class="flow-text">5-columns wide pulled to the left by 7-columns.</span></div>
+                        </div>
+                                                    </div>
+                    <%--<li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
+
+                    <li><a href="/Modules/AddProduct#"><span>Manage</span><i class="material-icons">inventory_2</i></a></li>
+                    <li class="divider"></li>--%>
+                </div>
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
                      
             </asp:ContentPlaceHolder>
