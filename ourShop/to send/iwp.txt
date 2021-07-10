@@ -1,0 +1,35 @@
+CREATE TABLE public."MenuBook"
+(
+    "Id" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "ParentId" integer,
+    "MenuText" character varying(200) COLLATE pg_catalog."default",
+    "OrderNumber" integer,
+    CONSTRAINT "MenuBook_pkey" PRIMARY KEY ("Id")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."MenuBook"
+    OWNER to postgres;
+
+GRANT SELECT ON TABLE public."MenuBook" TO ourshopuser;
+
+GRANT ALL ON TABLE public."MenuBook" TO postgres;
+
+
+
+CREATE TABLE public."MenuPermission"
+(
+    "IdPermissionBook" integer NOT NULL,
+    "IdMenu" integer NOT NULL,
+    CONSTRAINT "UniquePermission" UNIQUE ("IdPermissionBook", "IdMenu")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."MenuPermission"
+    OWNER to postgres;
+
+GRANT SELECT ON TABLE public."MenuPermission" TO ourshopuser;
+
+GRANT ALL ON TABLE public."MenuPermission" TO postgres;

@@ -60,5 +60,18 @@ namespace ourShop
                 return false;
             }
         }
+
+        public static int? TryParseNullable(string val)
+        {
+            try
+            {
+                int outValue;
+                return int.TryParse(val, out outValue) ? (int?)outValue : null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

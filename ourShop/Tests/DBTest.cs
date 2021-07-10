@@ -74,5 +74,11 @@ namespace ourShop.Tests
         {
            Assert.IsTrue(DbFunction.Instance().IsUserHasPermission(1, "CHANGE_PAGE_SETTINGS"));
         }
+
+        [Test]
+        public void GetToolbars()
+        {
+            Assert.IsNotNull(DbFunction.Instance().GetMenuToolbar(1)); 
+        }
     }
 }
