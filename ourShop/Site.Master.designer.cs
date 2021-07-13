@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ourShop
-{
-
-
-    public partial class SiteMaster
-    {
-
+namespace ourShop {
+    
+    
+    public partial class SiteMaster {
+        
         /// <summary>
         /// form1 control.
         /// </summary>
@@ -22,7 +20,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-
+        
         /// <summary>
         /// mainPage control.
         /// </summary>
@@ -31,7 +29,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl mainPage;
-
+        
         /// <summary>
         /// Panel1 control.
         /// </summary>
@@ -40,7 +38,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel Panel1;
-
+        
         /// <summary>
         /// UnLoggedCard control.
         /// </summary>
@@ -49,7 +47,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl UnLoggedCard;
-
+        
         /// <summary>
         /// NotLoggedInLabel control.
         /// </summary>
@@ -58,7 +56,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label NotLoggedInLabel;
-
+        
         /// <summary>
         /// LoggedCard control.
         /// </summary>
@@ -67,7 +65,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl LoggedCard;
-
+        
         /// <summary>
         /// NickLabel control.
         /// </summary>
@@ -76,7 +74,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label NickLabel;
-
+        
         /// <summary>
         /// NameLabel control.
         /// </summary>
@@ -85,7 +83,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label NameLabel;
-
+        
         /// <summary>
         /// PositionLabel control.
         /// </summary>
@@ -94,7 +92,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label PositionLabel;
-
+        
         /// <summary>
         /// LogoutButton control.
         /// </summary>
@@ -103,7 +101,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton LogoutButton;
-
+        
         /// <summary>
         /// MainContent control.
         /// </summary>
@@ -112,7 +110,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
-
+        
         /// <summary>
         /// BodyContent control.
         /// </summary>
@@ -121,7 +119,7 @@ namespace ourShop
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder BodyContent;
-
+        
         /// <summary>
         /// FooterContent control.
         /// </summary>

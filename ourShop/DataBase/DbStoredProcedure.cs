@@ -8,7 +8,7 @@ using System.Web.SessionState;
 
 namespace ourShop.DataBase
 {
-    public class DbStoredProcedure
+    public class DbStoredProcedure : DBBase
     {
         private static DbStoredProcedure _object;
 
@@ -26,19 +26,13 @@ namespace ourShop.DataBase
         public Beens.Result_Been LoginUser(HttpSessionState session, string password, string userName, string userNumber, string IPv4)
         {
             using (var dbo = new ourShopEntities())
-            { 
-                var _password = new NpgsqlParameter("_password", NpgsqlDbType.Varchar);
-                _password.Direction = System.Data.ParameterDirection.Input;
-                _password.Value = password;
-
-                var _username = new NpgsqlParameter("_username", NpgsqlDbType.Varchar);
-                _username.Direction = System.Data.ParameterDirection.Input;
-                _username.Value = userName;
-
-
-                var _email = new NpgsqlParameter("_email", NpgsqlDbType.Varchar);
-                _email.Direction = System.Data.ParameterDirection.Input;
-
+            {
+                var _password = CreateNpgsqlParameter("_password", NpgsqlDbType.Varchar, password);
+                var _username = CreateNpgsqlParameter("_username", NpgsqlDbType.Varchar, userName);
+                var _email = CreateNpgsqlParameter("_email", NpgsqlDbType.Varchar, null);
+                var _number = CreateNpgsqlParameter("_number", NpgsqlDbType.Varchar, userNumber);
+                var _IPv4 = CreateNpgsqlParameter("_IPv4", NpgsqlDbType.Varchar, IPv4);
+                var ret = CreateNpgsqlParameter("_userId", NpgsqlDbType.Varchar, -1, System.Data.ParameterDirection.InputOutput);
 
                 if (Utils.IsValidEmail(userName))
                 {
@@ -49,23 +43,9 @@ namespace ourShop.DataBase
                 {
                     _email.Value = "";
                 }
-
-
-                var _number = new NpgsqlParameter("_number", NpgsqlDbType.Varchar);
-                _number.Direction = System.Data.ParameterDirection.Input;
-                _number.Value = userNumber;
-
-
-                var _IPv4 = new NpgsqlParameter("_IPv4", NpgsqlDbType.Varchar);
-                _IPv4.Direction = System.Data.ParameterDirection.Input;
-                _IPv4.Value = IPv4;
-
-                var ret = new NpgsqlParameter("_userId", NpgsqlDbType.Integer);
-                ret.Direction = System.Data.ParameterDirection.InputOutput;
-                ret.Value = -1;
-
+                
                 dbo.Database.ExecuteSqlCommand("select public.get_usercanlogin(@_password, @_username, @_email, @_number, @_IPv4, @_userId);",
-                           _password, _username, _email, _number, _IPv4, ret);
+                          _password, _username, _email, _number, _IPv4, ret);
 
                 if (ret != null)
                 {
@@ -123,5 +103,31 @@ namespace ourShop.DataBase
             }
             return false;
         }
+        public void SaveLog(int? idUser, int? idLogsType, String hostname, String module, String description)
+        {
+            try
+            {
+                using (var dbo = new ourShopEntities())
+                {
+                    dbo.Database.ExecuteSqlCommand("call public.add_log({0}, {1}, {2}, {3}, {4});", idUser, idLogsType,hostname, module, description);
+                }
+            }
+            catch(Exception ex) 
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+    /*    public Boolean SetSettings()
+        {
+            try
+            {
+                using (var dbo = new ourShopEntities())
+                {
+                    dbo.Database.ExecuteSqlCommand("call public.set_settings({0}, {1});", "PageTitle", PageTitle.Text);
+                }
+            }
+
+    catch
+            }*/
     }
 }

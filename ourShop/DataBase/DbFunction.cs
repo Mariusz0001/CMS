@@ -1,17 +1,18 @@
 ﻿using Npgsql;
 using NpgsqlTypes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Data.Entity.Core.Objects;
 
 namespace ourShop.DataBase
 {
-    public class DbFunction
+    public class DbFunction : DBFunctionBase
     {
         private static DbFunction _object;
         
-        private DbFunction() { }
+        private DbFunction()
+        {
+        }
         
         public static DbFunction Instance()
         {
@@ -26,21 +27,12 @@ namespace ourShop.DataBase
         {
             using (var dbo = new ourShopEntities())
             {
-                var _userId = new NpgsqlParameter("_userId", NpgsqlDbType.Integer);
-                _userId.Direction = System.Data.ParameterDirection.Input;
-                _userId.Value = userId;
-
-                var _permissionName = new NpgsqlParameter("_permissionName", NpgsqlDbType.Varchar);
-                _permissionName.Direction = System.Data.ParameterDirection.Input;
-                _permissionName.Value = PermissionName;
-
-                var _ret = new NpgsqlParameter("_ret", NpgsqlDbType.Boolean);
-                _ret.Direction = System.Data.ParameterDirection.InputOutput;
-                _ret.Value = false;
-
+                var _ret = CreateNpgsqlParameter("_ret", NpgsqlDbType.Boolean, false, System.Data.ParameterDirection.InputOutput);
 
                 dbo.Database.ExecuteSqlCommand("select public.get_isuserhaspermission(@_userId, @_permissionName, @_ret);",
-                    _userId, _permissionName, _ret);
+                    CreateNpgsqlParameter("_userId", NpgsqlDbType.Integer, userId),
+                    CreateNpgsqlParameter("_permissionName", NpgsqlDbType.Varchar, PermissionName), 
+                    _ret);
                 if (_ret != null && _ret.Value != null && Boolean.Parse(_ret.Value.ToString()) == true)
                 {
                     return true;
@@ -50,64 +42,29 @@ namespace ourShop.DataBase
         }
         public List<Beens.Get_MenuToolbar_Result> GetMenuToolbar(int userId)
         {
-            try
-            {
-                var result = new List<Beens.Get_MenuToolbar_Result>();
+            var paramList = new List<ObjectParameter>();
 
-                using (var dbo = new ourShopEntities())
+            var userIdParameters = userId > 0 ?
+               new ObjectParameter("userId", userId) :
+               new ObjectParameter("userId", typeof(int));
+
+            paramList.Add(userIdParameters);
+
+            var ret = base.GetTableFunction("public", "get_menutoolbar", paramList);
+            var result = new List<Beens.Get_MenuToolbar_Result>();
+
+            foreach(var record in ret)
+            {
+                result.Add(new Beens.Get_MenuToolbar_Result
                 {
-                    using (NpgsqlConnection conn = new NpgsqlConnection(dbo.Database.Connection.ConnectionString))
-                    {
-                        conn.Open();
-                        using (var cmd = new NpgsqlCommand("select * from public.get_menutoolbar(1)", conn))
-                        {
-                            using (var reader = cmd.ExecuteReader())
-                            {
-
-                                while (reader.Read())
-                                {
-                                    var values = new object[reader.FieldCount];
-                                    for (int i = 0; i < reader.FieldCount; i++)
-                                    {
-                                        values[i] = reader[i];
-                                    }
-                                    //result.Add(values);
-                                }
-
-                                /*  while (reader.Read())
-                                  {
-                                      var row = reader.GetValue(i) as object[];
-                                      if (row[i] != null)
-                                      {
-                                          int? toolbarId = Utils.TryParseNullable(row[0].ToString());
-                                          int? idParentToolbar = Utils.TryParseNullable(row[1].ToString());
-
-                                          result.Add(new Beens.Get_MenuToolbar_Result
-                                          {
-                                              ToolbarId = toolbarId,
-                                              IdParentToolbar = idParentToolbar,
-                                              ToolbarName = row[2].ToString(),
-                                              IconName = row[3].ToString()
-
-                                          }
-                                          );
-                                      }
-
-                                      i++;
-                                      reader.NextResult();
-                                  }*/
-                                reader.Close();
-                                return result;
-                            }
-                        }
-                    }
-                }
+                    ToolbarId = Utils.TryParseNullable(record[0].ToString()),
+                    IdParentToolbar = Utils.TryParseNullable(record[1].ToString()),
+                    ToolbarName = record[2].ToString(),
+                    IconName = record[3].ToString()
+                });
             }
-            catch (Exception ex)
-            {
-                //ZAPIS DO LOGÓW DATABASE!
-                return null;
-            }
+
+            return result;
         }
     }
 }

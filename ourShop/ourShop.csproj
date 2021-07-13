@@ -1069,7 +1069,9 @@
   <ItemGroup>
     <Compile Include="Beens\Get_MenuToolbar_Result.cs" />
     <Compile Include="Beens\Result_Been.cs" />
+    <Compile Include="DataBase\DBBase.cs" />
     <Compile Include="DataBase\DbFunction.cs" />
+    <Compile Include="DataBase\DBFunctionBase.cs" />
     <Compile Include="DataBase\DbStoredProcedure.cs" />
     <Compile Include="e404.aspx.cs">
       <DependentUpon>e404.aspx</DependentUpon>
