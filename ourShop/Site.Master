@@ -48,8 +48,8 @@
                        
                         <ul class="right  hide-on-med-and-down">
                             <li id="ManageWebsiteToolbar"><a href="/Modules/ManageWebsite"><i class="material-icons right">dashboard</i>Manage website</a></li>
-                            <li><a href="/Modules/Configuration"><i class="material-icons right">shopping_cart</i></a></li>
-                            <li><a id="LoginButton"><i class="material-icons right">person</i></a></li>
+                            <li><a href="/Modules/Configuration" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Your shopping card"><i class="material-icons ">shopping_cart</i></a></li>
+                            <li><a id="LoginButton" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Login card"><i class="material-icons">person</i></a></li>
                             <li>
                                 <input class="form-control right-align white-text" type="search" placeholder="Search" />
                             </li>
@@ -141,6 +141,10 @@
                         $menu.fadeOut(200, function () {
                         });
                     }
+                });
+
+                $(document).ready(function () {
+                    $('.tooltipped').tooltip();
                 });
 
                 function OnSubmit(s, e) {

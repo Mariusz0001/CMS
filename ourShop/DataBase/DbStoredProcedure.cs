@@ -32,7 +32,7 @@ namespace ourShop.DataBase
                 var _email = CreateNpgsqlParameter("_email", NpgsqlDbType.Varchar, null);
                 var _number = CreateNpgsqlParameter("_number", NpgsqlDbType.Varchar, userNumber);
                 var _IPv4 = CreateNpgsqlParameter("_IPv4", NpgsqlDbType.Varchar, IPv4);
-                var ret = CreateNpgsqlParameter("_userId", NpgsqlDbType.Varchar, -1, System.Data.ParameterDirection.InputOutput);
+                var ret = CreateNpgsqlParameter("_userId", NpgsqlDbType.Integer, -1, System.Data.ParameterDirection.InputOutput);
 
                 if (Utils.IsValidEmail(userName))
                 {
