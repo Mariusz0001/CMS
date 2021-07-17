@@ -133,8 +133,12 @@ select, input, textarea, control-label, btn {
 }
 @media only screen and (max-width: 992px) {
     .loginCard {
-        width: 80%;
+        min-width:100px;
     }
+}
+.material-icons.loggedColor 
+{ 
+    color: #64ffda; 
 }
 .container_margin {
     margin: 0 auto;

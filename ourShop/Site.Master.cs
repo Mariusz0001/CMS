@@ -18,29 +18,44 @@ namespace ourShop
         {
             if (!this.IsPostBack)
             {
-                FillLoginCard();
+                ControlLogin();
+
                 _toolbar.CreateMenu(SessionProperties.GetUserId(Session), Panel1, Toolbar.ToolbarType.Navbar);
                 _toolbar.CreateMenu(SessionProperties.GetUserId(Session), Panel1, Toolbar.ToolbarType.Sidenav);
             }
         }
         
-        public void FillLoginCard()
+
+        public void ControlLogin()
         {
             try
             {
                 if (Session["UserId"] != null)
                 {
+                    string firstName = SessionProperties.GetSessionString(Session, "FirstName");
+                    string lastName = SessionProperties.GetSessionString(Session, "LastName");
+                    string initials = SessionProperties.GetSessionString(Session, "Name").Substring(0,1);
+
+                    if (firstName.Length > 0 && lastName.Length > 0)
+                        initials = firstName.Substring(0, 1) + lastName.Substring(0, 1);
+
                     LoggedCard.Visible = true;
                     UnLoggedCard.Visible = false;
 
                     NickLabel.Text = SessionProperties.GetSessionString(Session, "Name");
-                    NameLabel.Text = SessionProperties.GetSessionString(Session, "FirstName") + " " + SessionProperties.GetSessionString(Session, "LastName");
+                    NameLabel.Text = firstName + " " + lastName;
                     PositionLabel.Text = SessionProperties.GetSessionString(Session, "Position");
+                    
+                    LoggedButton.Text = SessionProperties.GetSessionString(Session, "FirstName").Substring(0, 1) + SessionProperties.GetSessionString(Session, "LastName").Substring(0, 1);
+                    LoggedButton.Visible = true;
+                    LoginButton.Visible = false;
                 }
                 else
                 {
                     LoggedCard.Visible = false;
                     UnLoggedCard.Visible = true;
+                    LoginButton.Visible = true;
+                    LoggedButton.Visible = false;
 
                 }
             }

@@ -39,9 +39,14 @@
                         <ul class="right show-on-medium-and-down">
                             <li id="ManageWebsiteToolbar"><a href="/Modules/ManageWebsite"><i class="material-icons right">dashboard</i>Manage website</a></li>
                             <li><a href="/Modules/Configuration" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Your shopping card"><i class="material-icons ">shopping_cart</i></a></li>
-                            <li><a id="LoginButton" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Login card"><i class="material-icons">person</i></a></li>
                             <li>
-                                <input class="form-control right-align white-text" type="search" placeholder="Search" />
+                                 <asp:LinkButton ID="LoginButton" runat="server" CssClass="waves-effect waves-light" Text="" OnClientClick="LoginButton_Click(); return false;"><i class="material-icons right">person</i></asp:LinkButton>
+                            </li>
+                            <li>
+                                 <asp:LinkButton ID="LoggedButton" Visible="false" runat="server" CssClass="btn-floating waves-effect waves-light center-align" Text="" Font-Size="Larger" OnClientClick="LoggedButton_Click(); return false;" />
+                            </li>
+                            <li>
+                                <input class="form-control right-align white-text s3" type="search" placeholder="Search" />
                             </li>
                         </ul>
                     </div>
@@ -98,12 +103,6 @@
                     $("#Loader").hide(100);
                 });
 
-                $("#LoginButton").click(function () {
-                    if ($menu.is(':hidden')) {
-                        $menu.fadeIn(200, function () {
-                        });
-                    }
-                });
                 $(document).mouseup(e => {
                     if (!$menu.is(e.target)
                         && $menu.has(e.target).length === 0) {
@@ -119,6 +118,19 @@
                 function OnSubmit(s, e) {
                     $("#Loader").show(100);
                 };
+
+                function LoggedButton_Click(s, e) {
+                    if ($menu.is(':hidden')) {
+                        $menu.fadeIn(200, function () {
+                        });
+                    }
+                }
+                function LoginButton_Click(s, e) {
+                    if ($menu.is(':hidden')) {
+                        $menu.fadeIn(200, function () {
+                        });
+                    }
+                }
             </script>
             <div id="Loader" class="center-loader left-align">
                 <div class="preloader-wrapper big active">
@@ -141,11 +153,7 @@
                             <div class="col s7"><span class="flow-text">This div is 7-columns wide on pushed to the right by 5-columns.</span></div>
                             <div class="col s5"><span class="flow-text">5-columns wide pulled to the left by 7-columns.</span></div>
                         </div>
-                                                    </div>
-                    <%--<li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
-
-                    <li><a href="/Modules/AddProduct#"><span>Manage</span><i class="material-icons">inventory_2</i></a></li>
-                    <li class="divider"></li>--%>
+                      </div>
                 </div>
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
                      

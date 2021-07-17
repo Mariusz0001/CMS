@@ -38,7 +38,12 @@
                         <ul class="right">
                             <li id="ManageWebsiteToolbar"><a href="/Modules/ManageWebsite"><i class="material-icons right">dashboard</i></a></li>
                             <li><a href="/Modules/Configuration" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Your shopping card"><i class="material-icons ">shopping_cart</i></a></li>
-                            <li><a id="LoginButton" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Login card"><i class="material-icons">person</i></a></li>
+                            <li>
+                                 <asp:LinkButton ID="LoginButton" runat="server" CssClass="waves-effect waves-light" Text="" OnClientClick="LoginButton_Click(); return false;"><i class="material-icons right">person</i></asp:LinkButton>
+                            </li>
+                            <li>
+                                 <asp:LinkButton ID="LoggedButton" Visible="false" runat="server" CssClass="btn-floating waves-effect waves-light center-align" Text="" Font-Size="Larger" OnClientClick="LoggedButton_Click(); return false;" />
+                            </li>
                         </ul>
                     </div>
                 </nav>
@@ -94,12 +99,6 @@
                     $("#Loader").hide(100);
                 });
 
-                $("#LoginButton").click(function () {
-                    if ($menu.is(':hidden')) {
-                        $menu.fadeIn(200, function () {
-                        });
-                    }
-                });
                 $(document).mouseup(e => {
                     if (!$menu.is(e.target)
                         && $menu.has(e.target).length === 0) {
@@ -114,6 +113,20 @@
 
                 function OnSubmit(s, e) {
                     $("#Loader").show(100);
+                };
+
+                function LoggedButton_Click(s, e) {
+                    if ($menu.is(':hidden')) {
+                        $menu.fadeIn(200, function () {
+                        });
+                    }
+                };
+
+                function LoginButton_Click(s, e) {
+                    if ($menu.is(':hidden')) {
+                        $menu.fadeIn(200, function () {
+                        });
+                    }
                 };
             </script>
             <div id="Loader" class="center-loader left-align">

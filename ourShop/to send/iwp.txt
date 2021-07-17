@@ -1,4 +1,4 @@
--- FUNCTION: public.get_menutoolbar(integer)
+﻿-- FUNCTION: public.get_menutoolbar(integer)
 
  DROP FUNCTION public.get_menutoolbar(integer);
 
@@ -13,13 +13,16 @@ CREATE OR REPLACE FUNCTION public.get_menutoolbar(
 AS $BODY$
 BEGIN
 	  RETURN QUERY	
-		  SELECT CB."Id" ToolbarId, 
-		  	     CB."IdCategoriesBook_Parent" IdParentToolbar,
-				 CB."Name"::text ToolbarName,
-				 NULL IconName,
-				 ''::text URL
-		  FROM public."CategoriesBook" CB
-		  WHERE CB."Enabled" = TRUE;
+		  SELECT TB."Id",
+		  		 TB."IdParent",
+				 (SELECT public.get_translatedtext(U."IdLanguageBook", 'NavbarItem', TB."Name"))::text,
+				 TB."IconName"::text,
+				 TB."RedirectURL"::text
+		  FROM public."ToolbarMenu" TB
+		  LEFT JOIN public."Users" U ON U."Id" = _userid
+		  WHERE TB."Enabled" IS TRUE
+		  	    AND TB."IdToolbarMenuTypeBook" = 1
+				AND (TB."IdPermissionBook" IS NULL OR (SELECT public.get_isuserhaspermission(_userid, TB."IdPermissionBook", NULL)));
 END;
 $BODY$;
 
@@ -34,8 +37,6 @@ GRANT EXECUTE ON FUNCTION public.get_menutoolbar(integer) TO postgres;
 
 
 
-
-
 DROP TABLE public."ToolbarMenu";
 
 CREATE TABLE public."ToolbarMenu"
@@ -44,6 +45,7 @@ CREATE TABLE public."ToolbarMenu"
     "IdCategoriesBook" integer,
     "IdParent" integer,
     "IdToolbarMenuTypeBook" integer,
+	"IdPermissionBook" integer,
     "Name" character varying(200) COLLATE pg_catalog."default",
     "IconName" character varying(200) COLLATE pg_catalog."default",
     "RedirectURL" character varying(200) COLLATE pg_catalog."default",
@@ -168,3 +170,187 @@ INSERT INTO public."ToolbarMenu"(
 INSERT INTO public."ToolbarMenu"(
 	"IdCategoriesBook", "IdParent", "IdToolbarMenuTypeBook", "Name", "IconName", "RedirectURL", "ModificationDate", "ModifcatedBy", "Enabled")
 	VALUES (5, 3, 1, 'Car care', NULL, '/Accessories/CarCare', NOW(), 1, TRUE);
+
+
+
+
+
+
+CREATE TABLE public."LanguageTranslateTypeBook"
+(
+    "Id" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "Name" character varying(200) COLLATE pg_catalog."default",
+    CONSTRAINT "LanguageTranslateTypeBook_pkey" PRIMARY KEY ("Id")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."LanguageTranslateTypeBook"
+    OWNER to postgres;
+
+GRANT SELECT ON TABLE public."LanguageTranslateTypeBook" TO ourshopuser;
+
+GRANT ALL ON TABLE public."LanguageTranslateTypeBook" TO postgres;
+
+
+
+
+
+INSERT INTO public."LanguageTranslateTypeBook"(
+	"Name")
+	VALUES ('Message');
+	
+INSERT INTO public."LanguageTranslateTypeBook"(
+	"Name")
+	VALUES ('NavbarItem');
+
+
+
+	
+CREATE TABLE public."LanguageTranslate"
+(
+    "Id" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "IdLanguageBook" integer NOT NULL,
+    "IdLanguageTranslateTypeBook" integer NOT NULL,
+    "IdItem" integer,
+ 	"EnglishText" character varying(200) COLLATE pg_catalog."default",
+    "TranslatedText" character varying(200) COLLATE pg_catalog."default",
+    CONSTRAINT "LanguageTranslate_pkey" PRIMARY KEY ("Id")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."LanguageTranslate"
+    OWNER to postgres;
+
+GRANT SELECT ON TABLE public."LanguageTranslate" TO ourshopuser;
+
+GRANT ALL ON TABLE public."LanguageTranslate" TO postgres;
+	
+	
+	
+	INSERT INTO public."LanguageTranslate"(
+	 "IdLanguageBook", "IdLanguageTranslateTypeBook", "IdItem", "EnglishText", "TranslatedText")
+	VALUES (2, 2, 1, 'Rims', 'Felgi');
+	
+INSERT INTO public."LanguageTranslate"(
+	 "IdLanguageBook", "IdLanguageTranslateTypeBook", "IdItem", "EnglishText", "TranslatedText")
+	VALUES (2, 2, 2, 'Wheel cover', 'Kołpaki');
+	
+	INSERT INTO public."LanguageTranslate"(
+	 "IdLanguageBook", "IdLanguageTranslateTypeBook", "IdItem", "EnglishText", "TranslatedText")
+	VALUES (2, 2, 3, 'Accessories', 'Akcesoria');
+	
+	INSERT INTO public."LanguageTranslate"(
+	 "IdLanguageBook", "IdLanguageTranslateTypeBook", "IdItem", "EnglishText", "TranslatedText")
+	VALUES (2, 2, 4, 'Tools', 'Narzędzia');
+	
+	INSERT INTO public."LanguageTranslate"(
+	 "IdLanguageBook", "IdLanguageTranslateTypeBook", "IdItem", "EnglishText", "TranslatedText")
+	VALUES (2, 2, 5, 'Car care', 'Mycie i pielęgnacja');
+
+
+
+
+
+
+	CREATE OR REPLACE FUNCTION public.get_translatedtext(
+	_languagename text,
+	_languagetranslatetypename text,
+	_englishtext text)
+    RETURNS text
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+DECLARE _IdLanguageBook integer;
+DECLARE _IdLanguageTranslateTypeBook integer;
+DECLARE _Ret text;
+BEGIN
+	  SELECT "Id"
+	  FROM public."LanguageBook"
+	  INTO _IdLanguageBook
+	  WHERE "Name" = _LanguageName
+	  LIMIT 1;
+
+	  SELECT "Id"
+	  INTO _IdLanguageTranslateTypeBook
+	  FROM public."LanguageTranslateTypeBook"
+	  WHERE "Name" = _LanguageTranslateTypeName
+	  LIMIT 1;
+
+	  SELECT "TranslatedText"
+	  INTO _Ret
+	  FROM public."LanguageTranslate"
+	  WHERE "IdLanguageBook" = _IdLanguageBook
+	  	    AND "IdLanguageTranslateTypeBook" = _IdLanguageTranslateTypeBook
+			AND "EnglishText" = _EnglishText
+	  LIMIT 1;
+	  
+	  IF _Ret IS NULL THEN
+	  	  SELECT "TranslatedText"
+		  INTO _Ret
+		  FROM public."LanguageTranslate"
+		  WHERE "IdLanguageBook" = _IdLanguageBook
+				AND "EnglishText" = _EnglishText
+		  LIMIT 1;
+	  END IF;
+	  
+	   IF _Ret IS NULL THEN
+	   		_Ret := _EnglishText;
+	   END IF;
+	   
+	   RETURN _Ret;
+	  
+END;
+$BODY$;
+
+ALTER FUNCTION public.get_translatedtext(text, text, text)
+    OWNER TO postgres;
+
+GRANT EXECUTE ON FUNCTION public.get_translatedtext(text, text, text) TO PUBLIC;
+
+GRANT EXECUTE ON FUNCTION public.get_translatedtext(text, text, text) TO ourshopuser;
+
+GRANT EXECUTE ON FUNCTION public.get_translatedtext(text, text, text) TO postgres;
+
+
+
+
+-- FUNCTION: public.get_isuserhaspermission(integer, character varying, boolean)
+
+-- DROP FUNCTION public.get_isuserhaspermission(integer, character varying, boolean);
+
+CREATE OR REPLACE FUNCTION public.get_isuserhaspermission(
+	_userid integer,
+	_idPermissionBook integer,
+	INOUT _ret boolean DEFAULT false)
+    RETURNS boolean
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+BEGIN
+      SELECT TRUE
+	  INTO _ret
+	  FROM public."UserPermission" UP
+	  INNER JOIN public."PermissionBook" PB ON PB."IdPermissionBookGroup" = UP."IdPermissionBookGroup"
+	  WHERE UP."IdUser"  = _userId
+	  	    AND PB."Id" = _idPermissionBook
+	  LIMIT 1;
+	  
+	  IF _ret IS NULL THEN
+	  	_ret := FALSE;
+	  END IF;
+END;
+$BODY$;
+
+ALTER FUNCTION public.get_isuserhaspermission(integer, integer, boolean)
+    OWNER TO postgres;
+
+GRANT EXECUTE ON FUNCTION public.get_isuserhaspermission(integer, integer, boolean) TO PUBLIC;
+
+GRANT EXECUTE ON FUNCTION public.get_isuserhaspermission(integer, integer, boolean) TO ourshopuser;
+
+GRANT EXECUTE ON FUNCTION public.get_isuserhaspermission(integer, integer, boolean) TO postgres;
+
