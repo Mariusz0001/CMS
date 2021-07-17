@@ -9,7 +9,7 @@ namespace ourShop.DataBase
 {
     class AppDatabase : DbContext
     {
-        private readonly string schema;
+        public readonly string schema;
 
         public AppDatabase(string schema)
           : base("AppDatabaseConnectionString")

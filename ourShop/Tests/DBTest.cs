@@ -27,7 +27,7 @@ namespace ourShop.Tests
         [Test]
         public void GetToolbars()
         {
-            Assert.IsNotNull(DbFunction.Instance().GetMenuToolbar(1)); 
+            Assert.IsNotNull(DbFunction.Instance().GetMenuToolbar(27)); 
         }
     }
 }

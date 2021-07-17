@@ -10,9 +10,16 @@ namespace ourShop.DataBase
 {
     public class DbStoredProcedure : DBBase
     {
-        private static DbStoredProcedure _object;
+        public static DbStoredProcedure _object;
 
-        private DbStoredProcedure() { }
+        public DbStoredProcedure() { }
+
+        public enum LogType
+        {
+            Error = 1,
+            Warning = 2,
+            Information = 3
+        }
 
         public static DbStoredProcedure Instance()
         {
@@ -103,13 +110,14 @@ namespace ourShop.DataBase
             }
             return false;
         }
-        public void SaveLog(int? idUser, int? idLogsType, String hostname, String module, String description)
+
+        public void SaveLog(int? idUser, LogType logType, String module, String description)
         {
             try
             {
                 using (var dbo = new ourShopEntities())
                 {
-                    dbo.Database.ExecuteSqlCommand("call public.add_log({0}, {1}, {2}, {3}, {4});", idUser, idLogsType,hostname, module, description);
+                    dbo.Database.ExecuteSqlCommand("call public.add_log({0}, {1}, {2}, {3}, {4});", idUser, (int)logType, Utils.GetServerIPAddress(), module, description);
                 }
             }
             catch(Exception ex) 

@@ -5323,7 +5323,7 @@ $.widget( "mobile.page", {
 			}, to );
 		},
 
-		// TODO make private once change has been defined in the widget
+		// TODO make public once change has been defined in the widget
 		_cssTransition: function( to, from, options ) {
 			var transition = options.transition,
 				reverse = options.reverse,
@@ -10916,7 +10916,7 @@ $.widget( "mobile.popup", {
 
 	_open: function( options ) {
 		var openOptions = $.extend( {}, this.options, options ),
-			// TODO move blacklist to private method
+			// TODO move blacklist to public method
 			androidBlacklist = ( function() {
 				var ua = navigator.userAgent,
 					// Rendering engine is Webkit, and capture major version
@@ -13092,7 +13092,7 @@ $.widget( "mobile.panel", {
 		var el = this.element,
 			parentPage = el.closest( ".ui-page, :jqmData(role='page')" );
 
-		// expose some private props to other methods
+		// expose some public props to other methods
 		$.extend( this, {
 			_closeLink: el.find( ":jqmData(rel='close')" ),
 			_parentPage: ( parentPage.length > 0 ) ? parentPage : false,

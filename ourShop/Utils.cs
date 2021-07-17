@@ -20,7 +20,7 @@ namespace ourShop
                 if (string.IsNullOrEmpty(xForwardedFor))
                     return userHostAddress;
 
-                var publicForwardingIps = xForwardedFor.Split(',').Where(ip => !IsPrivateIpAddress(ip)).ToList();
+                var publicForwardingIps = xForwardedFor.Split(',').Where(ip => !IsPublicIpAddress(ip)).ToList();
 
                 return publicForwardingIps.Any() ? publicForwardingIps.Last() : userHostAddress;
             }
@@ -30,7 +30,7 @@ namespace ourShop
             }
         }
 
-        private static bool IsPrivateIpAddress(string ipAddress)
+        public static bool IsPublicIpAddress(string ipAddress)
         {
             var ip = IPAddress.Parse(ipAddress);
             var octets = ip.GetAddressBytes();
@@ -46,6 +46,15 @@ namespace ourShop
 
             var isLinkLocalAddress = octets[0] == 169 && octets[1] == 254;
             return isLinkLocalAddress;
+        }
+
+        public static string GetServerIPAddress()
+        {
+            string strHostName = System.Net.Dns.GetHostName();
+            IPHostEntry ipHostInfo = Dns.GetHostEntry(strHostName);
+            IPAddress ipAddress = ipHostInfo.AddressList[0];
+
+            return ipAddress.ToString();
         }
 
         public static bool IsValidEmail(string email)
@@ -71,6 +80,25 @@ namespace ourShop
             catch
             {
                 return null;
+            }
+        }
+
+        public static String GetExceptionMessage(Exception error)
+        {
+            if (error != null)
+            {
+                if (error.InnerException != null && error.InnerException.Message.Count() > 0)
+                {
+                    return error.InnerException.Message;
+                }
+                else
+                {
+                    return error.Message;
+                }
+            }
+            else
+            {
+                return "No error message";
             }
         }
     }

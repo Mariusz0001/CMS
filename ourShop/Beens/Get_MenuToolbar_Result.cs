@@ -8,5 +8,6 @@ namespace ourShop.Beens
         public int? IdParentToolbar { get; set; }
         public string ToolbarName { get; set; }
         public string IconName { get; set; }
+        public string URL { get; set; }
     }
 }

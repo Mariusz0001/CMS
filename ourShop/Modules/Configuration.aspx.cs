@@ -54,7 +54,7 @@ namespace ourShop.Modules
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "DBFunctionBase", Utils.GetExceptionMessage(ex));
             }
         }
     }

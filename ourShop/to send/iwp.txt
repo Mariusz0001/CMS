@@ -1,0 +1,170 @@
+-- FUNCTION: public.get_menutoolbar(integer)
+
+ DROP FUNCTION public.get_menutoolbar(integer);
+
+CREATE OR REPLACE FUNCTION public.get_menutoolbar(
+	_userid integer DEFAULT NULL::integer)
+    RETURNS TABLE(toolbarid integer, idparenttoolbar integer, toolbarname text, iconname text, url text) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+BEGIN
+	  RETURN QUERY	
+		  SELECT CB."Id" ToolbarId, 
+		  	     CB."IdCategoriesBook_Parent" IdParentToolbar,
+				 CB."Name"::text ToolbarName,
+				 NULL IconName,
+				 ''::text URL
+		  FROM public."CategoriesBook" CB
+		  WHERE CB."Enabled" = TRUE;
+END;
+$BODY$;
+
+ALTER FUNCTION public.get_menutoolbar(integer)
+    OWNER TO postgres;
+
+GRANT EXECUTE ON FUNCTION public.get_menutoolbar(integer) TO PUBLIC;
+
+GRANT EXECUTE ON FUNCTION public.get_menutoolbar(integer) TO ourshopuser;
+
+GRANT EXECUTE ON FUNCTION public.get_menutoolbar(integer) TO postgres;
+
+
+
+
+
+DROP TABLE public."ToolbarMenu";
+
+CREATE TABLE public."ToolbarMenu"
+(
+    "Id" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "IdCategoriesBook" integer,
+    "IdParent" integer,
+    "IdToolbarMenuTypeBook" integer,
+    "Name" character varying(200) COLLATE pg_catalog."default",
+    "IconName" character varying(200) COLLATE pg_catalog."default",
+    "RedirectURL" character varying(200) COLLATE pg_catalog."default",
+    "ModificationDate" date,
+    "ModifcatedBy" integer,
+    "Enabled" boolean,
+    CONSTRAINT "ToolbarMenu_pkey" PRIMARY KEY ("Id")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."ToolbarMenu"
+    OWNER to postgres;
+
+GRANT SELECT ON TABLE public."ToolbarMenu" TO ourshopuser;
+
+GRANT ALL ON TABLE public."ToolbarMenu" TO postgres;
+
+
+
+DROP TABLE public."CategoriesBook";
+
+CREATE TABLE public."CategoriesBook"
+(
+    "Id" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "IdCategoriesBook_Parent" integer,
+    "Name" character varying(200) COLLATE pg_catalog."default",
+    "ModificationDate" date,
+    "ModifcatedBy" int,
+    "Enabled" boolean,
+    CONSTRAINT "CategoriesBook_pkey" PRIMARY KEY ("Id")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."CategoriesBook"
+    OWNER to postgres;
+
+GRANT SELECT ON TABLE public."CategoriesBook" TO ourshopuser;
+
+GRANT ALL ON TABLE public."CategoriesBook" TO postgres;
+
+
+
+CREATE TABLE public."ToolbarMenuTypeBook"
+(
+    "Id" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "Name" varchar(200) COLLATE pg_catalog."default",
+    CONSTRAINT "ToolbarMenuTypeBook_pkey" PRIMARY KEY ("Id")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."ToolbarMenuTypeBook"
+    OWNER to postgres;
+
+GRANT SELECT ON TABLE public."ToolbarMenuTypeBook" TO ourshopuser;
+
+GRANT ALL ON TABLE public."ToolbarMenuTypeBook" TO postgres;
+
+
+INSERT INTO public."ToolbarMenuTypeBook"(
+	"Name")
+	VALUES ('Navbar');
+	
+INSERT INTO public."ToolbarMenuTypeBook"(
+	"Name")
+	VALUES ('Toolbar');
+
+
+TRUNCATE ONLY  public."CategoriesBook"
+RESTART IDENTITY;
+
+
+
+INSERT INTO public."CategoriesBook"(
+    "IdCategoriesBook_Parent", "Name", "ModificationDate", "ModifcatedBy", "Enabled")
+	VALUES (NULL, 'Rims', NOW(), 1, TRUE);
+	
+INSERT INTO public."CategoriesBook"(
+    "IdCategoriesBook_Parent", "Name", "ModificationDate", "ModifcatedBy", "Enabled")
+	VALUES (NULL, 'Wheel covers', NOW(), 1, TRUE);
+	
+	
+INSERT INTO public."CategoriesBook"(
+    "IdCategoriesBook_Parent", "Name", "ModificationDate", "ModifcatedBy", "Enabled")
+	VALUES (NULL, 'Accessories', NOW(), 1, TRUE);
+	
+	
+INSERT INTO public."CategoriesBook"(
+    "IdCategoriesBook_Parent", "Name", "ModificationDate", "ModifcatedBy", "Enabled")
+	VALUES (3, 'Tools', NOW(), 1, TRUE);
+	
+INSERT INTO public."CategoriesBook"(
+    "IdCategoriesBook_Parent", "Name", "ModificationDate", "ModifcatedBy", "Enabled")
+	VALUES (3, 'Car Care', NOW(), 1, TRUE);
+	
+
+
+
+
+
+INSERT INTO public."ToolbarMenu"(
+	"IdCategoriesBook", "IdParent", "IdToolbarMenuTypeBook", "Name", "IconName", "RedirectURL", "ModificationDate", "ModifcatedBy", "Enabled")
+	VALUES (1, NULL, 1, 'Rims', NULL, '/Rims', NOW(), 1, TRUE);
+
+INSERT INTO public."ToolbarMenu"(
+	"IdCategoriesBook", "IdParent", "IdToolbarMenuTypeBook", "Name", "IconName", "RedirectURL", "ModificationDate", "ModifcatedBy", "Enabled")
+	VALUES (2, NULL, 1, 'Wheel covers', NULL, '/WheelCovers', NOW(), 1, TRUE);
+	
+	
+INSERT INTO public."ToolbarMenu"(
+	"IdCategoriesBook", "IdParent", "IdToolbarMenuTypeBook", "Name", "IconName", "RedirectURL", "ModificationDate", "ModifcatedBy", "Enabled")
+	VALUES (3, NULL, 1, 'Accessories', NULL, '/Accessories', NOW(), 1, TRUE);
+	
+
+
+INSERT INTO public."ToolbarMenu"(
+	"IdCategoriesBook", "IdParent", "IdToolbarMenuTypeBook", "Name", "IconName", "RedirectURL", "ModificationDate", "ModifcatedBy", "Enabled")
+	VALUES (4, 3, 1, 'Tools', NULL, '/Accessories/Tools', NOW(), 1, TRUE);
+	
+INSERT INTO public."ToolbarMenu"(
+	"IdCategoriesBook", "IdParent", "IdToolbarMenuTypeBook", "Name", "IconName", "RedirectURL", "ModificationDate", "ModifcatedBy", "Enabled")
+	VALUES (5, 3, 1, 'Car care', NULL, '/Accessories/CarCare', NOW(), 1, TRUE);

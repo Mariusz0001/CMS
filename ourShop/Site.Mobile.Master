@@ -1,4 +1,4 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Mobile.master.cs" Inherits="ourShop.Site_Mobile" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Mobile.master.cs" Inherits="ourShop.Site_Mobile" %>
 <%@ Register Src="~/ViewSwitcher.ascx" TagPrefix="friendlyUrls" TagName="ViewSwitcher" %>
 <%@ Register TagPrefix="UC" TagName="LoginUC" Src="~/Modules/UC/LoginUC.ascx" %>
 
@@ -22,108 +22,178 @@
     <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
 </head>
 <body>
- <nav id="navbar" runat="server" class="navbar-light-transparent" style="z-index:100000;">
-        <div class="nav-wrapper">
-            <a href="/Home" class="brand-logo center">ourShop</a>
+    <form id="form1" runat="server" onsubmit="OnSubmit();">
+        <div id="mainPage" runat="server">
+            <header>
+                <nav id="navbar" class="nav-extended navbar-light-transparent">
+                    <div class="nav-wrapper">
+                        <a href="#" class="sidenav-trigger" data-target="MobileMenu">
+                            <i class="material-icons">menu</i>
+                        </a>
+                        <a href="/Home" class="navbar-logo center">ourShop</a>
 
-            <a href="#" class="sidenav-trigger" data-target="mobile-nav">
-                <i class="material-icons">menu</i>
-            </a>
+                        <asp:Panel ID="Panel1" runat="server">    
+                        </asp:Panel>
 
-            <ul class="left  hide-on-med-and-down">
-                <li><a href="/Home">Home</a></li>
-                <li><a href="/Contact">Contact</a></li>
-                <li><a href="/Modules/Configuration"><i class="material-icons right">settings_applications</i>Configuration</a></li>
-                <li><a class="dropdown-trigger" href="#!" data-target="ProductDropDown">Products<i class="material-icons right">inventory arrow_drop_down</i></a></li>
+                        <ul class="right">
+                            <li id="ManageWebsiteToolbar"><a href="/Modules/ManageWebsite"><i class="material-icons right">dashboard</i></a></li>
+                            <li><a href="/Modules/Configuration" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Your shopping card"><i class="material-icons ">shopping_cart</i></a></li>
+                            <li><a id="LoginButton" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Login card"><i class="material-icons">person</i></a></li>
+                        </ul>
+                    </div>
+                </nav>
 
-            </ul>
-             <ul class="right  hide-on-med-and-down">
-                <li><a href="/Modules/Configuration"><i class="material-icons right">shopping_cart</i></a></li>
-                <li><a href="/Modules/Configuration"><i class="material-icons right  modal-trigger" data-target="LoginModal">login</i></a></li>
-                 <li>
-                        <input class="form-control right-align white-text" type="search" placeholder="Search" />
-                </li>
-            </ul>
-        </div>
-    </nav>
+                <div id="LoginCard" class="loginCard z-depth-2">
+                    <br />
+                    <div class="">
+                        <div id="UnLoggedCard" class="center" runat="server" visible="true">
+                            <i class="material-icons">no_accounts</i>
+                            <div class="container row s12 center">
 
+                                <asp:Label runat="server" ID="NotLoggedInLabel" ForeColor="DimGray" Text="Not logged in..."></asp:Label>
+                            </div>
+                            <div class="loginCardFooter">
+                                <a href="/Login" class="btn btn-link"><i class="material-icons right">login</i> Login</a>
+                            </div>
+                        </div>
 
-    <ul id="ProductDropDown" class="dropdown-content collection"> 
-        <li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
+                        <div id="LoggedCard" class="center" runat="server" visible="false">
+                            <div class="container row s12 center">
+                                <asp:Label runat="server" ID="NickLabel" ForeColor="Black" Font-Size="X-Large" Font-Bold="true" CssClass="h4"></asp:Label>
+                            </div>
+                            <i class="material-icons ">face</i>
 
-        <li><a href="/Modules/AddProduct#"><span >Manage</span><i class="material-icons">inventory_2</i></a></li>
-        <li class="divider"></li>
-    </ul>
-    <ul class="sidenav" id="mobile-nav">
-        <li><a href="/Home">Home</a></li>
-        <li><a href="/Contact">Contact</a></li>
-        <li><a href="/About">About</a></li>
-        <li><a href="/Modules/AddProduct">Add product</a></li>
-    </ul>
+                            <div class="row center">
+                                <asp:Label runat="server" ID="NameLabel" ForeColor="DimGray"></asp:Label>
+                            </div>
+                            <div class="row center">
+                                <asp:Label runat="server" ID="PositionLabel" ForeColor="DimGray" Font-Size="Small"></asp:Label>
+                            </div>
 
-      <div id="LoginModal" class="modal_tight modal z-depth-3 ">
-            <UC:LoginUC ID="LoginUC1" runat="server" />
-    </div>
-     
+                            <div class="loginCardFooter">
+                                <asp:LinkButton ID="LogoutButton" runat="server" CssClass="btn btn-primary" OnClick="LogoutButton_OnClick">Logout<i class="material-icons right">logout</i></asp:LinkButton>
+                            </div>
+                        </div>
 
-    <br />
+                    </div>
+                </div>
 
-    <script type="text/javascript">
-        $(".dropdown-trigger").dropdown();
+            </header>
+            </div>
+        <main>
+            <script type="text/javascript">
 
-        $(document).ready(function () {
-            $('.sidenav').sidenav();
-        });
-        $(document).ready(function () {
-            $('.modal').modal();
-        });
+                const $menu = $('#LoginCard');
+                var userId = '<%= Session["UserId"] %>';
 
-    </script>
+                $(".dropdown-trigger").dropdown();
 
+                $(document).ready(function () {
+                    $('.sidenav').sidenav();
+
+                    $("#Loader").hide(100);
+                });
+
+                $("#LoginButton").click(function () {
+                    if ($menu.is(':hidden')) {
+                        $menu.fadeIn(200, function () {
+                        });
+                    }
+                });
+                $(document).mouseup(e => {
+                    if (!$menu.is(e.target)
+                        && $menu.has(e.target).length === 0) {
+                        $menu.fadeOut(200, function () {
+                        });
+                    }
+                });
+
+                $(document).ready(function () {
+                    $('.tooltipped').tooltip();
+                });
+
+                function OnSubmit(s, e) {
+                    $("#Loader").show(100);
+                };
+            </script>
+            <div id="Loader" class="center-loader left-align">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-green-only">
+                        <div class="circle-clipper left">
+                        <div class="circle"></div>
+                        </div><div class="gap-patch">
+                        <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                   <h6>Saving...</h6>
+            </div>
+
+             <div id="ProductDropDown" class="navbar-dropdown-content">
+                    <div class="container col s12">
+                    <div class="row">
+                            <div class="col s7"><span class="flow-text">This div is 7-columns wide on pushed to the right by 5-columns.</span></div>
+                            <div class="col s5"><span class="flow-text">5-columns wide pulled to the left by 7-columns.</span></div>
+                        </div>
+                                                    </div>
+                    <%--<li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
+
+                    <li><a href="/Modules/AddProduct#"><span>Manage</span><i class="material-icons">inventory_2</i></a></li>
+                    <li class="divider"></li>--%>
+                </div>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                     
+            </asp:ContentPlaceHolder>
+            <asp:ContentPlaceHolder ID="BodyContent" runat="server">
+
+            </asp:ContentPlaceHolder>
+
+            <asp:ContentPlaceHolder ID="FooterContent" runat="server">
+            </asp:ContentPlaceHolder>
+
+        </main>
+        <footer class="page-footer">
+            <div class="container" style="padding:0px;">
+                <div class="row"  style="margin-bottom:0px !important;">
+                    <div class="col s6">
+                        <div class="row-footer">
+                            <a class="white-text" href="/Home">
+                                <h5>Home</h5>
+                            </a>
+                        </div>
+                        <div class="row-footer">
+                            <a class="white-text" href="/About">
+                                <p>About</p>
+                            </a>
+                        </div>
+                        <div class="row-footer">
+                            <a class="white-text" href="/Contact">
+                                <p>Contact</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col s6">
+                        <div class="row-footer" style="min-height:50px; margin-top:5px; ">
+                             <a href="https://github.com/trouty" target="_blank">
+                                <img src="../Content/icons/git_icon.png" alt="GitHub" style="width: 100px; float:left; margin-left:-12px;"></a>
+                        </div>
+                        <div class="row-footer">
+                            <a class="white-text" target="_blank" href="http://materializecss.com">Materialize</a>
+                        </div>
+                         <div class="row-footer">
+                            <a class="white-text" target="_blank" href="https://www.postgresql.org/">PostgreSQL</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    <a class="brown-text text-lighten-3" href="https://github.com/trouty">© 2021 Mariusz Pawlus</a>
+                </div>
+            </div>
+        </footer>
+    </form>
 </body>
-
-    <asp:ContentPlaceHolder ID="MainContent" runat="server">
-        <body></body>
-    </asp:ContentPlaceHolder>
-
-     <asp:ContentPlaceHolder ID="BodyContent" runat="server">
-          <body></body>
-     </asp:ContentPlaceHolder>
-
-    <asp:ContentPlaceHolder ID="FooterContent" runat="server">
-        <body>
-            <main>
-            </main>
-          <footer class="page-footer teal" style="bottom:0;left:0;width:100%;">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company</h5>
-          <p class="grey-text text-lighten-4">We are a team </p>
-
-
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
-  </footer>
-        </body>
-     </asp:ContentPlaceHolder>
-         
 </html>

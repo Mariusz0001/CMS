@@ -51,7 +51,7 @@ namespace ourShop.Modules
                 }
             }
         }
-        private void RegisterInitialProduct()
+        public void RegisterInitialProduct()
         {
             if (IdFromURL == null)
             {
@@ -86,7 +86,7 @@ namespace ourShop.Modules
                 }
             }
         }
-        private void LoadCategoriesBook()
+        public void LoadCategoriesBook()
         {
             using (var dbo = new ourShopEntities())
             {
@@ -99,7 +99,7 @@ namespace ourShop.Modules
                 }
             }
         }
-        private void PopulateCategoriesTreeView(List<ourShop.DataBase.CategoriesBook> categoriesList, int parentId, TreeNode treeNode)
+        public void PopulateCategoriesTreeView(List<ourShop.DataBase.CategoriesBook> categoriesList, int parentId, TreeNode treeNode)
         {
             try
             {

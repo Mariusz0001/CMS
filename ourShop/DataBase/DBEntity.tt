@@ -266,9 +266,9 @@ public const string TemplateId = "CSharp_DbContext_Types_EF6";
 
 public class CodeStringGenerator
 {
-    private readonly CodeGenerationTools _code;
-    private readonly TypeMapper _typeMapper;
-    private readonly MetadataTools _ef;
+    public readonly CodeGenerationTools _code;
+    public readonly TypeMapper _typeMapper;
+    public readonly MetadataTools _ef;
 
     public CodeStringGenerator(CodeGenerationTools code, TypeMapper typeMapper, MetadataTools ef)
     {
@@ -308,7 +308,7 @@ public class CodeStringGenerator
     
     public string AccessibilityAndVirtual(string accessibility)
     {
-        return accessibility + (accessibility != "private" ? " virtual" : "");
+        return accessibility + (accessibility != "public" ? " virtual" : "");
     }
     
     public string EntityClassOpening(EntityType entity)
@@ -436,11 +436,11 @@ public class CodeStringGenerator
 
 public class TypeMapper
 {
-    private const string ExternalTypeNameAttributeName = @"http://schemas.microsoft.com/ado/2006/04/codegeneration:ExternalTypeName";
+    public const string ExternalTypeNameAttributeName = @"http://schemas.microsoft.com/ado/2006/04/codegeneration:ExternalTypeName";
 
-    private readonly System.Collections.IList _errors;
-    private readonly CodeGenerationTools _code;
-    private readonly MetadataTools _ef;
+    public readonly System.Collections.IList _errors;
+    public readonly CodeGenerationTools _code;
+    public readonly MetadataTools _ef;
 
     public TypeMapper(CodeGenerationTools code, MetadataTools ef, System.Collections.IList errors)
     {

@@ -18,7 +18,7 @@ namespace ourShop.DataBase
 
                 foreach (var param in parameters)
                 {
-                    SQL += "'" + param.Value + "'";
+                    SQL +=  param.Value;
 
                     if (i < parametersCount)
                         SQL += ",";
@@ -52,7 +52,7 @@ namespace ourShop.DataBase
                                     }
                                 }
                                 reader.Close();
-                                return null;
+                                return result;
                             }
                         }
                     }
@@ -60,9 +60,9 @@ namespace ourShop.DataBase
             }
             catch (Exception ex)
             {
-                //ZAPIS DO LOGÓW DATABASE!
-                return null;
+                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "DBFunctionBase", Utils.GetExceptionMessage(ex));
             }
+            return null;
         }
     }
 }

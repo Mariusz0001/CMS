@@ -8,9 +8,9 @@ namespace ourShop.DataBase
 {
     public class DbFunction : DBFunctionBase
     {
-        private static DbFunction _object;
+        public static DbFunction _object;
         
-        private DbFunction()
+        public DbFunction()
         {
         }
         
@@ -40,7 +40,7 @@ namespace ourShop.DataBase
             }
             return false;
         }
-        public List<Beens.Get_MenuToolbar_Result> GetMenuToolbar(int userId)
+        public List<Beens.Get_MenuToolbar_Result> GetMenuToolbar(int? userId)
         {
             var paramList = new List<ObjectParameter>();
 
@@ -53,18 +53,23 @@ namespace ourShop.DataBase
             var ret = base.GetTableFunction("public", "get_menutoolbar", paramList);
             var result = new List<Beens.Get_MenuToolbar_Result>();
 
-            foreach(var record in ret)
+            if (ret != null)
             {
-                result.Add(new Beens.Get_MenuToolbar_Result
+                foreach (var record in ret)
                 {
-                    ToolbarId = Utils.TryParseNullable(record[0].ToString()),
-                    IdParentToolbar = Utils.TryParseNullable(record[1].ToString()),
-                    ToolbarName = record[2].ToString(),
-                    IconName = record[3].ToString()
-                });
+                    result.Add(new Beens.Get_MenuToolbar_Result
+                    {
+                        ToolbarId = Utils.TryParseNullable(record[0].ToString()),
+                        IdParentToolbar = Utils.TryParseNullable(record[1].ToString()),
+                        ToolbarName = record[2].ToString(),
+                        IconName = record[3].ToString(),
+                        URL = record[4].ToString()
+                    });
+                }
+                
+                return result;
             }
-
-            return result;
+            return null;
         }
     }
 }
