@@ -1,25 +1,14 @@
-﻿function getUrlParameters(parameter, staticURL, decode) {
-    debugger;
+﻿
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
-    try {
-        var currLocation = (staticURL.length) ? staticURL : window.location.search,
-            parArr = currLocation.split("?")[1].split("&"),
-            returnBool = true;
-
-        for (var i = 0; i < parArr.length; i++) {
-            parr = parArr[i].split("=");
-            if (parr[0] == parameter) {
-                return (decode) ? decodeURIComponent(parr[1]) : parr[1];
-                returnBool = true;
-            } else {
-                returnBool = false;
-            }
-        }
-
-        if (!returnBool) return false;
-    }
-    catch
-    {
-        return null;
-    }
+function getBasePath() {
+    return location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '');
 }

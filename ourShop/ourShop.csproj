@@ -365,6 +365,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Products.aspx" />
     <Content Include="Content\Images\b1.png" />
     <Content Include="Content\icons\git_icon.png" />
     <Content Include="Content\Images\b2.png" />
@@ -1069,6 +1070,13 @@
   <ItemGroup>
     <Compile Include="Beens\Get_MenuToolbar_Result.cs" />
     <Compile Include="Beens\Result_Been.cs" />
+    <Compile Include="Products.aspx.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Products.aspx.designer.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+    </Compile>
     <Compile Include="DataBase\DBBase.cs" />
     <Compile Include="DataBase\DbFunction.cs" />
     <Compile Include="DataBase\DBFunctionBase.cs" />

@@ -17,6 +17,8 @@ namespace ourShop
 
         protected override void OnInit(EventArgs e)
         {
+            Page.ClientScript.RegisterClientScriptInclude("Registration", ResolveUrl("~/Scripts/utils.js"));
+            
             if (!this.IsPostBack)
             {
                 if (LoginRequired && HttpContext.Current.Session["UserId"] == null)
@@ -38,28 +40,40 @@ namespace ourShop
         {
             get
             {
-                try
+                return Utils.TryParseNullable(getParameterFromURL("id"));
+            }
+        }
+
+        public string CategoryFromURL
+        {
+            get
+            {
+                return getParameterFromURL("category");
+            }
+        }
+
+        private string getParameterFromURL(string param)
+        {
+            try
+            {
+                string sUrl = HttpContext.Current.Request.Url.AbsoluteUri;
+
+                var parameters = sUrl.Split('?');
+
+                foreach (var par in parameters)
                 {
-                    string sUrl = HttpContext.Current.Request.Url.AbsoluteUri;
-
-                    var parameters = sUrl.Split('?');
-
-                    foreach (var par in parameters)
+                    if (par != null && par.Length > 0 && par.Contains(param + "="))
                     {
-                        if (par != null && par.Length > 0 && par.Contains("id="))
-                        {
-                            var urlId = par.Replace("id=", "");
+                        var urlValue = par.Replace(param + "=", "");
 
-                            return int.Parse(urlId);
-                        }
+                        return urlValue;
                     }
-                    return null;
-
                 }
-                catch
-                {
-                    return null;
-                }
+                return null;
+            }
+            catch
+            {
+                return null;
             }
         }
     }
