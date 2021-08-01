@@ -18,8 +18,18 @@ namespace ourShop.DataBase
 
                 foreach (var param in parameters)
                 {
-                    SQL +=  param.Value;
-
+                    if (param.Value == null)
+                    {
+                        SQL += "NULL";
+                    }
+                    else if(param.ParameterType == typeof(string) || param.ParameterType == typeof(String))
+                    {
+                        SQL += "'" + param.Value + "'";
+                    }
+                    else
+                    {
+                        SQL += param.Value;
+                    }
                     if (i < parametersCount)
                         SQL += ",";
 

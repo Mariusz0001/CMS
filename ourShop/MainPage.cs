@@ -40,7 +40,7 @@ namespace ourShop
         {
             get
             {
-                return Utils.TryParseNullable(getParameterFromURL("id"));
+                return Utils.TryParseNullableInt(getParameterFromURL("id"));
             }
         }
 

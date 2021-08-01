@@ -29,5 +29,11 @@ namespace ourShop.Tests
         {
             Assert.IsNotNull(DbFunction.Instance().GetMenuToolbar(27)); 
         }
+
+        [Test]
+        public void GetProductsList()
+        {
+            Assert.IsNotNull((DbFunction.Instance().GetProductsList("Accessories")));
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ourShop.Modules.UC;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -33,12 +34,20 @@ namespace ourShop
 
         private void LoadProducts()
         {
-            string category = CategoryFromURL;
+            ProductCardUC myControl = (ProductCardUC)Page.LoadControl("~/Modules/UC/ProductCardUC.ascx");
+
+            UserControlHolder.Controls.Add(myControl);
+
+            ProductCardUC myControl2 = (ProductCardUC)Page.LoadControl("~/Modules/UC/ProductCardUC.ascx");
+
+            UserControlHolder.Controls.Add(myControl2);
+
+            /*string category = CategoryFromURL;
 
             if (category?.Length > 0)
             {
 
-            }
+            }*/
         }
     }
 }

@@ -8,7 +8,7 @@ public static class SessionProperties
     {
         if (session != null && session["UserId"] != null)
         {
-            return Utils.TryParseNullable(session["UserId"].ToString());
+            return Utils.TryParseNullableInt(session["UserId"].ToString());
         }
         return null;
     }

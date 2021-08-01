@@ -70,12 +70,25 @@ namespace ourShop
             }
         }
 
-        public static int? TryParseNullable(string val)
+        public static int? TryParseNullableInt(string val)
         {
             try
             {
                 int outValue;
                 return int.TryParse(val, out outValue) ? (int?)outValue : null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static double? TryParseNullableDouble(string val)
+        {
+            try
+            {
+                double outValue;
+                return Double.TryParse(val, out outValue) ? (int?)outValue : null;
             }
             catch
             {

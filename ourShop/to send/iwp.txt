@@ -150,26 +150,26 @@ INSERT INTO public."CategoriesBook"(
 
 INSERT INTO public."ToolbarMenu"(
 	"IdCategoriesBook", "IdParent", "IdToolbarMenuTypeBook", "Name", "IconName", "RedirectURL", "ModificationDate", "ModifcatedBy", "Enabled")
-	VALUES (1, NULL, 1, 'Rims', NULL, '/Rims', NOW(), 1, TRUE);
+	VALUES (1, NULL, 1, 'Rims', NULL, '/Products?category=Rims', NOW(), 1, TRUE);
 
 INSERT INTO public."ToolbarMenu"(
 	"IdCategoriesBook", "IdParent", "IdToolbarMenuTypeBook", "Name", "IconName", "RedirectURL", "ModificationDate", "ModifcatedBy", "Enabled")
-	VALUES (2, NULL, 1, 'Wheel covers', NULL, '/WheelCovers', NOW(), 1, TRUE);
+	VALUES (2, NULL, 1, 'Wheel covers', NULL, '/Products?category=WheelCovers', NOW(), 1, TRUE);
 	
 	
 INSERT INTO public."ToolbarMenu"(
 	"IdCategoriesBook", "IdParent", "IdToolbarMenuTypeBook", "Name", "IconName", "RedirectURL", "ModificationDate", "ModifcatedBy", "Enabled")
-	VALUES (3, NULL, 1, 'Accessories', NULL, '/Accessories', NOW(), 1, TRUE);
+	VALUES (3, NULL, 1, 'Accessories', NULL, '/Products?category=Accessories', NOW(), 1, TRUE);
 	
 
 
 INSERT INTO public."ToolbarMenu"(
 	"IdCategoriesBook", "IdParent", "IdToolbarMenuTypeBook", "Name", "IconName", "RedirectURL", "ModificationDate", "ModifcatedBy", "Enabled")
-	VALUES (4, 3, 1, 'Tools', NULL, '/Accessories/Tools', NOW(), 1, TRUE);
+	VALUES (4, 3, 1, 'Tools', NULL, '/Products?category=Tools', NOW(), 1, TRUE);
 	
 INSERT INTO public."ToolbarMenu"(
 	"IdCategoriesBook", "IdParent", "IdToolbarMenuTypeBook", "Name", "IconName", "RedirectURL", "ModificationDate", "ModifcatedBy", "Enabled")
-	VALUES (5, 3, 1, 'Car care', NULL, '/Accessories/CarCare', NOW(), 1, TRUE);
+	VALUES (5, 3, 1, 'Car care', NULL, '/Products?category=CarCare', NOW(), 1, TRUE);
 
 
 
@@ -353,4 +353,82 @@ GRANT EXECUTE ON FUNCTION public.get_isuserhaspermission(integer, integer, boole
 GRANT EXECUTE ON FUNCTION public.get_isuserhaspermission(integer, integer, boolean) TO ourshopuser;
 
 GRANT EXECUTE ON FUNCTION public.get_isuserhaspermission(integer, integer, boolean) TO postgres;
+
+
+
+
+CREATE OR REPLACE FUNCTION public.get_productslist(
+	_productcategory text,
+	_userid integer DEFAULT NULL::integer)
+    RETURNS TABLE("Id" integer, idcategoriesbook integer, idproductsstatusbook integer, idtaxpercentagesbook integer, categoryname text, statusname text, taxvalue text, "Name" text, barcode text, price double precision, qty integer, description text) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+BEGIN
+
+	CREATE TEMP TABLE tmp(
+		"Id" INTEGER,
+		"IdParent" INTEGER
+	);
+	
+	INSERT INTO tmp 
+		("Id", "IdParent")
+	WITH RECURSIVE cte AS (
+		SELECT   x."Id"
+				,x."IdCategoriesBook_Parent"
+		FROM public."CategoriesBook" x
+		WHERE x."Enabled" = TRUE
+			  AND (_productCategory IS NULL OR LOWER(x."Name") = LOWER(_productCategory))
+
+		UNION ALL
+
+		 SELECT   t."Id"
+				,t."IdCategoriesBook_Parent"
+		FROM public."CategoriesBook" t
+		   INNER JOIN cte c
+		   ON t."IdCategoriesBook_Parent" = c."Id"
+	)
+	SELECT cte."Id",
+		   cte."IdCategoriesBook_Parent"
+	FROM cte;
+	
+	RETURN QUERY	
+	  	    SELECT p."Id",
+				   p."IdCategoriesBook",
+				   p."IdProductsStatusBook",
+				   p."IdTaxPercentagesBook",
+				   CB."Name"::text as CategoryName,
+				   PSB."Name"::text as StatusName,
+				   TPB."Value"::text as TaxValue,
+				   p."Name"::text,
+				   p."Barcode"::text,
+				   p."Price",
+				   p."QTY",
+				   p."Description"::text
+			FROM public."Products" P
+			LEFT OUTER JOIN public."CategoriesBook" CB ON CB."Id" = p."IdCategoriesBook" 
+			LEFT OUTER JOIN public."ProductsStatusBook" PSB ON PSB."Id" = p."IdProductsStatusBook" AND PSB."Name" = 'Exposed'
+			LEFT OUTER JOIN public."TaxPercentagesBook" TPB ON TPB."Id" = p."IdTaxPercentagesBook"
+			WHERE p."IdCategoriesBook" IN ( SELECT tmp."Id"
+										    FROM tmp)
+				  AND p."Enabled" = TRUE
+				  AND LENGTH(P."Name") > 0;
+			
+	
+	DROP TABLE tmp;
+	
+	END;
+$BODY$;
+
+ALTER FUNCTION public.get_productslist(text, integer)
+    OWNER TO postgres;
+
+GRANT EXECUTE ON FUNCTION public.get_productslist(text, integer) TO PUBLIC;
+
+GRANT EXECUTE ON FUNCTION public.get_productslist(text, integer) TO ourshopuser;
+
+GRANT EXECUTE ON FUNCTION public.get_productslist(text, integer) TO postgres;
 

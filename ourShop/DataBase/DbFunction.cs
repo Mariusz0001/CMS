@@ -40,15 +40,12 @@ namespace ourShop.DataBase
             }
             return false;
         }
+
         public List<Beens.Get_MenuToolbar_Result> GetMenuToolbar(int? userId)
         {
             var paramList = new List<ObjectParameter>();
-
-            var userIdParameters = userId > 0 ?
-               new ObjectParameter("userId", userId) :
-               new ObjectParameter("userId", typeof(int));
-
-            paramList.Add(userIdParameters);
+            
+            paramList.Add(CreateObjectParameter("_userid", typeof(int), userId));
 
             var ret = base.GetTableFunction("public", "get_menutoolbar", paramList);
             var result = new List<Beens.Get_MenuToolbar_Result>();
@@ -59,11 +56,48 @@ namespace ourShop.DataBase
                 {
                     result.Add(new Beens.Get_MenuToolbar_Result
                     {
-                        ToolbarId = Utils.TryParseNullable(record[0].ToString()),
-                        IdParentToolbar = Utils.TryParseNullable(record[1].ToString()),
+                        ToolbarId = Utils.TryParseNullableInt(record[0].ToString()),
+                        IdParentToolbar = Utils.TryParseNullableInt(record[1].ToString()),
                         ToolbarName = record[2].ToString(),
                         IconName = record[3].ToString(),
                         URL = record[4].ToString()
+                    });
+                }
+                
+                return result;
+            }
+            return null;
+        }
+
+        public List<Beens.Get_CategoriesList_Result> GetProductsList(string categoryName = null, int? userId = null)
+        {
+            var paramList = new List<ObjectParameter>();
+            
+
+            paramList.Add(CreateObjectParameter("_productcategory", typeof(string), categoryName));
+            paramList.Add(CreateObjectParameter("_userid", typeof(int), userId));
+
+            var ret = base.GetTableFunction("public", "get_productslist", paramList);
+            var result = new List<Beens.Get_CategoriesList_Result>();
+
+            if (ret != null)
+            {
+                foreach (var record in ret)
+                {
+                    result.Add(new Beens.Get_CategoriesList_Result
+                    {
+                        Id = Utils.TryParseNullableInt(record[0].ToString()),
+                        IdCategoriesBook = Utils.TryParseNullableInt(record[1].ToString()),
+                        IdProductsStatusBook = Utils.TryParseNullableInt(record[2].ToString()),
+                        IdTaxPercentagesBook = Utils.TryParseNullableInt(record[3].ToString()),
+                        CategoryName = record[4].ToString(),
+                        StatusName = record[5].ToString(),
+                        TaxValue =  Utils.TryParseNullableInt(record[6].ToString()),
+                        Name = record[7].ToString(),
+                        Barcode = record[8].ToString(),
+                        Price = Utils.TryParseNullableDouble(record[9].ToString()),
+                        Qty = Utils.TryParseNullableInt(record[10].ToString()),
+                        Description = record[11].ToString(),
                     });
                 }
                 
