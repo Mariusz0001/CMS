@@ -1,4 +1,5 @@
-﻿using ourShop.Modules.UC;
+﻿using ourShop.DataBase;
+using ourShop.Modules.UC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,20 +35,29 @@ namespace ourShop
 
         private void LoadProducts()
         {
-            ProductCardUC myControl = (ProductCardUC)Page.LoadControl("~/Modules/UC/ProductCardUC.ascx");
-
-            UserControlHolder.Controls.Add(myControl);
-
-            ProductCardUC myControl2 = (ProductCardUC)Page.LoadControl("~/Modules/UC/ProductCardUC.ascx");
-
-            UserControlHolder.Controls.Add(myControl2);
-
-            /*string category = CategoryFromURL;
-
-            if (category?.Length > 0)
+            try
             {
+                var ret = DbFunction.Instance().GetProductsList(CategoryFromURL);
 
-            }*/
+                foreach (var item in ret)
+                {
+                    try
+                    {
+                        ProductCardUC myControl = (ProductCardUC)Page.LoadControl("~/Modules/UC/ProductCardUC.ascx");
+                        myControl.LoadProduct(item.Id.Value, item.Name, item.Price.Value, item.Description, null);
+
+                        UserControlHolder.Controls.Add(myControl);
+                    }
+                    catch (Exception ex)
+                    {
+                        DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "Products", Utils.GetExceptionMessage(ex));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "Products", Utils.GetExceptionMessage(ex));
+            }
         }
     }
 }
