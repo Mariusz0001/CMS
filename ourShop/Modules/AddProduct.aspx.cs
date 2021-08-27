@@ -44,10 +44,7 @@ namespace ourShop.Modules
                 }
                 else
                 {
-                    /* to do
-                    * użyć dbo kontrolera
-                    * */
-                    RegisterInitialProduct();
+                  //  RegisterInitialProduct();
                 }
             }
         }
@@ -142,18 +139,32 @@ namespace ourShop.Modules
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            using (var dbo = new ourShopEntities())
+            /*
+             * to do
+             * Pokazywanie zwracanych wartości np toast, czy alert
+             * */
+
+            try
             {
-                dbo.Database.ExecuteSqlCommand("call public.add_product({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8});",
-                    IdFromURL.Value,
-                    Name.Text,
-                    Enabled.Checked,
-                    Barcode.Text,
-                    float.Parse(Price.Value),
-                    int.Parse(TaxPercent.SelectedItem.Value),
-                    int.Parse(Quantity.Value),
-                    int.Parse(CategoriesTree.SelectedNode.Value),
-                    Descritpion.InnerText);
+                int id = -1;
+
+                if (IdFromURL != null)
+                    id = IdFromURL.Value;
+
+
+                if (Price.Value != null && TaxPercent.SelectedItem?.Value != null && Quantity.Value != null && CategoriesTree.SelectedNode?.Value != null && SessionProperties.GetUserId(Session) != null)
+                {
+                    var ret = DbStoredProcedure.Instance().SetProduct(id, Name.Text, Enabled.Checked, Barcode.Text, double.Parse(Price.Value), int.Parse(TaxPercent.SelectedItem.Value), int.Parse(Quantity.Value), int.Parse(CategoriesTree.SelectedNode.Value), Descritpion.InnerText, SessionProperties.GetUserId(this.Session).Value);
+                    
+                    if(ret != null && ret.Id > 0)
+                        Response.Redirect("/Modules/AddProduct?id=" + ret.Id);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "AddProduct.btnSubmit_Click", Utils.GetExceptionMessage(ex));
+                throw ex;
             }
         }
         protected void UploadButton_Click(object sender, EventArgs e)
@@ -164,52 +175,60 @@ namespace ourShop.Modules
 
                 if (FileUploadControl.HasFile)
                 {
-                    if (FileUploadControl.PostedFile.ContentType == "image/jpeg")
+                    if (FileUploadControl.PostedFile.ContentType == "image/jpeg" || FileUploadControl.PostedFile.ContentType == "image/jpg" || FileUploadControl.PostedFile.ContentType == "image/png" || FileUploadControl.PostedFile.ContentType == "image/gif" || FileUploadControl.PostedFile.ContentType == "image/bmp")
                     {
                         if (FileUploadControl.PostedFile.ContentLength < 20002400)
                         {
-                            using (var dbo = new ourShopEntities())
+                            string tempPath = DbFunction.Instance().GetStringSettings("Temp_Path");
+
+                            if (tempPath != null && tempPath.Length > 0)
                             {
-                                var picPath = dbo.Settings
-                                            .Where(s => s.Name == "AttachedPicturesProducts_Path")
-                                            .FirstOrDefault();
-
-                                if (picPath != null && picPath.ValueString.Length > 0)
+                                if (!Directory.Exists(tempPath))
                                 {
-                                    if (!Directory.Exists(picPath.ValueString))
-                                    {
-                                        Directory.CreateDirectory(picPath.ValueString);
-                                    }
-
-                                    string filename = Path.GetFileName(DateTime.Now.ToShortTimeString().Replace(":", "_").Replace(".", "_") + FileUploadControl.PostedFile.FileName);
-                                    FileUploadControl.SaveAs(picPath.ValueString + "/" + filename);
-
-                                    StatusLabel.Text = "Upload status: File uploaded successfully!";
-                                    StatusLabel.ForeColor = Color.Green;
-
-                                }
-                                else
-                                {
-                                    StatusLabel.Text = "Upload status: AttachedPicturesProducts_Path not set! Please, set it in 'Configuration' module.";
+                                    Directory.CreateDirectory(tempPath);
                                 }
                             }
-                        }
-                        else
-                        {
-                            StatusLabel.Text = "Upload status: The file has to be less than 20 Mb!";
+                            else
+                            {
+                                StatusLabel.Text = "Please specifiy Temp_Path in website configuration.";
+                                return;
+                            }
+
+                            string filename = Path.GetFileName(DateTime.Now.ToShortTimeString().Replace(":", "_").Replace(".", "_") + Utils.Get8Digits() + FileUploadControl.PostedFile.FileName);
+
+                            FileUploadControl.SaveAs(tempPath + "/" + filename);
+
+
+                            if (Session["ProductPictureUploadList"] != null)
+                            {
+                                List<string> productList = (List<string>)Session["ProductPictureUploadList"];
+                                productList.Add(tempPath + "/" + filename);
+                            }
+                            else
+                            {
+                                List<string> productList = new List<string>();
+                                productList.Add(tempPath + "/" + filename);
+                                HttpContext.Current.Session.Add("ProductPictureUploadList", productList);
+                            }
+
+                            StatusLabel.Text = "File uploaded successfully!";
+                            StatusLabel.ForeColor = Color.Green;
                         }
                     }
                     else
                     {
-                        StatusLabel.Text = "Upload status: Only JPEG files are accepted!";
+                        StatusLabel.Text = "The file has to be less than 20 Mb!";
                     }
+                }
+                else
+                {
+                    StatusLabel.Text = "Only JPG, JPEG, PNG, BMP, GIF files are accepted!";
                 }
             }
             catch (Exception ex)
             {
-                StatusLabel.Text = "Upload status: The file could not be uploaded. The following error occured: " + ex.Message;
+                StatusLabel.Text = "The file could not be uploaded. The following error occured: " + ex.Message;
             }
-
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Web;
 
 namespace ourShop
@@ -113,6 +114,15 @@ namespace ourShop
             {
                 return "No error message";
             }
+        }
+
+        public static string Get8Digits()
+        {
+            var bytes = new byte[4];
+            var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(bytes);
+            uint random = BitConverter.ToUInt32(bytes, 0) % 100000000;
+            return String.Format("{0:D8}", random);
         }
     }
 }

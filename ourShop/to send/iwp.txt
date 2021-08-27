@@ -1,1 +1,39 @@
 ﻿
+CREATE OR REPLACE PROCEDURE public.set_product(
+	_name character varying,
+	_isenabled boolean,
+	_barcode character varying,
+	_price double precision,
+	_idtaxpercentagesbook integer,
+	_quantity integer,
+	_idcategoriesbook integer,
+	_description character varying,
+	_userid integer,
+	INOUT _id integer DEFAULT NULL::integer)
+LANGUAGE 'plpgsql'
+AS $BODY$
+DECLARE
+BEGIN
+	IF _id > 0 AND EXISTS (SELECT 1 FROM public."Products" WHERE "Id" = _id)
+	THEN
+		UPDATE public."Products"
+		SET "Name" = _name, 
+		    "Barcode" = _barcode, 
+			"Price" = _price, 
+			"IdTaxPercentagesBook" = _idtaxpercentagesbook, 
+			"QTY" = _quantity, 
+			"AddedDate" = NOW(), 
+			"Enabled" = _isEnabled, 
+			"Description" = _description, 
+			"IdCategoriesBook" = _idCategoriesBook,
+			"ModificationDate" = NOW(), 
+			"ModifcatedBy" = _userId
+		WHERE "Id" = _id;
+	ELSE
+		INSERT INTO public."Products"("IdCategoriesBook", "IdTaxPercentagesBook", "IdProductsStatusBook", "Name", "Barcode", "Price", "QTY", "Enabled", "Description", "AddedDate", "AddedBy")
+							  VALUES (_idcategoriesbook, _idtaxpercentagesbook, 1, _name, _barcode, _price, _quantity, _isenabled, _description, NOW(), _userId)
+			Returning "Id" INTO _id;
+	END IF;
+END $BODY$;
+
+

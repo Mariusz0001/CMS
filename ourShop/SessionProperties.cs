@@ -16,7 +16,7 @@ public static class SessionProperties
     {
         try
         {
-            if (session[sessionVariableName] != null)
+            if (session != null && session[sessionVariableName] != null)
                 return session[sessionVariableName].ToString();
         }
         catch

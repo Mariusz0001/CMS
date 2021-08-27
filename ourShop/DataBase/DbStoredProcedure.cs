@@ -125,17 +125,61 @@ namespace ourShop.DataBase
                 Console.WriteLine(ex.Message);
             }
         }
-    /*    public Boolean SetSettings()
+
+        public Beens.Result_Been SetProduct(int? id, string name, bool isEnabled, string barcode, double price, int idTaxPercentagesBook, int quantity, int idCategoriesBook, string description, int userId)
         {
-            try
+            if(id == null || id == 0)
             {
-                using (var dbo = new ourShopEntities())
-                {
-                    dbo.Database.ExecuteSqlCommand("call public.set_settings({0}, {1});", "PageTitle", PageTitle.Text);
-                }
+                id = -1;
             }
 
-    catch
-            }*/
+            using (var dbo = new ourShopEntities())
+            {
+                var _name = CreateNpgsqlParameter("_name", NpgsqlDbType.Varchar, name);
+                var _isEnabled = CreateNpgsqlParameter("_isEnabled", NpgsqlDbType.Boolean, isEnabled);
+                var _barcode = CreateNpgsqlParameter("_barcode", NpgsqlDbType.Varchar, barcode);
+                var _price = CreateNpgsqlParameter("_price", NpgsqlDbType.Double, price);
+                var _idtaxpercentagesbook = CreateNpgsqlParameter("_idtaxpercentagesbook", NpgsqlDbType.Integer, idTaxPercentagesBook);
+                var _quantity = CreateNpgsqlParameter("_quantity", NpgsqlDbType.Integer, quantity);
+                var _idcategoriesbook = CreateNpgsqlParameter("_idcategoriesbook", NpgsqlDbType.Integer, idCategoriesBook);
+                var _description = CreateNpgsqlParameter("_description", NpgsqlDbType.Varchar, description);
+                var _userId = CreateNpgsqlParameter("_userId", NpgsqlDbType.Integer, userId);
+
+                var ret = CreateNpgsqlParameter("_id", NpgsqlDbType.Integer, id, System.Data.ParameterDirection.InputOutput);
+
+                dbo.Database.ExecuteSqlCommand("call public.set_product(@_name, @_isEnabled, @_barcode, @_price, @_idtaxpercentagesbook, @_quantity, @_idcategoriesbook, @_description, @_userId, @_id);",
+                           _name, _isEnabled, _barcode, _price, _idtaxpercentagesbook, _quantity, _idcategoriesbook, _description, _userId, ret);
+
+                if (ret != null)
+                {
+                    int productId = Utils.TryParseNullableInt(ret.Value.ToString()).Value;
+
+                    if (productId > 0)
+                    {
+                        return new Beens.Result_Been { Id = productId, IsError = false };
+                    }
+                    else
+                    {
+                        return new Beens.Result_Been { Id = productId, IsError = true, Message = "Error occured with executing stored procedure." };
+                    }
+                }
+                else
+                {
+                    return new Beens.Result_Been { Id = null, IsError = true, Message = "Can not fetch data. Check connection." };
+                }
+            }
+        }
+        /*    public Boolean SetSettings()
+            {
+                try
+                {
+                    using (var dbo = new ourShopEntities())
+                    {
+                        dbo.Database.ExecuteSqlCommand("call public.set_settings({0}, {1});", "PageTitle", PageTitle.Text);
+                    }
+                }
+
+        catch
+                }*/
     }
 }

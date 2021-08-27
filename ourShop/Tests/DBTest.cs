@@ -35,5 +35,13 @@ namespace ourShop.Tests
         {
             Assert.IsNotNull((DbFunction.Instance().GetProductsList("Accessories")));
         }
+
+        [Test]
+        public void SetProduct()
+        {
+            var ret = DbStoredProcedure.Instance().SetProduct(null, "Test", false, "test barcoe !!", 100.99, 1, 100, 1, "test description", 1);
+
+            Assert.Greater(ret.Id, 0);
+        }
     }
 }

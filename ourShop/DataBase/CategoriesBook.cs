@@ -18,7 +18,7 @@ namespace ourShop.DataBase
         public Nullable<int> IdCategoriesBook_Parent { get; set; }
         public string Name { get; set; }
         public Nullable<System.DateTime> ModificationDate { get; set; }
-        public Nullable<System.DateTime> ModifcatedBy { get; set; }
+        public Nullable<int> ModifcatedBy { get; set; }
         public Nullable<bool> Enabled { get; set; }
     }
 }
