@@ -3,6 +3,7 @@ using NpgsqlTypes;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
+using System.Linq;
 
 namespace ourShop.DataBase
 {
@@ -104,6 +105,25 @@ namespace ourShop.DataBase
                 return result;
             }
             return null;
+        }
+
+        public string GetStringSettings(string SetingsName)
+        {
+            string str = null;
+
+            using (var dbo = new ourShopEntities())
+            {
+                var ret = dbo.Settings
+                            .Where(s => s.Name == SetingsName)
+                            .FirstOrDefault();
+
+                if(ret != null)
+                {
+                    str = ret.ValueString;
+                }
+                
+            }
+            return str;
         }
     }
 }
