@@ -45,7 +45,7 @@ namespace ourShop.Modules.UC
             catch(Exception ex)
             {
                 DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "DBFunctionBase", Utils.GetExceptionMessage(ex));
-                ResultLabel.Text = "Can not login - check logs messages";
+                ResultLabel.Text = "Can not login";
             }
         }
     }
