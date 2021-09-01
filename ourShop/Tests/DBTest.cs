@@ -43,5 +43,13 @@ namespace ourShop.Tests
 
             Assert.Greater(ret.Id, 0);
         }
+
+        [Test]
+        public void SetProductPicture()
+        {
+            var ret = DbStoredProcedure.Instance().SetProductPicture(-1, 1, "test", @"~/Test/Test/\", false, 1, 1);
+
+            Assert.Greater(ret.Id, 0);
+        }
     }
 }

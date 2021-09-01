@@ -169,17 +169,91 @@ namespace ourShop.DataBase
                 }
             }
         }
-        /*    public Boolean SetSettings()
+
+        public Beens.Result_Been SetProductPicture(int? id, int? idProduct, string fileName, string path, bool? isEnabled, int? orderNumber, int userId)
+        {
+            using (var dbo = new ourShopEntities())
             {
-                try
+                var _idproduct = CreateNpgsqlParameter("_idproduct", NpgsqlDbType.Integer, idProduct);
+                var _filename = CreateNpgsqlParameter("_filename", NpgsqlDbType.Varchar, fileName);
+                var _isEnabled = CreateNpgsqlParameter("_isEnabled", NpgsqlDbType.Boolean, isEnabled);
+                var _path = CreateNpgsqlParameter("_path", NpgsqlDbType.Varchar, path);
+                var _userId = CreateNpgsqlParameter("_userId", NpgsqlDbType.Integer, userId);
+                var _ordernumber = CreateNpgsqlParameter("_ordernumber", NpgsqlDbType.Integer, orderNumber);
+                var ret = CreateNpgsqlParameter("_id", NpgsqlDbType.Integer, id, System.Data.ParameterDirection.InputOutput);
+
+                dbo.Database.ExecuteSqlCommand("call public.set_productpicture(@_idproduct, @_filename, @_isenabled, @_path, @_userid, @_ordernumber, @_id);",
+                           _idproduct, _filename, _isEnabled,_path, _userId, _ordernumber, ret);
+
+                if (ret != null)
                 {
-                    using (var dbo = new ourShopEntities())
+                    int pictureId = Utils.TryParseNullableInt(ret.Value.ToString()).Value;
+
+                    if (pictureId > 0)
                     {
-                        dbo.Database.ExecuteSqlCommand("call public.set_settings({0}, {1});", "PageTitle", PageTitle.Text);
+                        return new Beens.Result_Been { Id = pictureId, IsError = false };
+                    }
+                    else
+                    {
+                        return new Beens.Result_Been { Id = pictureId, IsError = true, Message = "Error occured with executing stored procedure." };
                     }
                 }
+                else
+                {
+                    return new Beens.Result_Been { Id = null, IsError = true, Message = "Can not fetch data. Check connection." };
+                }
+            }
+        }
 
-        catch
-                }*/
-    }
-}
+        /*
+
+        public Beens.Result_Been AddProductPicture(int? idProduct, string fileName, string path, bool? isEnabled, int? orderNumber,  int userId)
+        {
+            using (var dbo = new ourShopEntities())
+            {
+                var _filename = CreateNpgsqlParameter("_filename", NpgsqlDbType.Varchar, fileName);
+
+                var _path = CreateNpgsqlParameter("_path", NpgsqlDbType.Varchar, path);
+                var _userId = CreateNpgsqlParameter("_userId", NpgsqlDbType.Integer, userId);
+                var _isEnabled = CreateNpgsqlParameter("_isEnabled", NpgsqlDbType.Boolean, isEnabled);
+                var _idproduct = CreateNpgsqlParameter("_idproduct", NpgsqlDbType.Integer, idProduct);
+                var _ordernumber = CreateNpgsqlParameter("_ordernumber", NpgsqlDbType.Integer, orderNumber);
+                var ret = CreateNpgsqlParameter("_id", NpgsqlDbType.Integer, -1, System.Data.ParameterDirection.InputOutput);
+
+                dbo.Database.ExecuteSqlCommand("call public.add_productspicture(@_filename, @_path, @_userid, @_isenabled, @_idproduct, @_ordernumber, @_id);",
+                           _filename, _path, _userId, _isEnabled, _idproduct, _ordernumber, ret);
+
+                if (ret != null)
+                {
+                    int pictureId = Utils.TryParseNullableInt(ret.Value.ToString()).Value;
+
+                    if (pictureId > 0)
+                    {
+                        return new Beens.Result_Been { Id = pictureId, IsError = false };
+                    }
+                    else
+                    {
+                        return new Beens.Result_Been { Id = pictureId, IsError = true, Message = "Error occured with executing stored procedure." };
+                    }
+                }
+                else
+                {
+                    return new Beens.Result_Been { Id = null, IsError = true, Message = "Can not fetch data. Check connection." };
+                }
+            }
+        }*/
+
+                /*    public Boolean SetSettings()
+                    {
+                        try
+                        {
+                            using (var dbo = new ourShopEntities())
+                            {
+                                dbo.Database.ExecuteSqlCommand("call public.set_settings({0}, {1});", "PageTitle", PageTitle.Text);
+                            }
+                        }
+
+                catch
+                        }*/
+            }
+        }

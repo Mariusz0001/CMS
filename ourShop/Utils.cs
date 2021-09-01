@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Web;
 
@@ -123,6 +126,32 @@ namespace ourShop
             rng.GetBytes(bytes);
             uint random = BitConverter.ToUInt32(bytes, 0) % 100000000;
             return String.Format("{0:D8}", random);
+        }
+
+        public static DataTable CreateDataTable<T>(IEnumerable<T> list)
+        {
+            Type type = typeof(T);
+            var properties = type.GetProperties();
+
+            DataTable dataTable = new DataTable();
+            dataTable.TableName = typeof(T).FullName;
+            foreach (PropertyInfo info in properties)
+            {
+                dataTable.Columns.Add(new DataColumn(info.Name, Nullable.GetUnderlyingType(info.PropertyType) ?? info.PropertyType));
+            }
+
+            foreach (T entity in list)
+            {
+                object[] values = new object[properties.Length];
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    values[i] = properties[i].GetValue(entity);
+                }
+
+                dataTable.Rows.Add(values);
+            }
+
+            return dataTable;
         }
     }
 }

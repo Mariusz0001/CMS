@@ -5,7 +5,11 @@
         <script src="../Content/Controls/tinymce/tinymce.js"></script>
         <script src="../Scripts/utils.js"></script>
 
+    
+                        
             <div class="container_margin row">
+
+
             <div class="panel panel-default">
                         <div class="panel-body border-bottom">
                             <h2>Add product</h2>
@@ -73,7 +77,7 @@
                 </div>
 
                     <div class="col s4 m4" >
-                        <div class=" card-panel" style="  display: flex; position: relative; float:left; margin-left:15px; height:500px; max-height:500px; min-width:250px;">
+                        <div class="card-panel" style="  display: flex; position: relative; float:left; margin-left:15px; height:500px; max-height:500px; min-width:250px;">
                        <div class="input-field">
 
                             <asp:ScriptManager ID="ScriptManager1" runat="server">
@@ -88,7 +92,7 @@
                             <button type="button" class="btn btn-secondary" style="min-width: 100px; float:left; margin-left:30px;">Add new</button>
                                     </div>
                                   </div>
-                            <asp:UpdatePanel UpdateMode="Conditional" ID="UpdatePanel1" runat="server">
+                            <asp:UpdatePanel UpdateMode="Conditional" ID="UpdatePanel1" runat="server" RenderMode="Inline"> 
                                 <ContentTemplate>
                                     <asp:TreeView ID="CategoriesTree" runat="server" ImageSet="Custom"
                                         ExpandImageUrl="../Content/icons/inferno_expand.png" CollapseImageUrl="../Content/icons/inferno_collapse.png"
@@ -99,25 +103,45 @@
                                         <LeafNodeStyle CssClass="leafNode" />
                                     </asp:TreeView>
                                 </ContentTemplate>
+                                <Triggers>
+                                    <asp:PostBackTrigger ControlID="CategoriesTree" />
+                                </Triggers>
                             </asp:UpdatePanel>
+
                         </div>
              </div></div>
             </div>
-                <div class="row">
-                    <button type="button" class="btn modal-trigger" data-target="fileUploadModal">
-                    </button>
-                    <asp:Button runat="server" ID="Button1" class="btn btn-light" Text="Upload" CausesValidation="True" OnClick="UploadButton_Click" ValidationGroup="PictureUpload" UseSubmitBehavior="False" />
+                 <div class="card-panel">
+                     <div class="row card-content s12">
 
-                </div>
-                <asp:GridView ID="ImageGrid" runat="server">
-                    <Columns>
-                        <asp:BoundField></asp:BoundField>
-                    </Columns>
-                    <Columns>
-                    </Columns>
-                </asp:GridView>
+                         <asp:GridView ID="ImageGrid" runat="server" AutoGenerateColumns="false" Width="100%" DataKeyNames="Id" ViewStateMode="Enabled" OnRowCommand="ImageGrid_RowCommand" OnRowDeleting="ImageGrid_RowDeleting">
+                             <Columns>
+                                 <asp:BoundField DataField="Id" Visible="false"/>
+                                 <asp:BoundField DataField="IdProductPicture" HeaderText="Image Id" Visible="false" />
+                                 <asp:BoundField DataField="FileName" HeaderText="FileName" Visible="False"></asp:BoundField>
+                                 <asp:TemplateField HeaderText="Image" ControlStyle-Width="200px">
+                                     <ItemTemplate>
+                                         <asp:Image ID="Path" runat="server" Visible="true" Height="200px" Width="300px" ImageUrl='<%# Eval("Path") %>' />
+                                     </ItemTemplate>
+                                 </asp:TemplateField>
+                                 <asp:ButtonField Text="Delete" ControlStyle-CssClass="btn" ControlStyle-Width="80%" CommandName="Delete"></asp:ButtonField>
+                             </Columns>
+                        </asp:GridView>
 
-                <asp:SqlDataSource ID="ImageGridDS" runat="server" ConnectionString="<%$ ConnectionStrings:ourShopConnectionString %>" ProviderName="<%$ ConnectionStrings:ourShopConnectionString.ProviderName %>" SelectCommand='SELECT "Id", "Value" FROM "TaxPercentagesBook"'></asp:SqlDataSource>
+                                <div class="row">
+                                    <asp:FileUpload ID="FileUploadControl" runat="server" />
+                                </div>
+                                <div class="row">
+                                    <asp:Label runat="server" ID="StatusLabel" Text="Upload status: " />
+                                </div>
+                          </div>
+                            <div class="card-action">
+                                <asp:LinkButton ID="UploadButton" runat="server" CssClass="btn btn-primary" OnClick="UploadButton_Click" UseSubmitBehavior="False" ValidationGroup="PictureUpload" ValidateRequestMode="Disabled">Upload<i class="material-icons right">file_upload</i></asp:LinkButton>
+
+                            </div>
+                    
+                            </div>
+              
 
                 <div class="row">
                     <label style="color: crimson;">*</label>
@@ -128,49 +152,17 @@
 
                 <div class="" style="margin-top: 20px;">
                     <div class="">
-                        <asp:Button ID="btnSubmit" class="btn btn-primary" runat="server" Text="Save" UseSubmitBehavior="true" OnClick="btnSubmit_Click"></asp:Button>
+                        <asp:Button ID="btnSubmit" class="btn btn-primary" runat="server" Text="Save" OnClick="btnSubmit_Click" UseSubmitBehavior="true"></asp:Button>
                     </div>
                 </div>
 
-
-                <div class="modal" id="fileUploadModal" data-controls-modal="fileUploadModal" data-backdrop="static" data-keyboard="false">
-                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="fileUploadModalLabel">Picture uploading</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-
-                                <div class="col s4">
-                                    <label class="col s4 control-label" for="Sort">SortNumber</label>
-                                    <asp:TextBox ID="Sort" runat="server" CssClass="form-control" ValidationGroup="PictureUpload"></asp:TextBox>
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator4"
-                                        runat="server" ControlToValidate="Sort" ErrorMessage="Please, select sort on this picture." CssClass="invalid align-items-baseline" ValidationGroup="PictureUpload"></asp:RequiredFieldValidator>
-                                </div>
-                                <div class="row">
-                                    <asp:FileUpload ID="FileUploadControl" runat="server" />
-                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator5"
-                                        runat="server" ControlToValidate="FileUploadControl" ErrorMessage="Please, select sort on this picture." CssClass="invalid align-items-baseline" ValidationGroup="PictureUpload"></asp:RequiredFieldValidator>
-                                </div>
-                                <div class="row">
-                                    <asp:Label runat="server" ID="StatusLabel" Text="Upload status: " />
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button runat="server" type="button" class="btn btn-primary" onclick="UploadButton_Click">Save changes</button>
-                                <asp:Button runat="server" ID="Upload" class="btn btn-primary" Text="Upload" CausesValidation="True" OnClick="UploadButton_Click" ValidationGroup="PictureUpload" UseSubmitBehavior="False" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    </div>
             <script type="text/javascript">
                 function setTwoNumberDecimal(event) {
                     alert("s");
                     this.value = parseFloat(this.value).toFixed(2);
                 }
+
                 $(document).ready(function () {// Initialize your tinyMCE Editor with your preferred options
                     tinymce.init({
                         selector: 'textarea',
@@ -197,6 +189,7 @@
                     $('.modal').modal();
                 });
             </script>
+        </span>
 </asp:Content>
     
 

@@ -21,7 +21,7 @@
 
     <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
 </head>
-<body>
+<body onload="Loader.style.display = 'none';">
     <form id="form1" runat="server" onsubmit="OnSubmit();">
         <div id="mainPage" runat="server">
             <header>
@@ -99,6 +99,8 @@
                     $("#Loader").hide(100);
                 });
 
+                $(window).load(function () { $("#Loader").fadeOut(5000); });
+
                 $(document).mouseup(e => {
                     if (!$menu.is(e.target)
                         && $menu.has(e.target).length === 0) {
@@ -128,6 +130,10 @@
                         });
                     }
                 };
+
+                function ShowToast(message) {
+                    M.toast({ html: message, classes: 'rounded' });
+                }
             </script>
             <div id="Loader" class="center-loader left-align">
                 <div class="preloader-wrapper big active">

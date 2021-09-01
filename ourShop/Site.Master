@@ -22,7 +22,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 </head>
-<body>
+<body onload="Loader.style.display = 'none';">
     <form id="form1" runat="server" onsubmit="OnSubmit();">
         <div id="mainPage" runat="server">
             <header>
@@ -95,6 +95,8 @@
                 const $menu = $('#LoginCard');
                 var userId = '<%= Session["UserId"] %>';
 
+                $(window).load(function () { $("#Loader").fadeOut(5000); })
+
                 $(".dropdown-trigger").dropdown();
 
                 $(document).ready(function () {
@@ -130,6 +132,10 @@
                         $menu.fadeIn(200, function () {
                         });
                     }
+                }
+
+                function ShowToast(message) {
+                    M.toast({ html: message, classes: 'rounded' });
                 }
             </script>
             <div id="Loader" class="center-loader left-align">

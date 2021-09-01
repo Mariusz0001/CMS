@@ -87,8 +87,8 @@ select, input, textarea, control-label, btn {
 .selectedNode {
     color: black;
     background-color: #dff7ff;
-    border: none;
-    font-size: 1.2rem;
+    border: none;/*
+    font-size: 1.2rem;*/
     font-stretch: extra-expanded;
     font-weight: 900;
 }
@@ -98,8 +98,8 @@ select, input, textarea, control-label, btn {
 .hoverNode {
     color: black !important;
     background-color: #dff7ff;
-    text-decoration: none;
-    font-size: 1.2rem;
+    text-decoration: none;/*
+    font-size: 1.2rem;*/
     font-stretch: extra-expanded;
     border: none;
 }

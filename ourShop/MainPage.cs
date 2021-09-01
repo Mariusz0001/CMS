@@ -52,6 +52,11 @@ namespace ourShop
             }
         }
 
+        public void ShowToastMessage(string message)
+        {
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "toast", "ShowToast('"+ message + "')", true);
+        }
+
         private string getParameterFromURL(string param)
         {
             try

@@ -37,3 +37,91 @@ BEGIN
 END $BODY$;
 
 
+
+-- Table: public.ProductsPicture
+
+-- DROP TABLE public."ProductsPicture";
+
+CREATE TABLE public."ProductsPicture"
+(
+    "Id" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "IdProduct" integer,
+    "FileName" character varying(200) COLLATE pg_catalog."default",
+    "Path" character varying(200) COLLATE pg_catalog."default",
+    "OrderNumber" character varying(200) COLLATE pg_catalog."default",
+    "IsEnabled" boolean,
+    "AddedDate" date,
+    "AddedBy" character varying(200) COLLATE pg_catalog."default",
+    CONSTRAINT "ProductsPicture_pkey" PRIMARY KEY ("Id"),
+    CONSTRAINT "picUnique" UNIQUE ("FileName", "Path", "IsEnabled")
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public."ProductsPicture"
+    OWNER to postgres;
+
+GRANT INSERT, SELECT, UPDATE, DELETE ON TABLE public."ProductsPicture" TO ourshopuser;
+
+GRANT ALL ON TABLE public."ProductsPicture" TO postgres;
+
+
+
+
+
+CREATE OR REPLACE PROCEDURE public.set_productpicture(
+	_idproduct integer,
+	_filename character varying,
+	_isenabled boolean,
+	_path character varying,
+	_userid integer,
+	_ordernumber integer DEFAULT NULL::integer,
+	INOUT _id integer DEFAULT NULL::integer)
+LANGUAGE 'plpgsql'
+AS $BODY$
+BEGIN
+	IF _idproduct > 0 AND LENGTH(_filename) > 0 AND LENGTH(_path) > 0 AND _userid > 0 
+	THEN
+		IF _ordernumber IS NULL OR _ordernumber < 0
+		THEN
+			_ordernumber := (SELECT MAX("OrderNumber") FROM public."ProductsPicture" WHERE "IdProduct" = _idproduct);
+		END IF;
+	
+		IF _id > 0 AND EXISTS (SELECT 1 FROM public."ProductsPicture" WHERE "Id" = _id)
+		THEN
+			IF (SELECT 1
+			    FROM public."ProductsPicture" 
+				WHERE "Id" = _id
+			   	     AND ("FileName" != _filename
+						  OR "OrderNumber" != _ordernumber 
+						  OR "IsEnabled" != _isenabled
+						  OR "Path" != _path)) > 0
+			THEN
+				UPDATE public."ProductsPicture"
+				SET "FileName" = _filename, 
+					"OrderNumber" = _ordernumber, 
+					"IsEnabled" = _isenabled, 
+					"Path" = _path, 
+					"AddedDate" = NOW(), 
+					"AddedBy" = _userId
+				WHERE "Id" = _id;
+
+				call public.add_log(_userId, 3, null, 'ProductsPicture', 'Updated product picture: ' ||CAST (_id as text) || ' filename:' || _filename || 'isenabled: ' || CAST ( _isenabled as text) || ' path: ' || _path);
+			END IF;
+		ELSE
+				INSERT INTO public."ProductsPicture"("IdProduct", "FileName", "Path", "OrderNumber", "IsEnabled", "AddedDate", "AddedBy")
+								  VALUES (_idproduct, _filename, _path, _ordernumber, _isenabled, NOW(), _userId)
+				Returning "Id" INTO _id;
+			call public.add_log(_userId, 3, null, 'ProductsPicture', 'Added product picture: ' ||CAST (_id as text) || ' filename:' || _filename || 'isenabled: ' ||  CAST ( _isenabled as text) || ' path: ' || _path);
+		END IF;
+	ELSE
+		RAISE 'Wrong parameters specificated. : id: %, filename: %, isenabled: %, path: %, idproduct: %', CAST (_id as text), _filename, CAST ( _isenabled as text), _path, CAST ( _idproduct as text); 
+	END IF;
+END $BODY$;
+
+GRANT EXECUTE ON PROCEDURE public.set_productpicture(integer, character varying, boolean, character varying, integer, integer, integer) TO postgres;
+
+GRANT EXECUTE ON PROCEDURE public.set_productpicture(integer, character varying, boolean, character varying, integer, integer, integer) TO PUBLIC;
+
+GRANT EXECUTE ON PROCEDURE public.set_productpicture(integer, character varying, boolean, character varying, integer, integer, integer) TO ourshopuser;
+
