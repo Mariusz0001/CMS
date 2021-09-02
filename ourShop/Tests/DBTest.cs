@@ -51,5 +51,13 @@ namespace ourShop.Tests
 
             Assert.Greater(ret.Id, 0);
         }
+
+        [Test]
+        public void GetProduct()
+        {
+            var ret = DbFunction.Instance().GetProduct(1, 1);
+
+            Assert.Greater(ret.Id, 0);
+        }
     }
 }

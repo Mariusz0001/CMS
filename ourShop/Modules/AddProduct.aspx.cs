@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace ourShop.Modules
@@ -34,11 +35,11 @@ namespace ourShop.Modules
 
                 if (IdFromURL > 0)
                 {
-                    /* to do
-                     * pobrać z dbo kontrolera i ustawić w kontrolkach 
-                     * */
-                }
+                   var ret = DbFunction.Instance().GetProduct(IdFromURL.Value, SessionProperties.GetUserId(Session).Value);
 
+                   BindPoperties(ret);
+
+                }
                 BindPictureList();
             }
         }
@@ -108,9 +109,9 @@ namespace ourShop.Modules
                 if (IdFromURL != null)
                     id = IdFromURL.Value;
 
-                if (Price.Value != null && TaxPercent.SelectedItem?.Value != null && Quantity.Value != null && CategoriesTree.SelectedNode?.Value != null && SessionProperties.GetUserId(Session) != null)
+                if (Price.Value != null && TaxPercent.SelectedItem?.Value != null && QTY.Value != null && CategoriesTree.SelectedNode?.Value != null && SessionProperties.GetUserId(Session) != null)
                 {
-                    var ret = DbStoredProcedure.Instance().SetProduct(id, Name.Text, Enabled.Checked, Barcode.Text, double.Parse(Price.Value), int.Parse(TaxPercent.SelectedItem.Value), int.Parse(Quantity.Value), int.Parse(CategoriesTree.SelectedNode.Value), Descritpion.InnerText, SessionProperties.GetUserId(this.Session).Value);
+                    var ret = DbStoredProcedure.Instance().SetProduct(id, Name.Text, Enabled.Checked, Barcode.Text, double.Parse(Price.Value), int.Parse(TaxPercent.SelectedItem.Value), int.Parse(QTY.Value), int.Parse(CategoriesTree.SelectedNode.Value), Descritpion.InnerText, SessionProperties.GetUserId(this.Session).Value);
 
                     if (ret != null && ret.Id > 0)
                     {

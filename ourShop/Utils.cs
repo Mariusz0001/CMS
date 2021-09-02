@@ -100,6 +100,19 @@ namespace ourShop
             }
         }
 
+        public static bool? TryParseNullableBoolean(string val)
+        {
+            try
+            {
+                bool outValue;
+                return bool.TryParse(val, out outValue) ? (bool?)outValue : null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public static String GetExceptionMessage(Exception error)
         {
             if (error != null)

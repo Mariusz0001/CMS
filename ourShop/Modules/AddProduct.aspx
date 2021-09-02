@@ -44,10 +44,10 @@
                     </div>
                              <div class="input-field col s4 m3">
                         <label style="color: crimson;">*</label>
-                        <label class="col control-label" for="Quantity">Quantity</label>
-                        <input class="form-control" type="number" placeholder="" id="Quantity" name="Quantity" runat="server" min="0" step="1" />
+                        <label class="col control-label" for="QTY">Quantity</label>
+                        <input class="form-control" type="number" placeholder="" id="QTY" name="QTY" runat="server" min="0" step="1" />
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
-                            runat="server" ControlToValidate="Quantity" ErrorMessage="Quantity is required." CssClass="invalid align-items-baseline"></asp:RequiredFieldValidator>
+                            runat="server" ControlToValidate="QTY" ErrorMessage="Quantity is required." CssClass="invalid align-items-baseline"></asp:RequiredFieldValidator>
                     </div>
                     <div class="input-field col s6 m4">
                         <label style="color: crimson;">*</label>

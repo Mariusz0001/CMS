@@ -125,3 +125,55 @@ GRANT EXECUTE ON PROCEDURE public.set_productpicture(integer, character varying,
 
 GRANT EXECUTE ON PROCEDURE public.set_productpicture(integer, character varying, boolean, character varying, integer, integer, integer) TO ourshopuser;
 
+
+
+
+CREATE OR REPLACE FUNCTION public.get_product(
+	_id integer,
+	_userid integer)
+    RETURNS TABLE("Id" integer, "IdCategoriesBook" integer, "IdTaxPercentagesBook" integer, "IdProductsStatusBook" integer, "Name" character varying, "Barcode" character varying, "Price" double precision, "QTY" integer, "Enabled" boolean, "Description" character varying) 
+    LANGUAGE 'plpgsql'
+
+    VOLATILE 
+AS $BODY$
+DECLARE _permission BOOLEAN;
+BEGIN
+	
+ 	SELECT _ret 
+	INTO _permission
+	from public.get_isuserhaspermission(_userid, 'MODIFY_PRODUCT', _permission);
+	
+	IF _permission != TRUE THEN
+		RAISE EXCEPTION 'Lack of permissions.';
+	END IF;
+	
+	
+	RETURN QUERY	
+		SELECT P."Id",
+			   P."IdCategoriesBook", 
+			   P."IdTaxPercentagesBook", 
+			   P."IdProductsStatusBook", 
+			   P."Name", 
+			   P."Barcode", 
+			   P."Price", 
+			   P."QTY", 
+			   P."Enabled", 
+			   P."Description"
+		FROM public."Products" P
+		WHERE P."Id" = _id;
+END;
+$BODY$;
+
+ALTER FUNCTION public.get_product(integer, integer)
+    OWNER TO postgres;
+
+GRANT EXECUTE ON FUNCTION public.get_product(integer, integer) TO postgres;
+
+GRANT EXECUTE ON FUNCTION public.get_product(integer, integer) TO PUBLIC;
+
+
+
+
+INSERT INTO public."UserPermission"(
+	"IdUser", "IdPermissionBookGroup", "CreatedDate", "CreatedBy")
+	VALUES (27, 3, NOW(), 1);
