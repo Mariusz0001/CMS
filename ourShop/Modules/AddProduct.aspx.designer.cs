@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ourShop.Modules
-{
-
-
-    public partial class AddProduct
-    {
-
+namespace ourShop.Modules {
+    
+    
+    public partial class AddProduct {
+        
         /// <summary>
         /// Name control.
         /// </summary>
@@ -22,7 +20,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Name;
-
+        
         /// <summary>
         /// rfvcandidasate control.
         /// </summary>
@@ -31,7 +29,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvcandidasate;
-
+        
         /// <summary>
         /// Enabled control.
         /// </summary>
@@ -40,7 +38,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox Enabled;
-
+        
         /// <summary>
         /// Barcode control.
         /// </summary>
@@ -49,7 +47,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Barcode;
-
+        
         /// <summary>
         /// QTY control.
         /// </summary>
@@ -58,7 +56,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl QTY;
-
+        
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -67,7 +65,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-
+        
         /// <summary>
         /// Price control.
         /// </summary>
@@ -76,7 +74,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl Price;
-
+        
         /// <summary>
         /// RequiredFieldValidator3 control.
         /// </summary>
@@ -85,16 +83,16 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
-
+        
         /// <summary>
-        /// TaxPercent control.
+        /// IdTaxPercentagesBook control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList TaxPercent;
-
+        protected global::System.Web.UI.WebControls.DropDownList IdTaxPercentagesBook;
+        
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -103,7 +101,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-
+        
         /// <summary>
         /// TaxBookDS control.
         /// </summary>
@@ -112,7 +110,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource TaxBookDS;
-
+        
         /// <summary>
         /// ScriptManager1 control.
         /// </summary>
@@ -121,7 +119,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.ScriptManager ScriptManager1;
-
+        
         /// <summary>
         /// UpdatePanel1 control.
         /// </summary>
@@ -130,7 +128,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-
+        
         /// <summary>
         /// CategoriesTree control.
         /// </summary>
@@ -139,7 +137,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TreeView CategoriesTree;
-
+        
         /// <summary>
         /// ImageGrid control.
         /// </summary>
@@ -148,7 +146,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView ImageGrid;
-
+        
         /// <summary>
         /// FileUploadControl control.
         /// </summary>
@@ -157,7 +155,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload FileUploadControl;
-
+        
         /// <summary>
         /// StatusLabel control.
         /// </summary>
@@ -166,7 +164,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label StatusLabel;
-
+        
         /// <summary>
         /// UploadButton control.
         /// </summary>
@@ -175,16 +173,16 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton UploadButton;
-
+        
         /// <summary>
-        /// Descritpion control.
+        /// Description control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTextArea Descritpion;
-
+        protected global::System.Web.UI.HtmlControls.HtmlTextArea Description;
+        
         /// <summary>
         /// btnSubmit control.
         /// </summary>

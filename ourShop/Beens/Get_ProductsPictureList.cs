@@ -5,16 +5,12 @@ using System.Web;
 
 namespace ourShop.Beens
 {
-    public class ProductsPicture_Been
+    public class Get_ProductsPictureList
     {
-        public int Id { get; set; }
-        public int? LocalListId { get; set; }
+        public int? Id { get; set; }
         public int? IdProduct { get; set; }
         public string FileName { get; set; }
         public string Path { get; set; }
-
         public int? OrderNumber { get; set; }
-
-        public bool IsEnabled { get; set; }
     }
 }

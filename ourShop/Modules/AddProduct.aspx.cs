@@ -11,7 +11,7 @@ using System.Web.UI.WebControls;
 
 namespace ourShop.Modules
 {
-    public partial class AddProduct : MainPage
+    public partial class AddProduct : EditFormBase
     {
         public override bool LoginRequired
         {
@@ -27,26 +27,24 @@ namespace ourShop.Modules
                 return 1;
             }
         }
-        protected void Page_Load(object sender, EventArgs e)
+
+        public override object GetData()
         {
-            if (!this.IsPostBack)
+            Beens.Get_Product_Result ret = null;
+
+            if (IdFromURL > 0)
             {
-                LoadCategoriesBook();
-
-                if (IdFromURL > 0)
-                {
-                   var ret = DbFunction.Instance().GetProduct(IdFromURL.Value, SessionProperties.GetUserId(Session).Value);
-
-                   BindPoperties(ret);
-
-                }
-                BindPictureList();
+                 ret = DbFunction.Instance().GetProduct(IdFromURL.Value, SessionProperties.GetUserId(Session).Value);
             }
+            
+            LoadCategoriesBook(ret?.IdCategoriesBook);
+            BindPictureList();
+
+            return ret;
         }
-
-     
-
-        public void LoadCategoriesBook()
+        
+        
+        public void LoadCategoriesBook(int? selectedId = null)
         {
             using (var dbo = new ourShopEntities())
             {
@@ -55,11 +53,12 @@ namespace ourShop.Modules
                 if (categories != null)
                 {
                     var categoriesList = categories.ToList();
-                    this.PopulateCategoriesTreeView(categoriesList, 0, null);
+                    this.PopulateCategoriesTreeView(categoriesList, 0, null, selectedId);
                 }
             }
         }
-        public void PopulateCategoriesTreeView(List<ourShop.DataBase.CategoriesBook> categoriesList, int parentId, TreeNode treeNode)
+
+        public void PopulateCategoriesTreeView(List<ourShop.DataBase.CategoriesBook> categoriesList, int parentId, TreeNode treeNode, int? selectedId = null)
         {
             try
             {
@@ -71,8 +70,10 @@ namespace ourShop.Modules
                         Value = item.Id.ToString()
                     };
 
-                    //child.SelectAction = TreeNodeSelectAction.Select;
-
+                    if (selectedId != null && item.Id == selectedId)
+                    {
+                        child.Selected = true;
+                    }
 
                     if (parentId == 0)
                     {
@@ -109,9 +110,9 @@ namespace ourShop.Modules
                 if (IdFromURL != null)
                     id = IdFromURL.Value;
 
-                if (Price.Value != null && TaxPercent.SelectedItem?.Value != null && QTY.Value != null && CategoriesTree.SelectedNode?.Value != null && SessionProperties.GetUserId(Session) != null)
+                if (Price.Value != null && IdTaxPercentagesBook.SelectedItem?.Value != null && QTY.Value != null && CategoriesTree.SelectedNode?.Value != null && SessionProperties.GetUserId(Session) != null)
                 {
-                    var ret = DbStoredProcedure.Instance().SetProduct(id, Name.Text, Enabled.Checked, Barcode.Text, double.Parse(Price.Value), int.Parse(TaxPercent.SelectedItem.Value), int.Parse(QTY.Value), int.Parse(CategoriesTree.SelectedNode.Value), Descritpion.InnerText, SessionProperties.GetUserId(this.Session).Value);
+                    var ret = DbStoredProcedure.Instance().SetProduct(id, Name.Text, Enabled.Checked, Barcode.Text, double.Parse(Price.Value), int.Parse(IdTaxPercentagesBook.SelectedItem.Value), int.Parse(QTY.Value), int.Parse(CategoriesTree.SelectedNode.Value), Description.InnerText, SessionProperties.GetUserId(this.Session).Value);
 
                     if (ret != null && ret.Id > 0)
                     {
@@ -146,12 +147,12 @@ namespace ourShop.Modules
                             string path = this.GetFileDirectoryPath("Temp_Path");
                             string tempPath = GetLocalPhysicalDirectoryPath(path);
 
-                            string filename = Path.GetFileName(DateTime.Now.ToShortTimeString().Replace(":", "_").Replace(".", "_") + Path.GetFileNameWithoutExtension(FileUploadControl.PostedFile.FileName) + Utils.Get8Digits() + Path.GetExtension(FileUploadControl.PostedFile.FileName));
+                            string filename = Path.GetFileName(Path.GetFileNameWithoutExtension(FileUploadControl.PostedFile.FileName) + DateTime.Now.ToShortTimeString().Replace(":", "_").Replace(".", "_") + "_" +Utils.Get8Digits() + Path.GetExtension(FileUploadControl.PostedFile.FileName));
 
                             FileUploadControl.SaveAs(tempPath + "\\" + filename);
 
                             var productList = GetProductPictureList();
-                            productList.Add(new Beens.ProductsPicture_Been { Id = -1, LocalListId = productList.Count+1, FileName = filename, IdProductPicture = -1, Path = path + "/" + filename, IsEnabled = true, OrderNumber = productList.Count + 1 });
+                            productList.Add(new Beens.ProductsPicture_Been { Id = -1, LocalListId = productList.Count+1, FileName = filename, IdProduct = -1, Path = path + "/" + filename, IsEnabled = true, OrderNumber = productList.Count + 1 });
                             HttpContext.Current.Session.Add("ProductPictureUploadList", productList);
 
                             BindPictureList(productList);
@@ -183,18 +184,24 @@ namespace ourShop.Modules
 
         private List<Beens.ProductsPicture_Been> GetProductPictureList()
         {
-            List<Beens.ProductsPicture_Been> productList;
-
-            if (Session["ProductPictureUploadList"] != null)
+            if (IdFromURL > 0)
             {
-                productList = (List<Beens.ProductsPicture_Been>)Session["ProductPictureUploadList"];
+                return DbFunction.Instance().GetProductPictureList(IdFromURL.Value);
             }
             else
             {
-                productList = new List<Beens.ProductsPicture_Been>();
-            }
+                List<Beens.ProductsPicture_Been> pictureList;
 
-            return productList;
+                if (Session["ProductPictureUploadList"] != null)
+                {
+                    pictureList = (List<Beens.ProductsPicture_Been>)Session["ProductPictureUploadList"];
+                }
+                else
+                {
+                    pictureList = new List<Beens.ProductsPicture_Been>();
+                }
+                return pictureList;
+            }
         }
         private void BindPictureList()
         {

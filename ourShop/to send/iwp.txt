@@ -1,46 +1,41 @@
 ﻿
-CREATE OR REPLACE PROCEDURE public.set_product(
-	_name character varying,
-	_isenabled boolean,
-	_barcode character varying,
-	_price double precision,
-	_idtaxpercentagesbook integer,
-	_quantity integer,
-	_idcategoriesbook integer,
-	_description character varying,
-	_userid integer,
-	INOUT _id integer DEFAULT NULL::integer)
-LANGUAGE 'plpgsql'
+CREATE OR REPLACE FUNCTION public.get_productspicturelist(
+	_idproduct integer)
+    RETURNS TABLE("Id" integer, idproduct integer, filename text, path text, ordernumber integer) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
 AS $BODY$
-DECLARE
 BEGIN
-	IF _id > 0 AND EXISTS (SELECT 1 FROM public."Products" WHERE "Id" = _id)
-	THEN
-		UPDATE public."Products"
-		SET "Name" = _name, 
-		    "Barcode" = _barcode, 
-			"Price" = _price, 
-			"IdTaxPercentagesBook" = _idtaxpercentagesbook, 
-			"QTY" = _quantity, 
-			"AddedDate" = NOW(), 
-			"Enabled" = _isEnabled, 
-			"Description" = _description, 
-			"IdCategoriesBook" = _idCategoriesBook,
-			"ModificationDate" = NOW(), 
-			"ModifcatedBy" = _userId
-		WHERE "Id" = _id;
-	ELSE
-		INSERT INTO public."Products"("IdCategoriesBook", "IdTaxPercentagesBook", "IdProductsStatusBook", "Name", "Barcode", "Price", "QTY", "Enabled", "Description", "AddedDate", "AddedBy")
-							  VALUES (_idcategoriesbook, _idtaxpercentagesbook, 1, _name, _barcode, _price, _quantity, _isenabled, _description, NOW(), _userId)
-			Returning "Id" INTO _id;
-	END IF;
-END $BODY$;
+	RETURN QUERY
+		SELECT     P."Id", 
+				   P."IdProduct", 
+				   P."FileName"::text,
+				   P."Path"::text,
+				   P."OrderNumber"
+		FROM public."ProductsPicture" P
+		WHERE P."IdProduct" = _idProduct
+			  AND P."IsEnabled" = TRUE
+		ORDER BY P."OrderNumber", P."Id";
+	
+	END;
+$BODY$;
+
+ALTER FUNCTION public.get_productspicturelist(integer)
+    OWNER TO postgres;
+
+GRANT EXECUTE ON FUNCTION public.get_productspicturelist(integer) TO PUBLIC;
+
+GRANT EXECUTE ON FUNCTION public.get_productspicturelist(integer) TO ourshopuser;
+
+GRANT EXECUTE ON FUNCTION public.get_productspicturelist(integer) TO postgres;
 
 
 
--- Table: public.ProductsPicture
 
--- DROP TABLE public."ProductsPicture";
+ DROP TABLE public."ProductsPicture";
 
 CREATE TABLE public."ProductsPicture"
 (
@@ -48,8 +43,8 @@ CREATE TABLE public."ProductsPicture"
     "IdProduct" integer,
     "FileName" character varying(200) COLLATE pg_catalog."default",
     "Path" character varying(200) COLLATE pg_catalog."default",
-    "OrderNumber" character varying(200) COLLATE pg_catalog."default",
     "IsEnabled" boolean,
+    "OrderNumber" integer,
     "AddedDate" date,
     "AddedBy" character varying(200) COLLATE pg_catalog."default",
     CONSTRAINT "ProductsPicture_pkey" PRIMARY KEY ("Id"),
@@ -61,119 +56,7 @@ TABLESPACE pg_default;
 ALTER TABLE public."ProductsPicture"
     OWNER to postgres;
 
-GRANT INSERT, SELECT, UPDATE, DELETE ON TABLE public."ProductsPicture" TO ourshopuser;
+GRANT DELETE, INSERT, SELECT, UPDATE ON TABLE public."ProductsPicture" TO ourshopuser;
 
 GRANT ALL ON TABLE public."ProductsPicture" TO postgres;
 
-
-
-
-
-CREATE OR REPLACE PROCEDURE public.set_productpicture(
-	_idproduct integer,
-	_filename character varying,
-	_isenabled boolean,
-	_path character varying,
-	_userid integer,
-	_ordernumber integer DEFAULT NULL::integer,
-	INOUT _id integer DEFAULT NULL::integer)
-LANGUAGE 'plpgsql'
-AS $BODY$
-BEGIN
-	IF _idproduct > 0 AND LENGTH(_filename) > 0 AND LENGTH(_path) > 0 AND _userid > 0 
-	THEN
-		IF _ordernumber IS NULL OR _ordernumber < 0
-		THEN
-			_ordernumber := (SELECT MAX("OrderNumber") FROM public."ProductsPicture" WHERE "IdProduct" = _idproduct);
-		END IF;
-	
-		IF _id > 0 AND EXISTS (SELECT 1 FROM public."ProductsPicture" WHERE "Id" = _id)
-		THEN
-			IF (SELECT 1
-			    FROM public."ProductsPicture" 
-				WHERE "Id" = _id
-			   	     AND ("FileName" != _filename
-						  OR "OrderNumber" != _ordernumber 
-						  OR "IsEnabled" != _isenabled
-						  OR "Path" != _path)) > 0
-			THEN
-				UPDATE public."ProductsPicture"
-				SET "FileName" = _filename, 
-					"OrderNumber" = _ordernumber, 
-					"IsEnabled" = _isenabled, 
-					"Path" = _path, 
-					"AddedDate" = NOW(), 
-					"AddedBy" = _userId
-				WHERE "Id" = _id;
-
-				call public.add_log(_userId, 3, null, 'ProductsPicture', 'Updated product picture: ' ||CAST (_id as text) || ' filename:' || _filename || 'isenabled: ' || CAST ( _isenabled as text) || ' path: ' || _path);
-			END IF;
-		ELSE
-				INSERT INTO public."ProductsPicture"("IdProduct", "FileName", "Path", "OrderNumber", "IsEnabled", "AddedDate", "AddedBy")
-								  VALUES (_idproduct, _filename, _path, _ordernumber, _isenabled, NOW(), _userId)
-				Returning "Id" INTO _id;
-			call public.add_log(_userId, 3, null, 'ProductsPicture', 'Added product picture: ' ||CAST (_id as text) || ' filename:' || _filename || 'isenabled: ' ||  CAST ( _isenabled as text) || ' path: ' || _path);
-		END IF;
-	ELSE
-		RAISE 'Wrong parameters specificated. : id: %, filename: %, isenabled: %, path: %, idproduct: %', CAST (_id as text), _filename, CAST ( _isenabled as text), _path, CAST ( _idproduct as text); 
-	END IF;
-END $BODY$;
-
-GRANT EXECUTE ON PROCEDURE public.set_productpicture(integer, character varying, boolean, character varying, integer, integer, integer) TO postgres;
-
-GRANT EXECUTE ON PROCEDURE public.set_productpicture(integer, character varying, boolean, character varying, integer, integer, integer) TO PUBLIC;
-
-GRANT EXECUTE ON PROCEDURE public.set_productpicture(integer, character varying, boolean, character varying, integer, integer, integer) TO ourshopuser;
-
-
-
-
-CREATE OR REPLACE FUNCTION public.get_product(
-	_id integer,
-	_userid integer)
-    RETURNS TABLE("Id" integer, "IdCategoriesBook" integer, "IdTaxPercentagesBook" integer, "IdProductsStatusBook" integer, "Name" character varying, "Barcode" character varying, "Price" double precision, "QTY" integer, "Enabled" boolean, "Description" character varying) 
-    LANGUAGE 'plpgsql'
-
-    VOLATILE 
-AS $BODY$
-DECLARE _permission BOOLEAN;
-BEGIN
-	
- 	SELECT _ret 
-	INTO _permission
-	from public.get_isuserhaspermission(_userid, 'MODIFY_PRODUCT', _permission);
-	
-	IF _permission != TRUE THEN
-		RAISE EXCEPTION 'Lack of permissions.';
-	END IF;
-	
-	
-	RETURN QUERY	
-		SELECT P."Id",
-			   P."IdCategoriesBook", 
-			   P."IdTaxPercentagesBook", 
-			   P."IdProductsStatusBook", 
-			   P."Name", 
-			   P."Barcode", 
-			   P."Price", 
-			   P."QTY", 
-			   P."Enabled", 
-			   P."Description"
-		FROM public."Products" P
-		WHERE P."Id" = _id;
-END;
-$BODY$;
-
-ALTER FUNCTION public.get_product(integer, integer)
-    OWNER TO postgres;
-
-GRANT EXECUTE ON FUNCTION public.get_product(integer, integer) TO postgres;
-
-GRANT EXECUTE ON FUNCTION public.get_product(integer, integer) TO PUBLIC;
-
-
-
-
-INSERT INTO public."UserPermission"(
-	"IdUser", "IdPermissionBookGroup", "CreatedDate", "CreatedBy")
-	VALUES (27, 3, NOW(), 1);

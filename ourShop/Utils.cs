@@ -143,28 +143,32 @@ namespace ourShop
 
         public static DataTable CreateDataTable<T>(IEnumerable<T> list)
         {
-            Type type = typeof(T);
-            var properties = type.GetProperties();
-
-            DataTable dataTable = new DataTable();
-            dataTable.TableName = typeof(T).FullName;
-            foreach (PropertyInfo info in properties)
+            if (list != null)
             {
-                dataTable.Columns.Add(new DataColumn(info.Name, Nullable.GetUnderlyingType(info.PropertyType) ?? info.PropertyType));
-            }
+                Type type = typeof(T);
+                var properties = type.GetProperties();
 
-            foreach (T entity in list)
-            {
-                object[] values = new object[properties.Length];
-                for (int i = 0; i < properties.Length; i++)
+                DataTable dataTable = new DataTable();
+                dataTable.TableName = typeof(T).FullName;
+                foreach (PropertyInfo info in properties)
                 {
-                    values[i] = properties[i].GetValue(entity);
+                    dataTable.Columns.Add(new DataColumn(info.Name, Nullable.GetUnderlyingType(info.PropertyType) ?? info.PropertyType));
                 }
 
-                dataTable.Rows.Add(values);
-            }
+                foreach (T entity in list)
+                {
+                    object[] values = new object[properties.Length];
+                    for (int i = 0; i < properties.Length; i++)
+                    {
+                        values[i] = properties[i].GetValue(entity);
+                    }
 
-            return dataTable;
+                    dataTable.Rows.Add(values);
+                }
+
+                return dataTable;
+            }
+            return null;
         }
     }
 }

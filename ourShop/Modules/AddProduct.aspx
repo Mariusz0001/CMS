@@ -60,13 +60,13 @@
                     <div class="input-field col s4 m3">
                         <div class="left-align caption">
                             <label style="color: crimson;">*</label>
-                            <label class="control-label" for="TaxPercent">Tax percent</label>
+                            <label class="control-label" for="IdTaxPercentagesBook">Tax percent</label>
                         </div>
 
-                        <asp:DropDownList ID="TaxPercent" runat="server" Width="80px" Font-Size="Medium" DataSourceID="TaxBookDS" DataTextField="Value" DataValueField="Id" CssClass="browser-default input-field m6" DataTextFormatString="{0} %"></asp:DropDownList>
+                        <asp:DropDownList ID="IdTaxPercentagesBook" runat="server" Width="80px" Font-Size="Medium" DataSourceID="TaxBookDS" DataTextField="Value" DataValueField="Id" CssClass="browser-default input-field m6" DataTextFormatString="{0} %"></asp:DropDownList>
 
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1"
-                            runat="server" ControlToValidate="TaxPercent" ErrorMessage="Please, select TAX percent on this product." CssClass="invalid align-items-baseline"></asp:RequiredFieldValidator>
+                            runat="server" ControlToValidate="IdTaxPercentagesBook" ErrorMessage="Please, select TAX percent on this product." CssClass="invalid align-items-baseline"></asp:RequiredFieldValidator>
                         <asp:SqlDataSource ID="TaxBookDS" runat="server" ConnectionString="<%$ ConnectionStrings:ourShopConnectionString %>" ProviderName="<%$ ConnectionStrings:ourShopConnectionString.ProviderName %>" SelectCommand='SELECT "Id", "Value" FROM "TaxPercentagesBook"'></asp:SqlDataSource>
 
                     </div>
@@ -145,8 +145,8 @@
 
                 <div class="row">
                     <label style="color: crimson;">*</label>
-                    <label class="col control-label" for="Descritpion">Description</label>
-                    <textarea id="Descritpion" name="Descritpion" rows="2" runat="server"></textarea>
+                    <label class="col control-label" for="Description">Description</label>
+                    <textarea id="Description" name="Description" rows="2" runat="server"></textarea>
                 </div>
 
 

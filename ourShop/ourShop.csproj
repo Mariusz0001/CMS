@@ -1083,9 +1083,13 @@
   <ItemGroup>
     <Compile Include="Beens\Get_CategoriesList_Result.cs" />
     <Compile Include="Beens\Get_MenuToolbar_Result.cs" />
+    <Compile Include="Beens\Get_ProductsPictureList.cs" />
     <Compile Include="Beens\Get_Product_Result.cs" />
     <Compile Include="Beens\ProductsPicture_Been.cs" />
     <Compile Include="Beens\Result_Been.cs" />
+    <Compile Include="EditFormBase.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Modules\UC\ProductCardUC.ascx.cs">
       <DependentUpon>ProductCardUC.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

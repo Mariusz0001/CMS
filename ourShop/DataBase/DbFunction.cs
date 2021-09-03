@@ -158,5 +158,32 @@ namespace ourShop.DataBase
             }
             return null;
         }
+
+        public List<ProductsPicture_Been> GetProductPictureList(int idProduct)
+        {
+            var paramList = new List<ObjectParameter>();
+            List<ProductsPicture_Been> pictureList = new List<ProductsPicture_Been>();
+
+            paramList.Add(CreateObjectParameter("_idproduct", typeof(int), idProduct));
+
+            var ret = base.GetTableFunction("public", "get_productspicturelist", paramList);
+
+            if (ret != null)
+            {
+                foreach (var record in ret)
+                {
+                    pictureList.Add( new ProductsPicture_Been
+                    {
+                        Id = Utils.TryParseNullableInt(record[0].ToString()).Value,
+                        IdProduct = Utils.TryParseNullableInt(record[1].ToString()).Value,
+                        
+                        FileName = record[2].ToString(),
+                        Path = record[3].ToString(),
+                        OrderNumber = Utils.TryParseNullableInt(record[4].ToString())
+                    });
+                }
+            }
+            return pictureList;
+        }
     }
 }
