@@ -32,6 +32,9 @@ namespace ourShop.Modules
         {
             Beens.Get_Product_Result ret = null;
 
+            var productList = new List<Beens.ProductsPicture_Been>();
+            HttpContext.Current.Session.Add("ProductPictureUploadList", productList);
+
             if (IdFromURL > 0)
             {
                  ret = DbFunction.Instance().GetProduct(IdFromURL.Value, SessionProperties.GetUserId(Session).Value);
@@ -85,7 +88,7 @@ namespace ourShop.Modules
 
                             if (newChild != null)
                             {
-                                PopulateCategoriesTreeView(newChild.ToList(), int.Parse(child.Value), child);
+                                PopulateCategoriesTreeView(newChild.ToList(), int.Parse(child.Value), child, selectedId);
                             }
                         }
                     }
@@ -106,13 +109,13 @@ namespace ourShop.Modules
             try
             {
                 int id = -1;
-
+                
                 if (IdFromURL != null)
                     id = IdFromURL.Value;
 
                 if (Price.Value != null && IdTaxPercentagesBook.SelectedItem?.Value != null && QTY.Value != null && CategoriesTree.SelectedNode?.Value != null && SessionProperties.GetUserId(Session) != null)
                 {
-                    var ret = DbStoredProcedure.Instance().SetProduct(id, Name.Text, Enabled.Checked, Barcode.Text, double.Parse(Price.Value), int.Parse(IdTaxPercentagesBook.SelectedItem.Value), int.Parse(QTY.Value), int.Parse(CategoriesTree.SelectedNode.Value), Description.InnerText, SessionProperties.GetUserId(this.Session).Value);
+                    var ret = DbStoredProcedure.Instance().SetProduct(id, Name.Text, Enabled.Checked, Barcode.Text, double.Parse(Price.Value.Replace('.', ',')), int.Parse(IdTaxPercentagesBook.SelectedItem.Value), int.Parse(QTY.Value), int.Parse(CategoriesTree.SelectedNode.Value), Description.InnerText, SessionProperties.GetUserId(this.Session).Value);
 
                     if (ret != null && ret.Id > 0)
                     {
@@ -147,10 +150,10 @@ namespace ourShop.Modules
                             string path = this.GetFileDirectoryPath("Temp_Path");
                             string tempPath = GetLocalPhysicalDirectoryPath(path);
 
-                            string filename = Path.GetFileName(Path.GetFileNameWithoutExtension(FileUploadControl.PostedFile.FileName) + DateTime.Now.ToShortTimeString().Replace(":", "_").Replace(".", "_") + "_" +Utils.Get8Digits() + Path.GetExtension(FileUploadControl.PostedFile.FileName));
+                            string filename = Path.GetFileName(Path.GetFileNameWithoutExtension(FileUploadControl.PostedFile.FileName) + DateTime.Now.ToShortTimeString().Replace(":", "_").Replace(".", "_") + "_" + Utils.Get8Digits() + Path.GetExtension(FileUploadControl.PostedFile.FileName));
 
                             FileUploadControl.SaveAs(tempPath + "\\" + filename);
-
+                            
                             var productList = GetProductPictureList();
                             productList.Add(new Beens.ProductsPicture_Been { Id = -1, LocalListId = productList.Count+1, FileName = filename, IdProduct = -1, Path = path + "/" + filename, IsEnabled = true, OrderNumber = productList.Count + 1 });
                             HttpContext.Current.Session.Add("ProductPictureUploadList", productList);
@@ -184,25 +187,35 @@ namespace ourShop.Modules
 
         private List<Beens.ProductsPicture_Been> GetProductPictureList()
         {
+            var productList = new List<Beens.ProductsPicture_Been>();
+
             if (IdFromURL > 0)
+                productList = DbFunction.Instance().GetProductPictureList(IdFromURL.Value);
+
+            foreach (var localPic in GetProductLocalPictureList())
             {
-                return DbFunction.Instance().GetProductPictureList(IdFromURL.Value);
+                if (localPic.Id == -1 || productList.Where(f => f.Id == localPic.Id).FirstOrDefault() == null)
+                    productList.Add(localPic);
+            }
+
+            return productList;
+        }
+        private List<Beens.ProductsPicture_Been> GetProductLocalPictureList()
+        {
+            List<Beens.ProductsPicture_Been> pictureList;
+
+            if (Session["ProductPictureUploadList"] != null)
+            {
+                pictureList = (List<Beens.ProductsPicture_Been>)Session["ProductPictureUploadList"];
             }
             else
             {
-                List<Beens.ProductsPicture_Been> pictureList;
-
-                if (Session["ProductPictureUploadList"] != null)
-                {
-                    pictureList = (List<Beens.ProductsPicture_Been>)Session["ProductPictureUploadList"];
-                }
-                else
-                {
-                    pictureList = new List<Beens.ProductsPicture_Been>();
-                }
-                return pictureList;
+                pictureList = new List<Beens.ProductsPicture_Been>();
             }
+            return pictureList;
+
         }
+
         private void BindPictureList()
         {
             var productList = GetProductPictureList();
@@ -223,13 +236,17 @@ namespace ourShop.Modules
 
                 foreach (Beens.ProductsPicture_Been picture in productList)
                 {
+                    string path = GetFileDirectoryPath("AttachedPicturesProducts_Path");
+                    
+                    File.Move(GetLocalPhysicalDirectoryPath(picture.Path), GetLocalPhysicalDirectoryPath(path) + "\\" + picture.FileName);
+
+                    picture.Path = path + "/" + picture.FileName ;
+
                     var ret = DbStoredProcedure.Instance().SetProductPicture(picture.Id, IdProduct, picture.FileName, picture.Path, picture.IsEnabled, picture.OrderNumber, SessionProperties.GetUserId(this.Session).Value);
 
-                    if (ret?.Id > 0 && !ret.IsError)
+                    if (ret?.IsError == true )
                     {
-                        string path = GetFileDirectoryPath("AttachedPicturesProducts_Path");
-
-                        File.Move(GetLocalPhysicalDirectoryPath(picture.Path), GetLocalPhysicalDirectoryPath(path) + "\\" + picture.FileName);
+                        ShowToastMessage("SavePictures error occured. " + ret.Message);
                     }
                 }
             }
@@ -275,15 +292,23 @@ namespace ourShop.Modules
                         int value = (int)grid.DataKeys[rowIndex].Value;
 
                         var productList = this.GetProductPictureList();
-
                         var item = productList.Single(x => x.Id == value);
 
-                        if(item?.Path?.Length > 0)
+                        if (item != null)
                         {
-                            File.Delete(GetLocalPhysicalDirectoryPath(item.Path)); 
-                        }
+                            if (item.Id > 0)
+                            {
+                                var ret = DbStoredProcedure.Instance().SetProductPicture(item.Id, item.IdProduct, item.FileName, item.Path, false, item.OrderNumber, SessionProperties.GetUserId(this.Session).Value);
+                            }
 
-                        productList.Remove(item);
+                            if (item.Path?.Length > 0)
+                            {
+                                File.Delete(GetLocalPhysicalDirectoryPath(item.Path));
+                            }
+
+                            productList.Remove(item);
+                            Session["ProductPictureUploadList"] = productList;
+                        }
 
                         BindPictureList();
                     }

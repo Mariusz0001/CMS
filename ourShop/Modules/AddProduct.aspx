@@ -114,12 +114,26 @@
                  <div class="card-panel">
                      <div class="row card-content s12">
 
+                         <div class="row">
+                             <div class="col s4">
+                                 <asp:FileUpload ID="FileUploadControl" runat="server" />
+                             </div>
+                             <div class="col s4">
+                                 <asp:LinkButton ID="UploadButton" runat="server" CssClass="btn btn-primary" OnClick="UploadButton_Click" UseSubmitBehavior="False" ValidationGroup="PictureUpload" ValidateRequestMode="Disabled">Upload<i class="material-icons right">file_upload</i></asp:LinkButton>
+                             </div>
+                         </div>
+                          </div>
+                            <div class="card-action">
+                                    <asp:Label runat="server" ID="StatusLabel" Text="" />
+                                </div>
+                           
+
                          <asp:GridView ID="ImageGrid" runat="server" AutoGenerateColumns="false" Width="100%" DataKeyNames="Id" ViewStateMode="Enabled" OnRowCommand="ImageGrid_RowCommand" OnRowDeleting="ImageGrid_RowDeleting">
                              <Columns>
                                  <asp:BoundField DataField="Id" Visible="false"/>
                                  <asp:BoundField DataField="IdProductPicture" HeaderText="Image Id" Visible="false" />
                                  <asp:BoundField DataField="FileName" HeaderText="FileName" Visible="False"></asp:BoundField>
-                                 <asp:TemplateField HeaderText="Image" ControlStyle-Width="200px">
+                                 <asp:TemplateField ControlStyle-Width="200px">
                                      <ItemTemplate>
                                          <asp:Image ID="Path" runat="server" Visible="true" Height="200px" Width="300px" ImageUrl='<%# Eval("Path") %>' />
                                      </ItemTemplate>
@@ -127,21 +141,7 @@
                                  <asp:ButtonField Text="Delete" ControlStyle-CssClass="btn" ControlStyle-Width="80%" CommandName="Delete"></asp:ButtonField>
                              </Columns>
                         </asp:GridView>
-
-                                <div class="row">
-                                    <asp:FileUpload ID="FileUploadControl" runat="server" />
-                                </div>
-                                <div class="row">
-                                    <asp:Label runat="server" ID="StatusLabel" Text="Upload status: " />
-                                </div>
-                          </div>
-                            <div class="card-action">
-                                <asp:LinkButton ID="UploadButton" runat="server" CssClass="btn btn-primary" OnClick="UploadButton_Click" UseSubmitBehavior="False" ValidationGroup="PictureUpload" ValidateRequestMode="Disabled">Upload<i class="material-icons right">file_upload</i></asp:LinkButton>
-
-                            </div>
-                    
-                            </div>
-              
+                 </div>
 
                 <div class="row">
                     <label style="color: crimson;">*</label>

@@ -16,21 +16,14 @@ namespace ourShop
 
         public virtual void BindProperties(object Been)
         {
-            /*
-             * 
-             * to do
-             * 
-             * bindowanie tax
-             * category
-             * description
-             * pictures
-             * */
-
             try
             {
-                foreach (var propertyInfo in Been.GetType().GetProperties())
+                if (Been != null)
                 {
-                    BindControl(propertyInfo, Been);
+                    foreach (var propertyInfo in Been.GetType().GetProperties())
+                    {
+                        BindControl(propertyInfo, Been);
+                    }
                 }
             }
             catch (Exception ex)
@@ -59,28 +52,29 @@ namespace ourShop
                                     {
                                         TextBox tb = ((TextBox)controll);
 
-                                        tb.Text = propertyInfo.GetValue(Been, null).ToString();
+                                        tb.Text = GetPropertyValue(propertyInfo, Been);
                                         return;
                                     }
                                     else if (controll is Label)
                                     {
                                         Label lb = ((Label)controll);
 
-                                        lb.Text = propertyInfo.GetValue(Been, null).ToString();
+                                        lb.Text = GetPropertyValue(propertyInfo, Been);
                                         return;
                                     }
                                     else if (controll is System.Web.UI.HtmlControls.HtmlInputGenericControl)
                                     {
                                         System.Web.UI.HtmlControls.HtmlInputGenericControl cb = ((System.Web.UI.HtmlControls.HtmlInputGenericControl)controll);
 
-                                        cb.Value = propertyInfo.GetValue(Been, null).ToString();
+                                        cb.Value = GetPropertyValue(propertyInfo, Been);
+                                        
                                         return;
                                     }
                                     else if (controll is System.Web.UI.HtmlControls.HtmlInputCheckBox)
                                     {
                                         System.Web.UI.HtmlControls.HtmlInputCheckBox cb = ((System.Web.UI.HtmlControls.HtmlInputCheckBox)controll);
 
-                                        if (Utils.TryParseNullableBoolean(propertyInfo.GetValue(Been, null).ToString()).Value)
+                                        if (Utils.TryParseNullableBoolean(GetPropertyValue(propertyInfo, Been)).Value)
                                             cb.Checked = true;
                                         else
                                             cb.Checked = false;
@@ -90,14 +84,14 @@ namespace ourShop
                                     else if(controll is DropDownList)
                                     {
                                         DropDownList dl = ((DropDownList)controll);
-                                        dl.SelectedValue = propertyInfo.GetValue(Been, null).ToString();
+                                        dl.SelectedValue = GetPropertyValue(propertyInfo, Been);
 
                                         return;
                                     }
                                     else if (controll is System.Web.UI.HtmlControls.HtmlTextArea)
                                     {
                                         System.Web.UI.HtmlControls.HtmlTextArea ta = controll as System.Web.UI.HtmlControls.HtmlTextArea;
-                                        ta.Value = propertyInfo.GetValue(Been, null).ToString();
+                                        ta.Value = GetPropertyValue(propertyInfo, Been);
                                     }
                                 }
                                 catch
@@ -123,6 +117,19 @@ namespace ourShop
             }
 
             _Page_Load(sender, e);
+        }
+
+        private string GetPropertyValue(PropertyInfo propertyInfo, object Been)
+        {
+            string type = propertyInfo.GetMethod.ToString();
+            if(type.Contains("Double") || type.Contains("Float") || type.Contains("Decimal"))
+            {
+                return propertyInfo.GetValue(Been, null).ToString().Replace(',', '.');
+            }
+            else
+            {
+                return propertyInfo.GetValue(Been, null).ToString();
+            }
         }
     }
 }

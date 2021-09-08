@@ -1,7 +1,9 @@
 ﻿
+DROP FUNCTION public.get_productspicturelist(integer);
+
 CREATE OR REPLACE FUNCTION public.get_productspicturelist(
 	_idproduct integer)
-    RETURNS TABLE("Id" integer, idproduct integer, filename text, path text, ordernumber integer) 
+    RETURNS TABLE("Id" integer, idproduct integer, filename text, path text, ordernumber integer, isenabled boolean) 
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE PARALLEL UNSAFE
@@ -14,7 +16,8 @@ BEGIN
 				   P."IdProduct", 
 				   P."FileName"::text,
 				   P."Path"::text,
-				   P."OrderNumber"
+				   P."OrderNumber",
+				   P."IsEnabled"
 		FROM public."ProductsPicture" P
 		WHERE P."IdProduct" = _idProduct
 			  AND P."IsEnabled" = TRUE
@@ -31,7 +34,6 @@ GRANT EXECUTE ON FUNCTION public.get_productspicturelist(integer) TO PUBLIC;
 GRANT EXECUTE ON FUNCTION public.get_productspicturelist(integer) TO ourshopuser;
 
 GRANT EXECUTE ON FUNCTION public.get_productspicturelist(integer) TO postgres;
-
 
 
 

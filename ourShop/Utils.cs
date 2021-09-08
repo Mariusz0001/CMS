@@ -92,7 +92,10 @@ namespace ourShop
             try
             {
                 double outValue;
-                return Double.TryParse(val, out outValue) ? (int?)outValue : null;
+                
+                var d = Double.TryParse(val, out outValue) ? (double?)outValue : null;
+
+                return outValue;
             }
             catch
             {

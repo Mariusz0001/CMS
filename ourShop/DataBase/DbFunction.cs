@@ -179,7 +179,8 @@ namespace ourShop.DataBase
                         
                         FileName = record[2].ToString(),
                         Path = record[3].ToString(),
-                        OrderNumber = Utils.TryParseNullableInt(record[4].ToString())
+                        OrderNumber = Utils.TryParseNullableInt(record[4].ToString()),
+                        IsEnabled = Utils.TryParseNullableBoolean(record[5].ToString()).Value
                     });
                 }
             }
