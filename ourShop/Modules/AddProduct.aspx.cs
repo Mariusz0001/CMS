@@ -76,6 +76,7 @@ namespace ourShop.Modules
                     if (selectedId != null && item.Id == selectedId)
                     {
                         child.Selected = true;
+                        treeNode.Expanded = true;
                     }
 
                     if (parentId == 0)
@@ -139,55 +140,79 @@ namespace ourShop.Modules
         {
             try
             {
-                StatusLabel.ForeColor = Color.OrangeRed;
-
                 if (FileUploadControl.HasFile)
                 {
                     if (FileUploadControl.PostedFile.ContentType == "image/jpeg" || FileUploadControl.PostedFile.ContentType == "image/jpg" || FileUploadControl.PostedFile.ContentType == "image/png" || FileUploadControl.PostedFile.ContentType == "image/gif" || FileUploadControl.PostedFile.ContentType == "image/bmp")
                     {
                         if (FileUploadControl.PostedFile.ContentLength < 20002400)
                         {
-                            string path = this.GetFileDirectoryPath("Temp_Path");
-                            string tempPath = GetLocalPhysicalDirectoryPath(path);
+                            int productId = -1;
 
-                            string filename = Path.GetFileName(Path.GetFileNameWithoutExtension(FileUploadControl.PostedFile.FileName) + DateTime.Now.ToShortTimeString().Replace(":", "_").Replace(".", "_") + "_" + Utils.Get8Digits() + Path.GetExtension(FileUploadControl.PostedFile.FileName));
+                            if (IdFromURL > 0)
+                                productId = IdFromURL.Value;
 
-                            FileUploadControl.SaveAs(tempPath + "\\" + filename);
-                            
-                            var productList = GetProductPictureList();
-                            productList.Add(new Beens.ProductsPicture_Been { Id = -1, LocalListId = productList.Count+1, FileName = filename, IdProduct = -1, Path = path + "/" + filename, IsEnabled = true, OrderNumber = productList.Count + 1 });
-                            HttpContext.Current.Session.Add("ProductPictureUploadList", productList);
 
-                            BindPictureList(productList);
+                            if (productId > 0)
+                            {
+                                string path = GetFileDirectoryPath("AttachedPicturesProducts_Path");
+                                string localPath = GetLocalPhysicalDirectoryPath(path);
+                                
+                                string filename = Path.GetFileName(Path.GetFileNameWithoutExtension(FileUploadControl.PostedFile.FileName) + DateTime.Now.ToShortTimeString().Replace(":", "_").Replace(".", "_") + "_" + Utils.Get8Digits() + Path.GetExtension(FileUploadControl.PostedFile.FileName));
 
-                            StatusLabel.Text = "File uploaded successfully!";
-                            StatusLabel.ForeColor = Color.Green;
+                                FileUploadControl.SaveAs(localPath + "\\" + filename);
+
+                                var ret = DbStoredProcedure.Instance().SetProductPicture(-1, productId, filename, path + "/" + filename, true, 0, SessionProperties.GetUserId(this.Session).Value);
+
+                                if (ret?.IsError == true)
+                                {
+                                    SetStatusLabel("SavePictures error occured. " + ret.Message, Color.Red);
+                                }
+                                
+                                BindPictureList();
+                                SetStatusLabel("File uploaded successfully as " + filename, Color.Green);
+                            }
+                            else
+                            {
+                                string path = this.GetFileDirectoryPath("Temp_Path");
+                                string tempPath = GetLocalPhysicalDirectoryPath(path);
+
+                                string filename = Path.GetFileName(Path.GetFileNameWithoutExtension(FileUploadControl.PostedFile.FileName) + DateTime.Now.ToShortTimeString().Replace(":", "_").Replace(".", "_") + "_" + Utils.Get8Digits() + Path.GetExtension(FileUploadControl.PostedFile.FileName));
+
+                                FileUploadControl.SaveAs(tempPath + "\\" + filename);
+
+                                var productList = GetProductPictureList();
+                                productList.Add(new Beens.ProductsPicture_Been { Id = -1, LocalListId = productList.Count + 1, FileName = filename, IdProduct = productId, Path = path + "/" + filename, IsEnabled = true, OrderNumber = productList.Count + 1 });
+                                HttpContext.Current.Session.Add("ProductPictureUploadList", productList);
+                                BindPictureList(productList);
+
+                                SetStatusLabel("File uploaded successfully as " + filename, Color.Green);
+                            }
                         }
-
                         else
                         {
-                            StatusLabel.Text = "The file has to be less than 20 Mb!";
+                            SetStatusLabel("The file has to be less than 20 Mb!", Color.Red);
                         }
                     }
                     else
                     {
-                        StatusLabel.Text = "Only JPG, JPEG, PNG, BMP, GIF files are accepted!";
+                        SetStatusLabel("Only JPG, JPEG, PNG, BMP, GIF files are accepted!", Color.Red);
                     }
                 }
                 else
                 {
-                    StatusLabel.Text = "Please select picture to upload.";
+                    SetStatusLabel("Please select picture to upload.", Color.Red);
                 }
             }
             catch (Exception ex)
             {
-                StatusLabel.Text = "The file could not be uploaded. The following error occured: " + ex.Message;
+                SetStatusLabel("The file could not be uploaded. The following error occured: " + ex.Message, Color.Red);
             }
         }
 
         private List<Beens.ProductsPicture_Been> GetProductPictureList()
         {
             var productList = new List<Beens.ProductsPicture_Been>();
+            int localId = 1;
 
             if (IdFromURL > 0)
                 productList = DbFunction.Instance().GetProductPictureList(IdFromURL.Value);
@@ -196,6 +221,12 @@ namespace ourShop.Modules
             {
                 if (localPic.Id == -1 || productList.Where(f => f.Id == localPic.Id).FirstOrDefault() == null)
                     productList.Add(localPic);
+            }
+
+            foreach(var pic in productList)
+            {
+                pic.LocalListId = localId;
+                localId++;
             }
 
             return productList;
@@ -292,7 +323,7 @@ namespace ourShop.Modules
                         int value = (int)grid.DataKeys[rowIndex].Value;
 
                         var productList = this.GetProductPictureList();
-                        var item = productList.Single(x => x.Id == value);
+                        var item = productList.Where(x => x.LocalListId == value).FirstOrDefault();
 
                         if (item != null)
                         {
@@ -311,6 +342,8 @@ namespace ourShop.Modules
                         }
 
                         BindPictureList();
+
+                        SetStatusLabel("File deleted successfully", Color.Green);
                     }
                 }
             }
@@ -318,12 +351,19 @@ namespace ourShop.Modules
             {
                 DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "AddProduct.btnSubmit_Click", Utils.GetExceptionMessage(ex));
                 ShowToastMessage("Error occured. " + Utils.GetExceptionMessage(ex));
+                SetStatusLabel("Error occured." + Utils.GetExceptionMessage(ex), Color.Red);
             }
         }
-
+        
         protected void ImageGrid_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
 
+        }
+
+        private void SetStatusLabel(string Message, Color color)
+        {
+            StatusLabel.ForeColor = color;
+            StatusLabel.Text = Message;
         }
     }
 }

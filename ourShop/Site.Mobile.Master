@@ -196,7 +196,7 @@
                     <div class="col s6">
                         <div class="row-footer" style="min-height:50px; margin-top:5px; ">
                              <a href="https://github.com/trouty" target="_blank">
-                                <img src="../Content/icons/git_icon.png" alt="GitHub" style="width: 100px; float:left; margin-left:-12px;"></a>
+                                <img src="../Content/icons/git_icon.png" alt="GitHub" style="width: 100px; float:left; margin-left:-12px;"/></a>
                         </div>
                         <div class="row-footer">
                             <a class="white-text" target="_blank" href="http://materializecss.com">Materialize</a>
