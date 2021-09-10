@@ -1,11 +1,13 @@
 ﻿using ourShop.DataBase;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web.Services;
 
 namespace ourShop.Modules
 {
-    public partial class Configuration : MainPage
+    public partial class Configuration : EditFormBase
     {
         public override bool LoginRequired
         {
@@ -23,7 +25,14 @@ namespace ourShop.Modules
             }
         }
 
-        protected void Page_Load(object sender, EventArgs e)
+        public override object GetData()
+        {
+            BindProductList();
+
+            return null;
+        }
+
+        public override void _Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
             {
@@ -40,6 +49,18 @@ namespace ourShop.Modules
                 }
             }
         }
+        private void BindProductList()
+        {
+            var ret = DbFunction.Instance().GetProductsConfigurationList(SessionProperties.GetUserId(Session).Value);
+
+            if (ret != null)
+            {
+                DataTable dt = Utils.CreateDataTable<Beens.Get_Product_Result>(ret);
+                ProductGrid.DataSource = dt;
+                ProductGrid.DataBind();
+            }
+        }
+
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             try

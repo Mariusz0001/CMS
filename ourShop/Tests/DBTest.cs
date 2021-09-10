@@ -59,5 +59,14 @@ namespace ourShop.Tests
 
             Assert.Greater(ret.Id, 0);
         }
+
+        [Test]
+
+        public void GetProductsConfigurationList()
+        {
+            var ret = DbFunction.Instance().GetProductsConfigurationList(1).FirstOrDefault();
+
+            Assert.Greater(ret.Qty, 0);
+        }
     }
 }

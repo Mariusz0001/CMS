@@ -33,13 +33,30 @@
 
                     <div class="card-content grey lighten-4">
                         <div id="products" class="col s12">
-                            <asp:GridView ID="ProductGrid" runat="server" AutoGenerateColumns="false" Width="100%" DataKeyNames="Id" ViewStateMode="Enabled">
+                            <div style="width: 100%; height: 500px; overflow: scroll" >
+                            <asp:GridView ID="ProductGrid" runat="server" AutoGenerateColumns="false" Width="100%" Height="500px" DataKeyNames="Id" ViewStateMode="Enabled" AllowSorting="True" AllowPaging="False" ShowFooter="False">
                                 <Columns>
+                                     <asp:TemplateField ControlStyle-Width="100px">
+                                        <ItemTemplate>
+                                            <asp:Image ID="PicturePath" runat="server" Visible="true" Height="100px" Width="100px" ImageUrl='<%# Eval("PicturePath") %>' />
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                     <asp:BoundField DataField="Id" Visible="false" />
+                                    <asp:BoundField DataField="IdCategoriesBook" Visible="false" />
+                                    <asp:BoundField DataField="IdProductsStatusBook" Visible="false" />
+                                    <asp:BoundField DataField="IdTaxPercentagesBook" Visible="false" />
                                     <asp:BoundField DataField="Name" HeaderText="Name" />
+                                    <asp:BoundField DataField="CategoryName" HeaderText="CategoryName" Visible="true" />
+                                    <asp:BoundField DataField="StatusName" HeaderText="StatusName" Visible="true" />
+                                    <asp:BoundField DataField="TaxValue" HeaderText="TaxValue" Visible="true" />
+                                    <asp:BoundField DataField="Barcode" HeaderText="Barcode" Visible="true" />
+                                    <asp:BoundField DataField="Price" HeaderText="Price" Visible="true" />
+                                    <asp:BoundField DataField="QTY" HeaderText="QTY" Visible="true" />
+                                    <asp:BoundField DataField="Description" HeaderText="Description" Visible="true" />
+                                   
                                 </Columns>
                             </asp:GridView>
-                            test
+                              </div>
                         </div>
                         <div id="categories" class="col s12">
 
@@ -52,9 +69,10 @@
 
                         </div>
                         <div id="about" class="col s12">
-                            Outbox (Disabled)
+
                         </div>
                         <div id="contact" class="col s12">
+
                         </div>
 
                         <div id="configuration" class="col s12">

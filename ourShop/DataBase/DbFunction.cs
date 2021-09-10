@@ -71,7 +71,7 @@ namespace ourShop.DataBase
             return null;
         }
 
-        public List<Get_CategoriesList_Result> GetProductsList(string categoryName = null, int? userId = null)
+        public List<Get_Product_Result> GetProductsList(string categoryName = null, int? userId = null)
         {
             var paramList = new List<ObjectParameter>();
             
@@ -80,13 +80,13 @@ namespace ourShop.DataBase
             paramList.Add(CreateObjectParameter("_userid", typeof(int), userId));
 
             var ret = base.GetTableFunction("public", "get_productslist", paramList);
-            var result = new List<Beens.Get_CategoriesList_Result>();
+            var result = new List<Beens.Get_Product_Result>();
 
             if (ret != null)
             {
                 foreach (var record in ret)
                 {
-                    result.Add(new Beens.Get_CategoriesList_Result
+                    result.Add(new Beens.Get_Product_Result
                     {
                         Id = Utils.TryParseNullableInt(record[0].ToString()),
                         IdCategoriesBook = Utils.TryParseNullableInt(record[1].ToString()),
@@ -150,7 +150,7 @@ namespace ourShop.DataBase
                         Name = record[4].ToString(),
                         Barcode = record[5].ToString(),
                         Price = Utils.TryParseNullableDouble(record[6].ToString()),
-                        QTY = Utils.TryParseNullableInt(record[7].ToString()),
+                        Qty = Utils.TryParseNullableInt(record[7].ToString()),
                         Enabled = Utils.TryParseNullableBoolean(record[8].ToString()),
                         Description = record[9].ToString()
                     };
@@ -186,5 +186,43 @@ namespace ourShop.DataBase
             }
             return pictureList;
         }
+        
+        public List<Get_Product_Result> GetProductsConfigurationList(int? userId = null)
+        {
+            var paramList = new List<ObjectParameter>();
+
+            
+            paramList.Add(CreateObjectParameter("_userid", typeof(int), userId));
+
+            var ret = base.GetTableFunction("public", "get_productslistconfiguration", paramList);
+            var result = new List<Beens.Get_Product_Result>();
+
+            if (ret != null)
+            {
+                foreach (var record in ret)
+                {
+                    result.Add(new Beens.Get_Product_Result
+                    {
+                        Id = Utils.TryParseNullableInt(record[0].ToString()),
+                        IdCategoriesBook = Utils.TryParseNullableInt(record[1].ToString()),
+                        IdProductsStatusBook = Utils.TryParseNullableInt(record[2].ToString()),
+                        IdTaxPercentagesBook = Utils.TryParseNullableInt(record[3].ToString()),
+                        CategoryName = record[4].ToString(),
+                        StatusName = record[5].ToString(),
+                        TaxValue = Utils.TryParseNullableInt(record[6].ToString()),
+                        Name = record[7].ToString(),
+                        Barcode = record[8].ToString(),
+                        Price = Utils.TryParseNullableDouble(record[9].ToString()),
+                        Qty = Utils.TryParseNullableInt(record[10].ToString()),
+                        Description = record[11].ToString(),
+                        PicturePath = record[12].ToString()
+                    });
+                }
+
+                return result;
+            }
+            return null;
+        }
+
     }
 }

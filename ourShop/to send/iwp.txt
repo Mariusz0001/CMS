@@ -62,3 +62,52 @@ GRANT DELETE, INSERT, SELECT, UPDATE ON TABLE public."ProductsPicture" TO oursho
 
 GRANT ALL ON TABLE public."ProductsPicture" TO postgres;
 
+
+
+
+CREATE OR REPLACE FUNCTION public.get_productslistconfiguration(
+	_userid integer DEFAULT NULL::integer)
+    RETURNS TABLE("Id" integer, idcategoriesbook integer, idproductsstatusbook integer, idtaxpercentagesbook integer, categoryname text, statusname text, taxvalue integer, "Name" text, barcode text, price double precision, qty integer, description text, "PicturePath" text)
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+BEGIN
+	RETURN QUERY	
+	  	    SELECT p."Id",
+				   p."IdCategoriesBook",
+				   p."IdProductsStatusBook",
+				   p."IdTaxPercentagesBook",
+				   CB."Name"::text as CategoryName,
+				   PSB."Name"::text as StatusName,
+				   TPB."Value"::integer as TaxValue,
+				   p."Name"::text,
+				   p."Barcode"::text,
+				   p."Price",
+				   p."QTY",
+				   p."Description"::text,
+				   (SELECT PP."Path"::text
+					FROM public."ProductsPicture" PP 
+					WHERE PP."IdProduct" = P."Id"
+						AND PP."IsEnabled" = TRUE
+					ORDER BY PP."OrderNumber" ASC
+					LIMIT 1) AS PicturePath
+			FROM public."Products" P
+			LEFT OUTER JOIN public."CategoriesBook" CB ON CB."Id" = p."IdCategoriesBook" 
+			LEFT OUTER JOIN public."ProductsStatusBook" PSB ON PSB."Id" = p."IdProductsStatusBook" AND PSB."Name" = 'Exposed'
+			LEFT OUTER JOIN public."TaxPercentagesBook" TPB ON TPB."Id" = p."IdTaxPercentagesBook";
+			
+	END;
+$BODY$;
+
+ALTER FUNCTION public.get_productslistconfiguration( integer)
+    OWNER TO postgres;
+
+GRANT EXECUTE ON FUNCTION public.get_productslistconfiguration( integer) TO PUBLIC;
+
+GRANT EXECUTE ON FUNCTION public.get_productslistconfiguration( integer) TO ourshopuser;
+
+GRANT EXECUTE ON FUNCTION public.get_productslistconfiguration( integer) TO postgres;
+
