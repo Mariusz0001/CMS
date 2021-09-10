@@ -37,8 +37,8 @@
                         </asp:Panel>
 
                         <ul class="right show-on-medium-and-down">
-                            <li id="ManageWebsiteToolbar"><a href="/Modules/ManageWebsite"><i class="material-icons right">dashboard</i>Manage website</a></li>
-                            <li><a href="/Modules/Configuration" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Your shopping card"><i class="material-icons ">shopping_cart</i></a></li>
+                            <li id="ManageWebsiteToolbar"><a href="/Modules/Configuration"><i class="material-icons right">dashboard</i>Manage website</a></li>
+                            <li><a href="#" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Your shopping card"><i class="material-icons ">shopping_cart</i></a></li>
                             <li>
                                  <asp:LinkButton ID="LoginButton" runat="server" CssClass="waves-effect waves-light" Text="" OnClientClick="LoginButton_Click(); return false;"><i class="material-icons right">person</i></asp:LinkButton>
                             </li>
@@ -101,8 +101,7 @@
                         });
                     }
                 });
-
-                $(window).load(function () { $("#Loader").fadeOut(5000); })
+                $(window).on('load', function () { $("#Loader").fadeOut(5000); });
 
                 $(".dropdown-trigger").dropdown();
 

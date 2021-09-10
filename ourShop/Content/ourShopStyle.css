@@ -213,3 +213,24 @@ select, input, textarea, control-label, btn {
     z-index: 100001;
     bottom: 10px;
 }
+
+.carousel .carousel-item{
+    width:100%;
+}
+
+.tabs .tab a {
+  color: rgba(38, 166, 154, 0.7);
+}
+
+.tabs .tab a:hover {
+  color:cadetblue;
+}
+
+.tabs .tab a:focus.active {
+  color:cadetblue;
+  background-color: rgba(38, 166, 154, 0.2);
+}
+
+.tabs .indicator {
+  background-color:cadetblue;
+}

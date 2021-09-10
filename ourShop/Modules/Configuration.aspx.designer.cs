@@ -7,13 +7,38 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ourShop.Modules
-{
-
-
-    public partial class Configuration
-    {
-
+namespace ourShop.Modules {
+    
+    
+    public partial class Configuration {
+        
+        /// <summary>
+        /// ContactUC2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::ourShop.Modules.UC.ContactUC ContactUC2;
+        
+        /// <summary>
+        /// ProductGrid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView ProductGrid;
+        
+        /// <summary>
+        /// CategoriesGrid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView CategoriesGrid;
+        
         /// <summary>
         /// PageTitle control.
         /// </summary>
@@ -22,7 +47,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox PageTitle;
-
+        
         /// <summary>
         /// rfvcandidate control.
         /// </summary>
@@ -31,7 +56,7 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvcandidate;
-
+        
         /// <summary>
         /// btnSubmit control.
         /// </summary>
@@ -40,14 +65,5 @@ namespace ourShop.Modules
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSubmit;
-
-        /// <summary>
-        /// ContactUC1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::ourShop.Modules.UC.ContactUC ContactUC1;
     }
 }

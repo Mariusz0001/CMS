@@ -26,10 +26,13 @@ namespace ourShop
                 {
                     if (!HttpContext.Current.Request.Url.AbsolutePath.Contains("Login"))
                     {
-                        if (Request.Cookies["returnUrl"] != null)
-                            Request.Cookies["returnUrl"].Value = HttpContext.Current.Request.Url.AbsolutePath;
-                        else
-                            Request.Cookies.Add(new HttpCookie("returnUrl", HttpContext.Current.Request.Url.AbsolutePath));
+                        HttpCookie cookie = new HttpCookie("returnUrl");
+                        DateTime now = DateTime.Now;
+                        
+                        cookie.Value = HttpContext.Current.Request.Url.AbsolutePath;
+                        cookie.Expires = now.AddMinutes(10); 
+                        
+                        Response.Cookies.Add(cookie);
                     }
 
                     Response.Redirect("~/Login.aspx");
