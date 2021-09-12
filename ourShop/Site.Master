@@ -51,7 +51,7 @@
                             </li>
                         </ul>
                         <ul id="ManageWebsiteDropDown" class="dropdown-content">
-                          <li><a href="/Modules/Products"><i class="material-icons right">inventory_2</i>Products</a></li>
+                          <li><a href="/Modules/ProductsConfiguration"><i class="material-icons right">inventory_2</i>Products</a></li>
                           <li><a href="/Modules/Categories"><i class="material-icons right">category</i>Categories</a></li>
                           <li class="divider"></li>
                           <li><a href="/Modules/WebsiteConfiguration"><i class="material-icons right">language</i>Manage website</a></li>

@@ -1,8 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AddProduct.aspx.cs" Inherits="ourShop.Modules.AddProduct"  ValidateRequest="false"%>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ProductMngmUC.ascx.cs" Inherits="ourShop.Modules.UC.ProductMngmUC" %>
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-
-        <script src="../Content/Controls/tinymce/tinymce.js"></script>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<body>
+    
+      <script src="../Content/Controls/tinymce/tinymce.js"></script>
         <script src="../Scripts/utils.js"></script>
 
     
@@ -187,5 +188,14 @@
                 });
             </script>
        
-</asp:Content>
-    
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.modal').modal();
+        });
+
+
+    </script>
+</body>
+</html>

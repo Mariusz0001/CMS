@@ -377,7 +377,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Modules\Products.aspx" />
+    <Content Include="Modules\ProductsConfiguration.aspx" />
+    <Content Include="Modules\UC\ProductMngmUC.ascx" />
     <Content Include="Modules\UC\ProductCardUC.ascx" />
     <Content Include="Products.aspx" />
     <Content Include="Content\Images\b1.png" />
@@ -1091,12 +1092,22 @@
     <Compile Include="EditFormBase.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Modules\Products.aspx.cs">
-      <DependentUpon>Products.aspx</DependentUpon>
+    <Compile Include="EditFormUC.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Modules\Products.aspx.designer.cs">
-      <DependentUpon>Products.aspx</DependentUpon>
+    <Compile Include="Modules\ProductsConfiguration.aspx.cs">
+      <DependentUpon>ProductsConfiguration.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\ProductsConfiguration.aspx.designer.cs">
+      <DependentUpon>ProductsConfiguration.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\UC\ProductMngmUC.ascx.cs">
+      <DependentUpon>ProductMngmUC.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\UC\ProductMngmUC.ascx.designer.cs">
+      <DependentUpon>ProductMngmUC.ascx</DependentUpon>
     </Compile>
     <Compile Include="Modules\UC\ProductCardUC.ascx.cs">
       <DependentUpon>ProductCardUC.ascx</DependentUpon>

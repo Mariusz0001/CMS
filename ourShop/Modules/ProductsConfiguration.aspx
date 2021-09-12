@@ -1,11 +1,11 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Products.aspx.cs" Inherits="ourShop.Modules.Products"  ValidateRequest="false"%>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ProductsConfiguration.aspx.cs" Inherits="ourShop.Modules.ProductsConfiguration"  ValidateRequest="false"%>
+<%@ Register TagPrefix="UC" TagName="ProductMngmUC" Src="~/Modules/UC/ProductMngmUC.ascx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <script src="../Scripts/utils.js"></script>
 
     <div class="container_margin row">
-             <asp:ScriptManager ID="ToolkitScriptManager1" runat="server"></asp:ScriptManager>
     
 
         <div class="section">
@@ -19,7 +19,7 @@
         <div class="row">
 
             <div id="products" class="col s12">
-                <div class="row right-align card">
+                <div class="row right-align">
 
                     <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add new<i class="material-icons right">add</i></a>
                     <asp:LinkButton ID="EditButton" runat="server" CssClass="btn btn-primary" OnClick="EditButton_Click" UseSubmitBehavior="False" ValidateRequestMode="Disabled">Edit<i class="material-icons right">edit</i></asp:LinkButton>
@@ -55,32 +55,32 @@
             </div>
 
         </div>
-    </div>
+    </div> 
+  
+    
+              
+    <div id="modal1" class="modal">
+    <asp:UpdatePanel UpdateMode="Conditional" ID="UpdatePanel1" runat="server" RenderMode="Inline">
+                            <ContentTemplate>
+                                
+              
+                                 <UC:ProductMngmUC ID="ProductMngmUC1" runat="server" />
 
-
-    <div id="modal1" class="modal modal">
-                 <div class="pop-up" />
-            
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:PostBackTrigger ControlID="ProductMngmUC1" />
+                            </Triggers>
+                        </asp:UpdatePanel>
         </div>
 
     <script type="text/javascript">
-        $('.modal').modal();
 
         $(document).ready(function () {
-            $.ajax({
-                url: 'ProductManagement.aspx',
-                success: function (data) {
-                    $('.pop-up').html(data);
-                }
-            });
+            $('.modal').modal({
+                dismissible: false
+            }
+            );
         });
-
-        function AddButton_Click(s, e) {
-            $('.modal').Show();
-        }
-
-
-
     </script>
 
 </asp:Content>

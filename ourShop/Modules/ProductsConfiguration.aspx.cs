@@ -4,7 +4,7 @@ using System.Data;
 
 namespace ourShop.Modules
 {
-    public partial class Products : MainPage
+    public partial class ProductsConfiguration : MainPage
     {
         public override bool LoginRequired
         {
