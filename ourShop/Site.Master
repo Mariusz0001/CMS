@@ -37,6 +37,7 @@
                         </asp:Panel>
 
                         <ul class="right show-on-medium-and-down">
+                            <li><a class="dropdown-trigger" data-target="ManageWebsiteDropDown"><i class="material-icons right">dashboard</i>Manage website</a></li>
                             <li id="ManageWebsiteToolbar"><a href="/Modules/Configuration"><i class="material-icons right">dashboard</i>Manage website</a></li>
                             <li><a href="#" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Your shopping card"><i class="material-icons ">shopping_cart</i></a></li>
                             <li>
@@ -48,6 +49,13 @@
                             <li>
                                 <input class="form-control right-align white-text s3" type="search" placeholder="Search" />
                             </li>
+                        </ul>
+                        <ul id="ManageWebsiteDropDown" class="dropdown-content">
+                          <li><a href="/Modules/Products"><i class="material-icons right">inventory_2</i>Products</a></li>
+                          <li><a href="/Modules/Categories"><i class="material-icons right">category</i>Categories</a></li>
+                          <li class="divider"></li>
+                          <li><a href="/Modules/WebsiteConfiguration"><i class="material-icons right">language</i>Manage website</a></li>
+                          <li><a href="/Modules/PagesConfiguration"><i class="material-icons right">dashboard</i>Manage website pages</a></li>
                         </ul>
                     </div>
                 </nav>

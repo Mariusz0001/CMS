@@ -3,15 +3,28 @@ using System.Web.UI.WebControls;
 using ourShop.DataBase;
 using System.Reflection;
 using System.Web.UI;
+using System.Web;
 
 namespace ourShop
 {
-    public abstract class EditFormBase : MainPage
+    public abstract class EditFormBase : Page
     {
         public abstract object GetData();
         public virtual void _Page_Load(object sender, EventArgs e)
         {
 
+        }
+        public int? IdFromURL
+        {
+            get
+            {
+                return Utils.TryParseNullableInt(getParameterFromURL("id"));
+            }
+        }
+
+        public void ShowToastMessage(string message)
+        {
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "toast", "ShowToast('" + message + "')", true);
         }
 
         public virtual void BindProperties(object Been)
@@ -129,6 +142,31 @@ namespace ourShop
             else
             {
                 return propertyInfo.GetValue(Been, null).ToString();
+            }
+        }
+
+        private string getParameterFromURL(string param)
+        {
+            try
+            {
+                string sUrl = HttpContext.Current.Request.Url.AbsoluteUri;
+
+                var parameters = sUrl.Split('?');
+
+                foreach (var par in parameters)
+                {
+                    if (par != null && par.Length > 0 && par.Contains(param + "="))
+                    {
+                        var urlValue = par.Replace(param + "=", "");
+
+                        return urlValue;
+                    }
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
             }
         }
     }

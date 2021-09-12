@@ -7,7 +7,7 @@ using System.Web.Services;
 
 namespace ourShop.Modules
 {
-    public partial class Configuration : EditFormBase
+    public partial class Configuration : MainPage
     {
         public override bool LoginRequired
         {
@@ -25,17 +25,13 @@ namespace ourShop.Modules
             }
         }
 
-        public override object GetData()
-        {
-            BindProductList();
 
-            return null;
-        }
-
-        public override void _Page_Load(object sender, EventArgs e)
+        protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
             {
+                BindProductList();
+
                 using (var dbo = new ourShopEntities())
                 {
                     var pageTitle = dbo.Settings

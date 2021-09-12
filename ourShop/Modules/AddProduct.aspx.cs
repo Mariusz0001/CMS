@@ -13,20 +13,6 @@ namespace ourShop.Modules
 {
     public partial class AddProduct : EditFormBase
     {
-        public override bool LoginRequired
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public override int IdModule
-        {
-            get
-            {
-                return 1;
-            }
-        }
 
         public override object GetData()
         {

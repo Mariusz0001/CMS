@@ -377,6 +377,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Modules\Products.aspx" />
     <Content Include="Modules\UC\ProductCardUC.ascx" />
     <Content Include="Products.aspx" />
     <Content Include="Content\Images\b1.png" />
@@ -1089,6 +1090,13 @@
     <Compile Include="Beens\Result_Been.cs" />
     <Compile Include="EditFormBase.cs">
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Products.aspx.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Products.aspx.designer.cs">
+      <DependentUpon>Products.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\UC\ProductCardUC.ascx.cs">
       <DependentUpon>ProductCardUC.ascx</DependentUpon>
