@@ -7,45 +7,36 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ourShop.Modules {
+namespace ourShop {
     
     
-    public partial class ProductsConfiguration {
+    public partial class Root {
         
         /// <summary>
-        /// AddButton control.
+        /// hContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton AddButton;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder hContent;
         
         /// <summary>
-        /// EditButton control.
+        /// bContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton EditButton;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder bContent;
         
         /// <summary>
-        /// DeleteButton control.
+        /// fContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton DeleteButton;
-        
-        /// <summary>
-        /// ProductGrid control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView ProductGrid;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder fContent;
     }
 }

@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ProductsConfiguration.aspx.cs" Inherits="ourShop.Modules.ProductsConfiguration"  ValidateRequest="false"%>
-<%@ Register TagPrefix="UC" TagName="ProductMngmUC" Src="~/Modules/UC/ProductMngmUC.ascx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
@@ -20,18 +19,15 @@
 
             <div id="products" class="col s12">
                 <div class="row right-align">
-
-                    <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add new<i class="material-icons right">add</i></a>
+                    <asp:LinkButton ID="AddButton" runat="server" CssClass="waves-effect waves-light btn" OnClientClick="AddButton_Click();" UseSubmitBehavior="False" ValidateRequestMode="Disabled">Add<i class="material-icons right">add</i></asp:LinkButton>
                     <asp:LinkButton ID="EditButton" runat="server" CssClass="btn btn-primary" OnClick="EditButton_Click" UseSubmitBehavior="False" ValidateRequestMode="Disabled">Edit<i class="material-icons right">edit</i></asp:LinkButton>
                     <asp:LinkButton ID="DeleteButton" runat="server" CssClass="btn btn-primary" OnClick="DeleteButton_Click" UseSubmitBehavior="False" ValidateRequestMode="Disabled">Delete<i class="material-icons right">delete</i></asp:LinkButton>
                 </div>
-
-
-
-
                 <div style="width: 100%; height: 500px; overflow: auto">
-                    <asp:GridView ID="ProductGrid" runat="server" AutoGenerateColumns="false" Width="100%" Height="500px" DataKeyNames="Id" ViewStateMode="Enabled" AllowSorting="True" AllowPaging="False" ShowFooter="False">
+                    <asp:GridView ID="ProductGrid" runat="server" AutoGenerateColumns="false" OnRowCommand="ProductGrid_RowCommand" Width="100%" Height="500px" DataKeyNames="Id" ViewStateMode="Enabled" AllowSorting="True" AllowPaging="False" ShowFooter="False" OnRowEditing="ProductGrid_RowEditing"
+                        >
                         <Columns>
+                            <asp:ButtonField ButtonType="Button" CommandName="edit" HeaderText="Edit" Text="Edit" ControlStyle-CssClass="waves-effect waves-light btn" />
                             <asp:TemplateField ControlStyle-Width="100px">
                                 <ItemTemplate>
                                     <asp:Image ID="PicturePath" runat="server" Visible="true" Height="100px" Width="100px" ImageUrl='<%# Eval("PicturePath") %>' />
@@ -57,30 +53,12 @@
         </div>
     </div> 
   
-    
-              
-    <div id="modal1" class="modal">
-    <asp:UpdatePanel UpdateMode="Conditional" ID="UpdatePanel1" runat="server" RenderMode="Inline">
-                            <ContentTemplate>
-                                
-              
-                                 <UC:ProductMngmUC ID="ProductMngmUC1" runat="server" />
-
-                            </ContentTemplate>
-                            <Triggers>
-                                <asp:PostBackTrigger ControlID="ProductMngmUC1" />
-                            </Triggers>
-                        </asp:UpdatePanel>
-        </div>
-
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            $('.modal').modal({
-                dismissible: false
-            }
-            );
-        });
+        function AddButton_Click(s, e) {
+            window.open('/Modules/EditForm/ProductMngm.aspx', 'Product', 'directories=0,titlebar=0,toolbar=0,location=0,status=0,menubar=0,scrollbars=no,resizable=no,width=1000,height=800');
+        };
+
     </script>
 
 </asp:Content>

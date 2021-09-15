@@ -173,5 +173,30 @@ namespace ourShop
             }
             return null;
         }
+
+        public static string getParameterFromURL(string param)
+        {
+            try
+            {
+                string sUrl = HttpContext.Current.Request.Url.AbsoluteUri;
+
+                var parameters = sUrl.Split('?');
+
+                foreach (var par in parameters)
+                {
+                    if (par != null && par.Length > 0 && par.Contains(param + "="))
+                    {
+                        var urlValue = par.Replace(param + "=", "");
+
+                        return urlValue;
+                    }
+                }
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

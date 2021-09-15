@@ -1,27 +1,8 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Mobile.master.cs" Inherits="ourShop.Site_Mobile" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Mobile.master.cs" Inherits="ourShop.Site_Mobile" MasterPageFile="~/Root.Master" %>
 <%@ Register Src="~/ViewSwitcher.ascx" TagPrefix="friendlyUrls" TagName="ViewSwitcher" %>
 <%@ Register TagPrefix="UC" TagName="LoginUC" Src="~/Modules/UC/LoginUC.ascx" %>
 
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <meta name="viewport" content="width=device-width" />
-    <title></title>
-    <script src="../Scripts/jquery-3.6.0.min.js"></script>
-    <script src="../Scripts/lib/jquery-1.11.1.js"></script>
-    <script src="../Scripts/jquery-3.6.0.js"></script>
-
-
-     <script type="text/javascript" src="../Scripts/materialize.min.js"></script>
-
-
-    <link type="text/css" rel="stylesheet" href="Content/materialize.min.css" media="screen,projection" />
-    <link href="Content/ourShopStyle.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-
-    <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
-</head>
-<body onload="Loader.style.display = 'none';">
+<asp:Content ID="Content1" runat="server" ContentPlaceHolderID="bContent">
     <form id="form1" runat="server" onsubmit="OnSubmit();">
         <div id="mainPage" runat="server">
             <header>
@@ -95,11 +76,7 @@
 
                 $(document).ready(function () {
                     $('.sidenav').sidenav();
-
-                    $("#Loader").hide(100);
                 });
-
-                $(window).on('load', function () { $("#Loader").fadeOut(5000); });
 
                 $(document).mouseup(e => {
                     if (!$menu.is(e.target)
@@ -135,20 +112,6 @@
                     M.toast({ html: message, classes: 'rounded' });
                 }
             </script>
-            <div id="Loader" class="center-loader left-align">
-                <div class="preloader-wrapper big active">
-                    <div class="spinner-layer spinner-green-only">
-                        <div class="circle-clipper left">
-                        <div class="circle"></div>
-                        </div><div class="gap-patch">
-                        <div class="circle"></div>
-                        </div><div class="circle-clipper right">
-                        <div class="circle"></div>
-                        </div>
-                    </div>
-                </div>
-                   <h6>Please wait...</h6>
-            </div>
 
              <div id="ProductDropDown" class="navbar-dropdown-content">
                     <div class="container col s12">
@@ -157,10 +120,6 @@
                             <div class="col s5"><span class="flow-text">5-columns wide pulled to the left by 7-columns.</span></div>
                         </div>
                                                     </div>
-                    <%--<li><a href="/Modules/AddProduct"><span>Add</span><i class="material-icons">add</i></a></li>
-
-                    <li><a href="/Modules/AddProduct#"><span>Manage</span><i class="material-icons">inventory_2</i></a></li>
-                    <li class="divider"></li>--%>
                 </div>
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
                      
@@ -173,6 +132,9 @@
             </asp:ContentPlaceHolder>
 
         </main>
+         </form>
+ </asp:Content>
+<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="fContent">
         <footer class="page-footer">
             <div class="container" style="padding:0px;">
                 <div class="row"  style="margin-bottom:0px !important;">
@@ -213,6 +175,4 @@
                 </div>
             </div>
         </footer>
-    </form>
-</body>
-</html>
+</asp:Content>

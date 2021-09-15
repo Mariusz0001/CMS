@@ -1,28 +1,7 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ourShop.SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="ourShop.SiteMaster" MasterPageFile="~/Root.Master" %>
 
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head runat="server">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-
-    <title>ourShop</title>
-
-    <script src="../Scripts/jquery-3.6.0.min.js"></script>
-    <script src="../Scripts/lib/jquery-1.11.1.js"></script>
-    <script src="../Scripts/jquery-3.6.0.js"></script>
-
-    <script type="text/javascript" src="../Scripts/materialize.min.js"></script>
-
-
-    <link type="text/css" rel="stylesheet" href="Content/materialize.min.css" media="screen,projection" />
-    <link href="Content/ourShopStyle.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-
-</head>
-<body onload="Loader.style.display = 'none';">
+<asp:Content ID="Content1" runat="server" ContentPlaceHolderID="bContent">
     <form id="form1" runat="server" onsubmit="OnSubmit();">
         <div id="mainPage" runat="server">
             <header>
@@ -109,14 +88,12 @@
                         });
                     }
                 });
-                $(window).on('load', function () { $("#Loader").fadeOut(5000); });
+                
 
                 $(".dropdown-trigger").dropdown();
 
                 $(document).ready(function () {
                     $('.sidenav').sidenav();
-
-                    $("#Loader").hide(100);
                 });
 
 
@@ -124,16 +101,18 @@
                     $('.tooltipped').tooltip();
                 });
 
-                function OnSubmit(s, e) {
-                    $("#Loader").show(100);
-                };
-
                 function LoggedButton_Click(s, e) {
                     if ($menu.is(':hidden')) {
                         $menu.fadeIn(200, function () {
                         });
                     }
                 }
+
+                function OnSubmit(s, e) {
+                    $("#Loader").show(100);
+                };
+
+
                 function LoginButton_Click(s, e) {
                     if ($menu.is(':hidden')) {
                         $menu.fadeIn(200, function () {
@@ -145,20 +124,7 @@
                     M.toast({ html: message, classes: 'rounded' });
                 }
             </script>
-            <div id="Loader" class="center-loader left-align">
-                <div class="preloader-wrapper big active">
-                    <div class="spinner-layer spinner-green-only">
-                        <div class="circle-clipper left">
-                        <div class="circle"></div>
-                        </div><div class="gap-patch">
-                        <div class="circle"></div>
-                        </div><div class="circle-clipper right">
-                        <div class="circle"></div>
-                        </div>
-                    </div>
-                </div>
-                   <h6>Please wait...</h6>
-            </div>
+           
 
              <div id="ProductDropDown" class="navbar-dropdown-content">
                     <div class="container col s12">
@@ -179,6 +145,9 @@
             </asp:ContentPlaceHolder>
 
         </main>
+      </form>
+ </asp:Content>
+<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="fContent">
         <footer class="page-footer">
             <div class="container" style="padding:0px;">
                 <div class="row"  style="margin-bottom:0px !important;">
@@ -219,7 +188,5 @@
                 </div>
             </div>
         </footer>
-    </form>
-</body>
+</asp:Content>
          
-</html>

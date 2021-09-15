@@ -377,6 +377,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Modules\EditForm\ProductMngm.aspx" />
     <Content Include="Modules\ProductsConfiguration.aspx" />
     <Content Include="Modules\UC\ProductMngmUC.ascx" />
     <Content Include="Modules\UC\ProductCardUC.ascx" />
@@ -1039,6 +1040,7 @@
     <Content Include="DataBase\DBEntity.edmx.diagram">
       <DependentUpon>DBEntity.edmx</DependentUpon>
     </Content>
+    <Content Include="Root.Master" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
@@ -1089,11 +1091,19 @@
     <Compile Include="Beens\Get_Product_Result.cs" />
     <Compile Include="Beens\ProductsPicture_Been.cs" />
     <Compile Include="Beens\Result_Been.cs" />
-    <Compile Include="EditFormBase.cs">
+    <Compile Include="lib\BindableForm.cs" />
+    <Compile Include="lib\EditForm.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="EditFormUC.cs">
+    <Compile Include="lib\EditFormUC.cs">
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\EditForm\ProductMngm.aspx.cs">
+      <DependentUpon>ProductMngm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\EditForm\ProductMngm.aspx.designer.cs">
+      <DependentUpon>ProductMngm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\ProductsConfiguration.aspx.cs">
       <DependentUpon>ProductsConfiguration.aspx</DependentUpon>
@@ -1185,7 +1195,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.cs">
+    <Compile Include="lib\MainPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Modules\AddProduct.aspx.cs">
@@ -1224,7 +1234,14 @@
       <DependentUpon>ContactUC.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SessionProperties.cs" />
+    <Compile Include="Root.Master.cs">
+      <DependentUpon>Root.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Root.Master.designer.cs">
+      <DependentUpon>Root.Master</DependentUpon>
+    </Compile>
+    <Compile Include="lib\SessionProperties.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1241,8 +1258,8 @@
     </Compile>
     <Compile Include="Tests\DBTest.cs" />
     <Compile Include="Tests\TestMethodAttribute.cs" />
-    <Compile Include="Toolbar.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="lib\Toolbar.cs" />
+    <Compile Include="lib\Utils.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -6,14 +6,12 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace ourShop.Modules
+namespace ourShop.Modules.EditForm
 {
-    public partial class AddProduct : ourShop.EditForm
+    public partial class ProductMngm : ourShop.EditForm
     {
-
         public override object GetData()
         {
             Beens.Get_Product_Result ret = null;
@@ -21,25 +19,25 @@ namespace ourShop.Modules
             var productList = new List<Beens.ProductsPicture_Been>();
             HttpContext.Current.Session.Add("ProductPictureUploadList", productList);
 
-            if (IdFromURL > 0)
+            if(IdFromURL > 0)
             {
-                 ret = DbFunction.Instance().GetProduct(IdFromURL.Value, SessionProperties.GetUserId(Session).Value);
+                ret = DbFunction.Instance().GetProduct(IdFromURL.Value, SessionProperties.GetUserId(Session).Value);
             }
-            
+
             LoadCategoriesBook(ret?.IdCategoriesBook);
             BindPictureList();
 
             return ret;
         }
-        
-        
+
+
         public void LoadCategoriesBook(int? selectedId = null)
         {
-            using (var dbo = new ourShopEntities())
+            using(var dbo = new ourShopEntities())
             {
                 var categories = dbo.CategoriesBook
                            .Where(s => s.Enabled == true && (s.IdCategoriesBook_Parent == null || s.IdCategoriesBook_Parent == 0));
-                if (categories != null)
+                if(categories != null)
                 {
                     var categoriesList = categories.ToList();
                     this.PopulateCategoriesTreeView(categoriesList, 0, null, selectedId);
@@ -51,6 +49,7 @@ namespace ourShop.Modules
         {
             try
             {
+
                 foreach (var item in categoriesList)
                 {
                     TreeNode child = new TreeNode
@@ -62,7 +61,11 @@ namespace ourShop.Modules
                     if (selectedId != null && item.Id == selectedId)
                     {
                         child.Selected = true;
-                        treeNode.Expanded = true;
+
+                        if (treeNode != null)
+                        {
+                            treeNode.Expanded = true;
+                        }
                     }
 
                     if (parentId == 0)
@@ -85,9 +88,10 @@ namespace ourShop.Modules
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "AddProduct.btnSubmit_Click", Utils.GetExceptionMessage(ex));
+                ShowToastMessage("Error occured. " + Utils.GetExceptionMessage(ex));
             }
         }
 
@@ -96,15 +100,15 @@ namespace ourShop.Modules
             try
             {
                 int id = -1;
-                
-                if (IdFromURL != null)
+
+                if(IdFromURL != null)
                     id = IdFromURL.Value;
 
-                if (Price.Value != null && IdTaxPercentagesBook.SelectedItem?.Value != null && QTY.Value != null && CategoriesTree.SelectedNode?.Value != null && SessionProperties.GetUserId(Session) != null)
+                if(Price.Value != null && IdTaxPercentagesBook.SelectedItem?.Value != null && QTY.Value != null && CategoriesTree.SelectedNode?.Value != null && SessionProperties.GetUserId(Session) != null)
                 {
                     var ret = DbStoredProcedure.Instance().SetProduct(id, Name.Text, Enabled.Checked, Barcode.Text, double.Parse(Price.Value.Replace('.', ',')), int.Parse(IdTaxPercentagesBook.SelectedItem.Value), int.Parse(QTY.Value), int.Parse(CategoriesTree.SelectedNode.Value), Description.InnerText, SessionProperties.GetUserId(this.Session).Value);
 
-                    if (ret != null && ret.Id > 0)
+                    if(ret != null && ret.Id > 0)
                     {
                         SavePictures(ret.Id.Value);
                         Response.Redirect("/Modules/AddProduct?id=" + ret.Id);
@@ -115,45 +119,45 @@ namespace ourShop.Modules
                     ShowToastMessage("Please check if you selected tax and category.");
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "AddProduct.btnSubmit_Click", Utils.GetExceptionMessage(ex));
                 ShowToastMessage("Error occured. " + Utils.GetExceptionMessage(ex));
             }
         }
-      
+
         protected void UploadButton_Click(object sender, EventArgs e)
         {
             try
             {
-                if (FileUploadControl.HasFile)
+                if(FileUploadControl.HasFile)
                 {
-                    if (FileUploadControl.PostedFile.ContentType == "image/jpeg" || FileUploadControl.PostedFile.ContentType == "image/jpg" || FileUploadControl.PostedFile.ContentType == "image/png" || FileUploadControl.PostedFile.ContentType == "image/gif" || FileUploadControl.PostedFile.ContentType == "image/bmp")
+                    if(FileUploadControl.PostedFile.ContentType == "image/jpeg" || FileUploadControl.PostedFile.ContentType == "image/jpg" || FileUploadControl.PostedFile.ContentType == "image/png" || FileUploadControl.PostedFile.ContentType == "image/gif" || FileUploadControl.PostedFile.ContentType == "image/bmp")
                     {
-                        if (FileUploadControl.PostedFile.ContentLength < 20002400)
+                        if(FileUploadControl.PostedFile.ContentLength < 20002400)
                         {
                             int productId = -1;
 
-                            if (IdFromURL > 0)
+                            if(IdFromURL > 0)
                                 productId = IdFromURL.Value;
 
 
-                            if (productId > 0)
+                            if(productId > 0)
                             {
                                 string path = GetFileDirectoryPath("AttachedPicturesProducts_Path");
                                 string localPath = GetLocalPhysicalDirectoryPath(path);
-                                
+
                                 string filename = Path.GetFileName(Path.GetFileNameWithoutExtension(FileUploadControl.PostedFile.FileName) + DateTime.Now.ToShortTimeString().Replace(":", "_").Replace(".", "_") + "_" + Utils.Get8Digits() + Path.GetExtension(FileUploadControl.PostedFile.FileName));
 
                                 FileUploadControl.SaveAs(localPath + "\\" + filename);
 
                                 var ret = DbStoredProcedure.Instance().SetProductPicture(-1, productId, filename, path + "/" + filename, true, 0, SessionProperties.GetUserId(this.Session).Value);
 
-                                if (ret?.IsError == true)
+                                if(ret?.IsError == true)
                                 {
                                     SetStatusLabel("SavePictures error occured. " + ret.Message, Color.Red);
                                 }
-                                
+
                                 BindPictureList();
                                 SetStatusLabel("File uploaded successfully as " + filename, Color.Green);
                             }
@@ -167,7 +171,16 @@ namespace ourShop.Modules
                                 FileUploadControl.SaveAs(tempPath + "\\" + filename);
 
                                 var productList = GetProductPictureList();
-                                productList.Add(new Beens.ProductsPicture_Been { Id = -1, LocalListId = productList.Count + 1, FileName = filename, IdProduct = productId, Path = path + "/" + filename, IsEnabled = true, OrderNumber = productList.Count + 1 });
+                                productList.Add(new Beens.ProductsPicture_Been
+                                    {
+                                        Id = -1,
+                                        LocalListId = productList.Count + 1,
+                                        FileName = filename,
+                                        IdProduct = productId,
+                                        Path = path + "/" + filename,
+                                        IsEnabled = true,
+                                        OrderNumber = productList.Count + 1
+                                    });
                                 HttpContext.Current.Session.Add("ProductPictureUploadList", productList);
                                 BindPictureList(productList);
 
@@ -189,7 +202,7 @@ namespace ourShop.Modules
                     SetStatusLabel("Please select picture to upload.", Color.Red);
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 SetStatusLabel("The file could not be uploaded. The following error occured: " + ex.Message, Color.Red);
             }
@@ -200,12 +213,12 @@ namespace ourShop.Modules
             var productList = new List<Beens.ProductsPicture_Been>();
             int localId = 1;
 
-            if (IdFromURL > 0)
+            if(IdFromURL > 0)
                 productList = DbFunction.Instance().GetProductPictureList(IdFromURL.Value);
 
-            foreach (var localPic in GetProductLocalPictureList())
+            foreach(var localPic in GetProductLocalPictureList())
             {
-                if (localPic.Id == -1 || productList.Where(f => f.Id == localPic.Id).FirstOrDefault() == null)
+                if(localPic.Id == -1 || productList.Where(f => f.Id == localPic.Id).FirstOrDefault() == null)
                     productList.Add(localPic);
             }
 
@@ -217,11 +230,12 @@ namespace ourShop.Modules
 
             return productList;
         }
+
         private List<Beens.ProductsPicture_Been> GetProductLocalPictureList()
         {
             List<Beens.ProductsPicture_Been> pictureList;
 
-            if (Session["ProductPictureUploadList"] != null)
+            if(Session["ProductPictureUploadList"] != null)
             {
                 pictureList = (List<Beens.ProductsPicture_Been>)Session["ProductPictureUploadList"];
             }
@@ -230,7 +244,6 @@ namespace ourShop.Modules
                 pictureList = new List<Beens.ProductsPicture_Been>();
             }
             return pictureList;
-
         }
 
         private void BindPictureList()
@@ -245,42 +258,44 @@ namespace ourShop.Modules
             ImageGrid.DataSource = dt;
             ImageGrid.DataBind();
         }
+
         protected void SavePictures(int IdProduct)
         {
             try
             {
                 var productList = this.GetProductPictureList();
 
-                foreach (Beens.ProductsPicture_Been picture in productList)
+                foreach(Beens.ProductsPicture_Been picture in productList)
                 {
                     string path = GetFileDirectoryPath("AttachedPicturesProducts_Path");
-                    
+
                     File.Move(GetLocalPhysicalDirectoryPath(picture.Path), GetLocalPhysicalDirectoryPath(path) + "\\" + picture.FileName);
 
-                    picture.Path = path + "/" + picture.FileName ;
+                    picture.Path = path + "/" + picture.FileName;
 
                     var ret = DbStoredProcedure.Instance().SetProductPicture(picture.Id, IdProduct, picture.FileName, picture.Path, picture.IsEnabled, picture.OrderNumber, SessionProperties.GetUserId(this.Session).Value);
 
-                    if (ret?.IsError == true )
+                    if(ret?.IsError == true)
                     {
                         ShowToastMessage("SavePictures error occured. " + ret.Message);
                     }
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "AddProduct.SavePictures", Utils.GetExceptionMessage(ex));
                 ShowToastMessage("Error occured. " + Utils.GetExceptionMessage(ex));
             }
         }
+
         private string GetFileDirectoryPath(string SettingsName)
         {
             string path = DbFunction.Instance().GetStringSettings(SettingsName);
 
             string mappedPath = GetLocalPhysicalDirectoryPath(path);
-            if (mappedPath.Length > 0)
+            if(mappedPath.Length > 0)
             {
-                if (!Directory.Exists(mappedPath))
+                if(!Directory.Exists(mappedPath))
                 {
                     Directory.CreateDirectory(mappedPath);
                 }
@@ -288,22 +303,24 @@ namespace ourShop.Modules
 
             return path;
         }
+
         public string GetLocalPhysicalDirectoryPath(string path)
         {
-            if (path.Contains('~') || path.Contains("../"))
+            if(path.Contains('~') || path.Contains("../"))
                 return Server.MapPath(path);
             else
                 return path;
         }
+
         protected void ImageGrid_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             try
             {
-                if (e.CommandName == "Delete")
+                if(e.CommandName == "Delete")
                 {
                     int rowIndex = Int32.Parse(e.CommandArgument.ToString());
 
-                    if (rowIndex > -1)
+                    if(rowIndex > -1)
                     {
                         GridView grid = sender as GridView;
                         int value = (int)grid.DataKeys[rowIndex].Value;
@@ -311,14 +328,14 @@ namespace ourShop.Modules
                         var productList = this.GetProductPictureList();
                         var item = productList.Where(x => x.LocalListId == value).FirstOrDefault();
 
-                        if (item != null)
+                        if(item != null)
                         {
-                            if (item.Id > 0)
+                            if(item.Id > 0)
                             {
                                 var ret = DbStoredProcedure.Instance().SetProductPicture(item.Id, item.IdProduct, item.FileName, item.Path, false, item.OrderNumber, SessionProperties.GetUserId(this.Session).Value);
                             }
 
-                            if (item.Path?.Length > 0)
+                            if(item.Path?.Length > 0)
                             {
                                 File.Delete(GetLocalPhysicalDirectoryPath(item.Path));
                             }
@@ -340,10 +357,9 @@ namespace ourShop.Modules
                 SetStatusLabel("Error occured." + Utils.GetExceptionMessage(ex), Color.Red);
             }
         }
-        
+
         protected void ImageGrid_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-
         }
 
         private void SetStatusLabel(string Message, Color color)
@@ -353,4 +369,3 @@ namespace ourShop.Modules
         }
     }
 }
- 
