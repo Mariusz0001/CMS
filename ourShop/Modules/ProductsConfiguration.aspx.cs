@@ -36,6 +36,12 @@ namespace ourShop.Modules
 
             if (ret != null)
             {
+                foreach(Beens.Get_Product_Result item in ret)
+                {
+                    if(item.Description.Length > 50)
+                        item.Description = item.Description.Substring(0, 50) + "...";
+                }
+
                 DataTable dt = Utils.CreateDataTable<Beens.Get_Product_Result>(ret);
                 ProductGrid.DataSource = dt;
                 ProductGrid.DataBind();
@@ -54,7 +60,7 @@ namespace ourShop.Modules
 
         protected void ProductGrid_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "edit")
+            if (e.CommandName == "EditProduct")
             {
                 int rowIndex = Int32.Parse(e.CommandArgument.ToString());
                 
@@ -63,6 +69,7 @@ namespace ourShop.Modules
                     GridView grid = sender as GridView;
                     string response = "<script>window.open('/Modules/EditForm/ProductMngm.aspx?id=" + grid.DataKeys[rowIndex].Value.ToString() + "' ,'Product', 'directories = 0,titlebar = 0,toolbar = 0,location = 0,status = 0,menubar = 0,scrollbars = no,resizable = no,width = 1000,height = 800');</script>";
                     Response.Write(response);
+                    
                 }
                         
             }

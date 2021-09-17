@@ -22,24 +22,6 @@ namespace ourShop.Modules {
         protected global::System.Web.UI.WebControls.LinkButton AddButton;
         
         /// <summary>
-        /// EditButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton EditButton;
-        
-        /// <summary>
-        /// DeleteButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton DeleteButton;
-        
-        /// <summary>
         /// ProductGrid control.
         /// </summary>
         /// <remarks>

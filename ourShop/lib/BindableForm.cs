@@ -32,30 +32,17 @@ namespace ourShop
         {
             try
             {
+                Boolean ret;
                 foreach (Control ctrl in controls)
                 {
                     if(ctrl is ContentPlaceHolder)
-                        BindControls(propertyInfo, Been, ctrl.Controls);
+                        ret = BindControls(propertyInfo, Been, ctrl.Controls);
                     else
-                        BindControls(propertyInfo, Been, controls);
-                }
+                        ret = BindControls(propertyInfo, Been, controls);
 
-                /*
-
-            foreach (Control ctrl in controls)
-            {
-                if (ctrl is ContentPlaceHolder)
-                {
-                    ContentPlaceHolder chp = ((System.Web.UI.WebControls.ContentPlaceHolder)ctrl);
-
-                    BindControls(propertyInfo, Been, chp.Controls);
+                    if (ret)
+                        break;
                 }
-                else
-                {
-                    BindControls(propertyInfo, Been, form.Controls);
-                    return;
-                }
-            }*/
             }
             catch (Exception ex)
             {
@@ -63,7 +50,7 @@ namespace ourShop
             }
         }
 
-        private static void BindControls(PropertyInfo propertyInfo, object Been, ControlCollection controls)
+        private static Boolean BindControls(PropertyInfo propertyInfo, object Been, ControlCollection controls)
         {
             foreach (Control controll in controls)
             {
@@ -76,14 +63,14 @@ namespace ourShop
                             TextBox tb = ((TextBox)controll);
 
                             tb.Text = GetPropertyValue(propertyInfo, Been);
-                            return;
+                            return true;
                         }
                         else if (controll is Label)
                         {
                             Label lb = ((Label)controll);
 
                             lb.Text = GetPropertyValue(propertyInfo, Been);
-                            return;
+                            return true;
                         }
                         else if (controll is System.Web.UI.HtmlControls.HtmlInputGenericControl)
                         {
@@ -91,7 +78,7 @@ namespace ourShop
 
                             cb.Value = GetPropertyValue(propertyInfo, Been);
 
-                            return;
+                            return true;
                         }
                         else if (controll is System.Web.UI.HtmlControls.HtmlInputCheckBox)
                         {
@@ -102,19 +89,21 @@ namespace ourShop
                             else
                                 cb.Checked = false;
 
-                            return;
+                            return true;
                         }
                         else if (controll is DropDownList)
                         {
                             DropDownList dl = ((DropDownList)controll);
                             dl.SelectedValue = GetPropertyValue(propertyInfo, Been);
 
-                            return;
+                            return true;
                         }
                         else if (controll is System.Web.UI.HtmlControls.HtmlTextArea)
                         {
                             System.Web.UI.HtmlControls.HtmlTextArea ta = controll as System.Web.UI.HtmlControls.HtmlTextArea;
                             ta.Value = GetPropertyValue(propertyInfo, Been);
+
+                            return true;
                         }
                     }
                     catch
@@ -123,6 +112,7 @@ namespace ourShop
                 }
 
             }
+            return false;
         }
 
         private static string GetPropertyValue(PropertyInfo propertyInfo, object Been)

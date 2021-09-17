@@ -100,6 +100,7 @@ namespace ourShop.DataBase
                         Price = Utils.TryParseNullableDouble(record[9].ToString()),
                         Qty = Utils.TryParseNullableInt(record[10].ToString()),
                         Description = record[11].ToString(),
+                        PicturePath = record[12].ToString()
                     });
                 }
                 

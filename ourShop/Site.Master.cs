@@ -16,12 +16,19 @@ namespace ourShop
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!this.IsPostBack)
+            try
             {
-                ControlLogin();
+                if (!this.IsPostBack)
+                {
+                    ControlLogin();
 
-                _toolbar.CreateMenu(SessionProperties.GetUserId(Session), Panel1, Toolbar.ToolbarType.Navbar);
-                _toolbar.CreateMenu(SessionProperties.GetUserId(Session), Panel1, Toolbar.ToolbarType.Sidenav);
+                    _toolbar.CreateMenu(SessionProperties.GetUserId(Session), Panel1, Toolbar.ToolbarType.Navbar);
+                    _toolbar.CreateMenu(SessionProperties.GetUserId(Session), Panel1, Toolbar.ToolbarType.Sidenav);
+                }
+            }
+            catch(Exception ex)
+            {
+                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "DBFunctionBase", Utils.GetExceptionMessage(ex));
             }
         }
         

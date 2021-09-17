@@ -107,10 +107,6 @@
                         });
                     }
                 };
-
-                function ShowToast(message) {
-                    M.toast({ html: message, classes: 'rounded' });
-                }
             </script>
 
              <div id="ProductDropDown" class="navbar-dropdown-content">

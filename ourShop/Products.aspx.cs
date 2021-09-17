@@ -44,7 +44,7 @@ namespace ourShop
                     try
                     {
                         ProductCardUC myControl = (ProductCardUC)Page.LoadControl("~/Modules/UC/ProductCardUC.ascx");
-                        myControl.LoadProduct(item.Id.Value, item.Name, item.Price.Value, item.Description, null);
+                        myControl.LoadProduct(item.Id.Value, item.Name, item.Price.Value, item.Description, item.PicturePath);
 
                         UserControlHolder.Controls.Add(myControl);
                     }

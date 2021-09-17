@@ -41,10 +41,10 @@
                         </div>
                         <div class="input-field col s4 m3">
                             <label style="color: crimson;">*</label>
-                            <label class="col control-label" for="QTY">Quantity</label>
-                            <input class="form-control" type="number" placeholder="" id="QTY" name="QTY" runat="server" min="0" step="1" />
+                            <label class="col control-label" for="Qty">Quantity</label>
+                            <input class="form-control" type="number" placeholder="" id="Qty" name="Qty" runat="server" min="0" step="1" />
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2"
-                                runat="server" ControlToValidate="QTY" ErrorMessage="Quantity is required." CssClass="invalid align-items-baseline"></asp:RequiredFieldValidator>
+                                runat="server" ControlToValidate="Qty" ErrorMessage="Quantity is required." CssClass="invalid align-items-baseline"></asp:RequiredFieldValidator>
                         </div>
                         <div class="input-field col s6 m4">
                             <label style="color: crimson;">*</label>
@@ -117,6 +117,8 @@
                         <div class="col s4">
                             <asp:FileUpload ID="FileUploadControl" runat="server" />
                         </div>
+                        </div>
+                  <div class="row">
                         <div class="col s4">
                             <asp:LinkButton ID="UploadButton" runat="server" CssClass="btn btn-primary" OnClick="UploadButton_Click" UseSubmitBehavior="False" ValidationGroup="PictureUpload" ValidateRequestMode="Disabled">Upload<i class="material-icons right">file_upload</i></asp:LinkButton>
                         </div>
@@ -127,17 +129,17 @@
                 </div>
 
 
-                <asp:GridView ID="ImageGrid" runat="server" AutoGenerateColumns="false" Width="100%" DataKeyNames="LocalListId" ViewStateMode="Enabled" OnRowCommand="ImageGrid_RowCommand" OnRowDeleting="ImageGrid_RowDeleting">
+                <asp:GridView ID="ImageGrid" runat="server" AutoGenerateColumns="false" Width="90%" DataKeyNames="LocalListId" ViewStateMode="Enabled" OnRowCommand="ImageGrid_RowCommand" OnRowDeleting="ImageGrid_RowDeleting">
                     <Columns>
                         <asp:BoundField DataField="Id" Visible="false" />
                         <asp:BoundField DataField="IdProductPicture" HeaderText="Image Id" Visible="false" />
                         <asp:BoundField DataField="FileName" HeaderText="FileName" Visible="False"></asp:BoundField>
-                        <asp:TemplateField ControlStyle-Width="200px">
+                        <asp:TemplateField ControlStyle-Width="100px">
                             <ItemTemplate>
-                                <asp:Image ID="Path" runat="server" Visible="true" Height="200px" Width="300px" ImageUrl='<%# Eval("Path") %>' />
+                                <asp:Image ID="Path" runat="server" Visible="true" Height="100px" Width="100px" ImageUrl='<%# Eval("Path") %>' />
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:ButtonField Text="Delete" ControlStyle-CssClass="btn" ControlStyle-Width="80%" CommandName="Delete"></asp:ButtonField>
+                        <asp:ButtonField Text="Delete" ControlStyle-CssClass="btn" CommandName="Delete"></asp:ButtonField>
                     </Columns>
                 </asp:GridView>
             </div>
@@ -148,14 +150,7 @@
                 <textarea id="Description" name="Description" rows="2" runat="server"></textarea>
             </div>
 
-
-            <div class="divider"></div>
-            <div class="card" style="margin-top: 30px;">
-                <div class="input-field col s12">
-                    <asp:LinkButton ID="btnSubmit" CssClass="btn waves-effect waves-light col s12 l12" runat="server" Text="Save" UseSubmitBehavior="true" OnClick="btnSubmit_Click"></asp:LinkButton>
-                </div>
-            </div>
-
+            <br /><br />
         </div>
 
         <script type="text/javascript">
@@ -196,5 +191,10 @@
 
 
         </script>
+        <div class="editFormFooter">
+            <div class="row col s12">
+                <asp:LinkButton ID="LinkButton1" CssClass="btn waves-effect waves-light col s12 l12" runat="server" Text="Save" UseSubmitBehavior="true" OnClick="btnSubmit_Click"></asp:LinkButton>
+            </div>
+        </div>
     </form>
-        </asp:Content>
+</asp:Content>

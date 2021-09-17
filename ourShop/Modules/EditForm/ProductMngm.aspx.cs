@@ -90,7 +90,7 @@ namespace ourShop.Modules.EditForm
             }
             catch (Exception ex)
             {
-                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "AddProduct.btnSubmit_Click", Utils.GetExceptionMessage(ex));
+                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "ProductMngm.btnSubmit_Click", Utils.GetExceptionMessage(ex));
                 ShowToastMessage("Error occured. " + Utils.GetExceptionMessage(ex));
             }
         }
@@ -104,14 +104,14 @@ namespace ourShop.Modules.EditForm
                 if(IdFromURL != null)
                     id = IdFromURL.Value;
 
-                if(Price.Value != null && IdTaxPercentagesBook.SelectedItem?.Value != null && QTY.Value != null && CategoriesTree.SelectedNode?.Value != null && SessionProperties.GetUserId(Session) != null)
+                if(Price.Value != null && IdTaxPercentagesBook.SelectedItem?.Value != null && Qty.Value != null && CategoriesTree.SelectedNode?.Value != null && SessionProperties.GetUserId(Session) != null)
                 {
-                    var ret = DbStoredProcedure.Instance().SetProduct(id, Name.Text, Enabled.Checked, Barcode.Text, double.Parse(Price.Value.Replace('.', ',')), int.Parse(IdTaxPercentagesBook.SelectedItem.Value), int.Parse(QTY.Value), int.Parse(CategoriesTree.SelectedNode.Value), Description.InnerText, SessionProperties.GetUserId(this.Session).Value);
+                    var ret = DbStoredProcedure.Instance().SetProduct(id, Name.Text, Enabled.Checked, Barcode.Text, double.Parse(Price.Value.Replace('.', ',')), int.Parse(IdTaxPercentagesBook.SelectedItem.Value), int.Parse(Qty.Value), int.Parse(CategoriesTree.SelectedNode.Value), Description.InnerText, SessionProperties.GetUserId(this.Session).Value);
 
                     if(ret != null && ret.Id > 0)
                     {
                         SavePictures(ret.Id.Value);
-                        Response.Redirect("/Modules/AddProduct?id=" + ret.Id);
+                        Response.Redirect("/Modules/EditForm/ProductMngm?id=" + ret.Id);
                     }
                 }
                 else
@@ -121,7 +121,7 @@ namespace ourShop.Modules.EditForm
             }
             catch(Exception ex)
             {
-                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "AddProduct.btnSubmit_Click", Utils.GetExceptionMessage(ex));
+                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "ProductMngm.btnSubmit_Click", Utils.GetExceptionMessage(ex));
                 ShowToastMessage("Error occured. " + Utils.GetExceptionMessage(ex));
             }
         }
@@ -283,7 +283,7 @@ namespace ourShop.Modules.EditForm
             }
             catch(Exception ex)
             {
-                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "AddProduct.SavePictures", Utils.GetExceptionMessage(ex));
+                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "ProductMngm.SavePictures", Utils.GetExceptionMessage(ex));
                 ShowToastMessage("Error occured. " + Utils.GetExceptionMessage(ex));
             }
         }
@@ -352,7 +352,7 @@ namespace ourShop.Modules.EditForm
             }
             catch(Exception ex)
             {
-                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "AddProduct.btnSubmit_Click", Utils.GetExceptionMessage(ex));
+                DbStoredProcedure.Instance().SaveLog(null, DbStoredProcedure.LogType.Error, "ProductMngm.btnSubmit_Click", Utils.GetExceptionMessage(ex));
                 ShowToastMessage("Error occured. " + Utils.GetExceptionMessage(ex));
                 SetStatusLabel("Error occured." + Utils.GetExceptionMessage(ex), Color.Red);
             }

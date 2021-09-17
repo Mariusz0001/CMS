@@ -49,6 +49,10 @@
             $("#Loader").hide(100);
         });
 
+        function ShowToast(message) {
+            M.toast({ html: message, classes: 'rounded' });
+        }
+
     </script>
 </body>
 </html>

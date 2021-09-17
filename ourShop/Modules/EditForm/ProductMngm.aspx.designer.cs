@@ -58,13 +58,13 @@ namespace ourShop.Modules.EditForm {
         protected global::System.Web.UI.WebControls.TextBox Barcode;
         
         /// <summary>
-        /// QTY control.
+        /// Qty control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl QTY;
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl Qty;
         
         /// <summary>
         /// RequiredFieldValidator2 control.
@@ -193,12 +193,12 @@ namespace ourShop.Modules.EditForm {
         protected global::System.Web.UI.HtmlControls.HtmlTextArea Description;
         
         /// <summary>
-        /// btnSubmit control.
+        /// LinkButton1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnSubmit;
+        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
     }
 }

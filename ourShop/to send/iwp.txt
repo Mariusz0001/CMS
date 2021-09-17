@@ -1,1 +1,85 @@
-﻿
+﻿-- FUNCTION: public.get_productslist(text, integer)
+
+ DROP FUNCTION public.get_productslist(text, integer);
+
+CREATE OR REPLACE FUNCTION public.get_productslist(
+	_productcategory text,
+	_userid integer DEFAULT NULL::integer)
+    RETURNS TABLE("Id" integer, idcategoriesbook integer, idproductsstatusbook integer, idtaxpercentagesbook integer, categoryname text, statusname text, taxvalue integer, "Name" text, barcode text, price double precision, qty integer, description text, PicturePath text) 
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+BEGIN
+
+	CREATE TEMP TABLE tmp(
+		"Id" INTEGER,
+		"IdParent" INTEGER
+	);
+	
+	INSERT INTO tmp 
+		("Id", "IdParent")
+	WITH RECURSIVE cte AS (
+		SELECT   x."Id"
+				,x."IdCategoriesBook_Parent"
+		FROM public."CategoriesBook" x
+		WHERE x."Enabled" = TRUE
+			  AND (_productCategory IS NULL OR LOWER(x."Name") = LOWER(_productCategory))
+
+		UNION ALL
+
+		 SELECT   t."Id"
+				,t."IdCategoriesBook_Parent"
+		FROM public."CategoriesBook" t
+		   INNER JOIN cte c
+		   ON t."IdCategoriesBook_Parent" = c."Id"
+	)
+	SELECT cte."Id",
+		   cte."IdCategoriesBook_Parent"
+	FROM cte;
+	
+	RETURN QUERY	
+	  	    SELECT p."Id",
+				   p."IdCategoriesBook",
+				   p."IdProductsStatusBook",
+				   p."IdTaxPercentagesBook",
+				   CB."Name"::text as CategoryName,
+				   PSB."Name"::text as StatusName,
+				   TPB."Value"::integer as TaxValue,
+				   p."Name"::text,
+				   p."Barcode"::text,
+				   p."Price",
+				   p."QTY",
+				   p."Description"::text,
+				   (SELECT PP."Path"
+				   	FROM public."ProductsPicture" PP
+				    WHERE PP."IdProduct" = P."Id"
+				   		  AND PP."IsEnabled" = TRUE
+				    ORDER BY PP."OrderNumber"
+					LIMIT 1)::text as PicturePath
+			FROM public."Products" P
+			LEFT OUTER JOIN public."CategoriesBook" CB ON CB."Id" = p."IdCategoriesBook" 
+			LEFT OUTER JOIN public."ProductsStatusBook" PSB ON PSB."Id" = p."IdProductsStatusBook" AND PSB."Name" = 'Exposed'
+			LEFT OUTER JOIN public."TaxPercentagesBook" TPB ON TPB."Id" = p."IdTaxPercentagesBook"
+			WHERE p."IdCategoriesBook" IN ( SELECT tmp."Id"
+										    FROM tmp)
+				  AND p."Enabled" = TRUE
+				  AND LENGTH(P."Name") > 0;
+			
+	
+	DROP TABLE tmp;
+	
+	END;
+$BODY$;
+
+ALTER FUNCTION public.get_productslist(text, integer)
+    OWNER TO postgres;
+
+GRANT EXECUTE ON FUNCTION public.get_productslist(text, integer) TO PUBLIC;
+
+GRANT EXECUTE ON FUNCTION public.get_productslist(text, integer) TO ourshopuser;
+
+GRANT EXECUTE ON FUNCTION public.get_productslist(text, integer) TO postgres;
+
