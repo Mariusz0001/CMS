@@ -83,3 +83,30 @@ GRANT EXECUTE ON FUNCTION public.get_productslist(text, integer) TO ourshopuser;
 
 GRANT EXECUTE ON FUNCTION public.get_productslist(text, integer) TO postgres;
 
+
+
+
+
+
+Celem projektu było zapoznanie się z bazami danych PostgreeSQL i użycie wraz z technologią ASP .NET.
+
+Wykonano:
+•	Formularz do dodawania produktów.
+•	Moduł wyświetlający listę produktów.
+•	Moduł do zarządzania produktami.
+•	Strukturę uprawnień użytkowników.
+•	Automatycznie generowane zakładki „Rims”, „Wheel covers” z bazy danych według kategorii i uprawnień użytkownika.
+•	Logowanie.
+•	Panel użytkownika.
+
+Porównując PostgreeSQL do MicrosoftSQL pod względem użycia w .NET:
+	PostgreeSQL	MicrosofSQL Express
+License	Free and open source	SQL Server Express may only be used at no charge for development and testing, as well as for “micro workloads” such as mobile or web apps with minimal relational database requirements. The free license does not apply to instances running on virtual machines.
+Entity Framework procedures and functions	Impossible to import stored procedures or functions by Entity	Possible to import stored procedures or functions by EntityFramework
+Entity Framework installation	A lot of issues with install and connect EntityFramework	Simple and easy install EntityFramework
+Entity Framework diagrams	Can’t create diagram of tables in EntityFramework
+“The Entity Data Model Designer is unable to display the file you requested. You can edit the model using the XML Editor”	Created diagram with tables and relations in EntityFramework
+Tools for DB management	pgAdmin opening in web browser and has limitation of queries in new window. Inconvinient interface.	Microsoft SQL Management Studio advanced tool and user friendly interface
+
+
+ 
