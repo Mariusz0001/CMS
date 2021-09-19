@@ -10,7 +10,7 @@
           <h5 class="header col s12 light">Modern, solid wheels at special prices</h5>
         </div>
         <div class="row center">
-          <a href="/Shop" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Show rims</a>
+          <a href="/Products?category=Rims" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Show rims</a>
         </div>
         <br/><br/>
 

@@ -7,10 +7,10 @@
             <header>
                 <nav id="navbar" class="navbar-light-transparent">
                     <div class="nav-wrapper">
-                        <a href="#" class="sidenav-trigger" data-target="MobileMenu">
+                        <a href="#" class="sidenav-trigger" data-target="bContent_MobileMenu">
                             <i class="material-icons">menu</i>
                         </a>
-                        <a href="/Home" class="brand-logo center">ourShop</a>
+                        <a href="/Home" class="brand-logo center">Rim shop</a>
 
                         <asp:Panel ID="Panel1" runat="server" CssClass="" >    
                         </asp:Panel>
@@ -168,7 +168,7 @@
                     </div>
                     <div class="col s6">
                         <div class="row-footer" style="min-height:50px; margin-top:5px; ">
-                             <a href="https://github.com/trouty" target="_blank">
+                             <a href="https://github.com/Mariusz0001" target="_blank">
                                 <img src="../Content/icons/git_icon.png" alt="GitHub" style="width: 100px; float:left; margin-left:-12px;"/></a>
                         </div>
                         <div class="row-footer">
@@ -182,7 +182,7 @@
             </div>
             <div class="footer-copyright">
                 <div class="container">
-                    <a class="brown-text text-lighten-3" href="https://github.com/trouty">© 2021 Mariusz Pawlus</a>
+                    <a class="brown-text text-lighten-3" href="https://github.com/Mariusz0001">© 2021 Mariusz Pawlus</a>
                 </div>
             </div>
         </footer>
