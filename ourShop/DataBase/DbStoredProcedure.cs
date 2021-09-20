@@ -50,7 +50,7 @@ namespace ourShop.DataBase
                 {
                     _email.Value = "";
                 }
-                
+
                 dbo.Database.ExecuteSqlCommand("select public.get_usercanlogin(@_password, @_username, @_email, @_number, @_IPv4, @_userId);",
                           _password, _username, _email, _number, _IPv4, ret);
 
@@ -109,6 +109,22 @@ namespace ourShop.DataBase
                 }
             }
             return false;
+        }
+
+        public Beens.Result_Been AddLog(int? idUser, LogType logType, String module, String description)
+        {
+            try
+            {
+                using (var dbo = new ourShopEntities())
+                {
+                    dbo.Database.ExecuteSqlCommand("call public.add_log({0}, {1}, {2}, {3}, {4});", idUser, (int)logType, Utils.GetServerIPAddress(), module, description);
+                    return new Beens.Result_Been { IsError = false, Message = "Added log successfully." };
+                }
+            }
+            catch(Exception ex)
+            {
+                return new Beens.Result_Been { IsError = true, Message = ex.Message };
+            }
         }
 
         public void SaveLog(int? idUser, LogType logType, String module, String description)
