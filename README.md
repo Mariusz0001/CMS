@@ -27,13 +27,12 @@ Project is created with:
 * TinyMCE
 
 <br><br>
-### Comparison with the use of PostgreSQL and Microsoft SQL Express in ASP.NET technology.
+## Comparison with the use of PostgreSQL and Microsoft SQL Express in ASP.NET technology.
 | |PostgreSQL |MicrosofSQL Express |
 |--|---------|-------|
 | *License* | Free and open source| SQL Server Express may only be used at no charge for development and testing, as well as for “micro workloads” such as mobile or web apps with minimal relational database requirements. The free license does not apply to instances running on virtual machines.|
 | *Entity Framework procedures and functions* | Impossible to import stored procedures or functions by Entity | Possible to import stored procedures or functions by EntityFramework|
-| *Entity Framework installation* | A lot of issues with install and connect  | Simple and easy install EntityFramework |
-| *Entity Framework diagrams* | Can’t create diagram of tables in EntityFramework “The Entity Data Model Designer is unable to display the file you requested. You can edit the model using the XML Editor”| Created diagram with tables and relations in EntityFramework
+| *Entity Framework installation* | A lot of issues with install and connect  | Simple and easy using EntityFramework. No problems with connection with DB, importing tables, functions etc. |
 | *Tools for DB management* | pgAdmin opening in web browser and has limitation of queries in new window. Inconvinient interface. | Microsoft SQL Management Studio advanced tool and user friendly interface |
 
 ## GIF Presentation
