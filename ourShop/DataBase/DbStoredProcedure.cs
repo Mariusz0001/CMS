@@ -117,7 +117,13 @@ namespace ourShop.DataBase
             {
                 using (var dbo = new ourShopEntities())
                 {
-                    dbo.Database.ExecuteSqlCommand("call public.add_log({0}, {1}, {2}, {3}, {4});", idUser, (int)logType, Utils.GetServerIPAddress(), module, description);
+                    var _iduser = CreateNpgsqlParameter("_iduser", NpgsqlDbType.Integer, idUser);
+                    var _logType = CreateNpgsqlParameter("_idlogstype", NpgsqlDbType.Integer, (int)logType);
+                    var _hostname = CreateNpgsqlParameter("_hostname", NpgsqlDbType.Varchar, "");
+                    var _module = CreateNpgsqlParameter("_module", NpgsqlDbType.Varchar, module);
+                    var _description = CreateNpgsqlParameter("_description", NpgsqlDbType.Varchar, description);
+
+                    dbo.Database.ExecuteSqlCommand("call public.add_log(@_iduser, @_idlogstype, @_hostname, @_module, @_description);", _iduser, _logType, _hostname, _module, _description);
                     return new Beens.Result_Been { IsError = false, Message = "Added log successfully." };
                 }
             }
