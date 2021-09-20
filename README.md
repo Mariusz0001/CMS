@@ -48,7 +48,7 @@ Creating stored procedures with parameters returning and using them in a .NET pr
 ```csharp
 public class DBBase
     {
-        public NpgsqlParameter CreateNpgsqlParameter(string name, NpgsqlDbType 		type, object value, System.Data.ParameterDirection direction = 		System.Data.ParameterDirection.Input)
+        public NpgsqlParameter CreateNpgsqlParameter(string name, NpgsqlDbType type, object value, System.Data.ParameterDirection direction = 		System.Data.ParameterDirection.Input)
         {
             var _parameter = new NpgsqlParameter(name, type);
             _parameter.Direction = direction;
@@ -110,6 +110,7 @@ I attached procedure to save log in the database for this example.
                 return new Beens.Result_Been { IsError = true, Message = ex.Message };
             }
         }
+}
 ```
 
 4. This step is to do in the Postgres DB. Create tables and stored procedure like below.
@@ -206,7 +207,7 @@ GRANT EXECUTE ON PROCEDURE public.add_log(integer, integer, character varying, c
 9. 
 ![image](https://user-images.githubusercontent.com/29818201/134058191-80618f09-579c-4691-85d1-5762da3fd7f8.png)
 
-10. Results in database.
+10. Results in the database.
 ![image](https://user-images.githubusercontent.com/29818201/134057964-94f3f5d8-ba42-4f6b-866b-3b3c4dc11bd2.png)
 
 
