@@ -108,7 +108,7 @@ I attached procedure to save log in the database for this example.
         }
 
 
- public Beens.Result_Been AddLog(int? idUser, LogType logType, String module, String description)
+       	public Beens.Result_Been AddLog(int? idUser, LogType logType, String module, String description)
         {
             try
             {
