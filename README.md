@@ -27,13 +27,12 @@ Project is created with:
 * TinyMCE
 
 <br><br>
-### Comparison with the use of PostgreSQL and Microsoft SQL Express in ASP.NET technology.
+## Comparison with the use of PostgreSQL and Microsoft SQL Express in ASP.NET technology.
 | |PostgreSQL |MicrosofSQL Express |
 |--|---------|-------|
 | *License* | Free and open source| SQL Server Express may only be used at no charge for development and testing, as well as for “micro workloads” such as mobile or web apps with minimal relational database requirements. The free license does not apply to instances running on virtual machines.|
 | *Entity Framework procedures and functions* | Impossible to import stored procedures or functions by Entity | Possible to import stored procedures or functions by EntityFramework|
-| *Entity Framework installation* | A lot of issues with install and connect  | Simple and easy install EntityFramework |
-| *Entity Framework diagrams* | Can’t create diagram of tables in EntityFramework “The Entity Data Model Designer is unable to display the file you requested. You can edit the model using the XML Editor”| Created diagram with tables and relations in EntityFramework
+| *Entity Framework installation* | A lot of issues with install and connect  | Simple and easy using EntityFramework. No problems with connection with DB, importing tables, functions etc. |
 | *Tools for DB management* | pgAdmin opening in web browser and has limitation of queries in new window. Inconvinient interface. | Microsoft SQL Management Studio advanced tool and user friendly interface |
 
 ## GIF Presentation
@@ -44,7 +43,21 @@ Creating stored procedures with parameters returning and using them in a .NET pr
 
 1. Install Entity Framework and connect to DB. There is some excellent tutorials so I'll not describe this. [Google - using Entity Framework with PostgreeSQL](https://www.google.com/search?q=postgresql+visual+studio+entity&ei=FMtIYbfcFsOQrgS7u4WoDw&oq=postgree+sql+visual+studio+entity&gs_lcp=Cgdnd3Mtd2l6EAMyBwgAEEcQsAMyBwgAEEcQsAMyBwgAEEcQsAMyBwgAEEcQsAMyBwgAEEcQsAMyBwgAEEcQsAMyBwgAEEcQsAMyBwgAEEcQsANKBAhBGABQAFgAYIQkaABwA3gAgAEAiAEAkgEAmAEAyAEIwAEB&sclient=gws-wiz&ved=0ahUKEwi3tv7lj47zAhVDiIsKHbtdAfUQ4dUDCA4&uact=5). <br>
 
-2. Add DBBase.cs class to project. At content you can find creating parameters used to run stored procedure or function. <br>
+2. Add folder Beens and class with properties Result_Been.cs inside.<br>We will use this to return result of completed method AddLog.
+
+```csharp
+    public class Result_Been
+    {
+        public Boolean IsError { get; set; }
+
+        public string Message { get; set; }
+
+
+        public int? Id { get; set; }
+    }
+```
+
+3. Add DBBase.cs class to project. At content you can find creating parameters used to run stored procedure or function. <br> 
 ```csharp
 public class DBBase
     {
@@ -68,7 +81,7 @@ public class DBBase
     }
 ```
  <br>
-3. The next step is add class DbStoredProcedure.cs that inerhit from DBBase. It is created with design pattern Singleton. <br>
+4. The next step is add class DbStoredProcedure.cs that inerhit from DBBase. It is created with design pattern Singleton. <br>
 I attached procedure to save log in the database for this example. 
 
 ```csharp
@@ -95,13 +108,19 @@ I attached procedure to save log in the database for this example.
         }
 
 
- public Beens.Result_Been AddLog(int? idUser, LogType logType, String module, String description)
+       	public Beens.Result_Been AddLog(int? idUser, LogType logType, String module, String description)
         {
             try
             {
                 using (var dbo = new ourShopEntities())
                 {
-                    dbo.Database.ExecuteSqlCommand("call public.add_log({0}, {1}, {2}, {3}, {4});", idUser, (int)logType, Utils.GetServerIPAddress(), module, description);
+                    var _iduser = CreateNpgsqlParameter("_iduser", NpgsqlDbType.Integer, idUser);
+                    var _logType = CreateNpgsqlParameter("_idlogstype", NpgsqlDbType.Integer, (int)logType);
+                    var _hostname = CreateNpgsqlParameter("_hostname", NpgsqlDbType.Varchar, "");
+                    var _module = CreateNpgsqlParameter("_module", NpgsqlDbType.Varchar, module);
+                    var _description = CreateNpgsqlParameter("_description", NpgsqlDbType.Varchar, description);
+
+                    dbo.Database.ExecuteSqlCommand("call public.add_log(@_iduser, @_idlogstype, @_hostname, @_module, @_description);", _iduser, _logType, _hostname, _module, _description);
                     return new Beens.Result_Been { IsError = false, Message = "Added log successfully." };
                 }
             }
@@ -113,7 +132,7 @@ I attached procedure to save log in the database for this example.
 }
 ```
 
-4. This step is to do in the Postgres DB. Create tables and stored procedure like below.
+5. This step is to do in the Postgres DB. Create tables and stored procedure like below.
 ```sql
 
 CREATE TABLE public."LogsType"
@@ -177,8 +196,8 @@ $BODY$;
 GRANT EXECUTE ON PROCEDURE public.add_log(integer, integer, character varying, character varying, character varying) TO postgres;
 ```
 
-5. Add nUnit Framework to your NuGet packages.
-6. Create unit test for check saving logs by application. Add to your project class DbTest.cs
+6. Add nUnit Framework to your NuGet packages.
+7. Create unit test for check saving logs by application. Add to your project class DbTest.cs
 ```csharp
  [TestFixture]
     public class DBTest
@@ -199,15 +218,15 @@ GRANT EXECUTE ON PROCEDURE public.add_log(integer, integer, character varying, c
 }
 ```
 
-7. Rebuild soultion and run test explorer in Visual Studio.
-8. Run test.
+8. Rebuild soultion and run test explorer in Visual Studio.
+9. Run test.
 
 ![image](https://user-images.githubusercontent.com/29818201/134058804-fa6b6f50-9674-4688-9c82-95e632457eaf.png)
 
-9. 
+10 
 ![image](https://user-images.githubusercontent.com/29818201/134058191-80618f09-579c-4691-85d1-5762da3fd7f8.png)
 
-10. Results in the database.
+11. Results in the database.
 ![image](https://user-images.githubusercontent.com/29818201/134057964-94f3f5d8-ba42-4f6b-866b-3b3c4dc11bd2.png)
 
-
+PostgreSQL offer free solution..
