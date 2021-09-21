@@ -377,11 +377,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Modules\EditForm\ProductMngm.aspx" />
-    <Content Include="Modules\ProductsConfiguration.aspx" />
-    <Content Include="Modules\UC\ProductMngmUC.ascx" />
-    <Content Include="Modules\UC\ProductCardUC.ascx" />
-    <Content Include="Products.aspx" />
     <Content Include="Content\Images\b1.png" />
     <Content Include="Content\icons\git_icon.png" />
     <Content Include="Content\Images\b2.png" />
@@ -1028,11 +1023,6 @@
     <Content Include="Home.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Modules\AddProduct.aspx" />
-    <Content Include="Login.aspx" />
-    <Content Include="Modules\Configuration.aspx" />
-    <Content Include="Modules\UC\LoginUC.ascx" />
-    <Content Include="Modules\UC\ContactUC.ascx" />
     <EntityDeploy Include="DataBase\DBEntity.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBEntity.Designer.cs</LastGenOutput>
@@ -1040,7 +1030,6 @@
     <Content Include="DataBase\DBEntity.edmx.diagram">
       <DependentUpon>DBEntity.edmx</DependentUpon>
     </Content>
-    <Content Include="rimshop.gif" />
     <Content Include="Root.Master" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
@@ -1079,63 +1068,15 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
-    <Content Include="to send\iwp.txt" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Beens\Get_CategoriesList_Result.cs" />
-    <Compile Include="Beens\Get_MenuToolbar_Result.cs" />
-    <Compile Include="Beens\Get_ProductsPictureList.cs" />
-    <Compile Include="Beens\Get_Product_Result.cs" />
-    <Compile Include="Beens\ProductsPicture_Been.cs" />
     <Compile Include="Beens\Result_Been.cs" />
     <Compile Include="lib\BindableForm.cs" />
-    <Compile Include="lib\EditForm.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="lib\EditFormUC.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules\EditForm\ProductMngm.aspx.cs">
-      <DependentUpon>ProductMngm.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules\EditForm\ProductMngm.aspx.designer.cs">
-      <DependentUpon>ProductMngm.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\ProductsConfiguration.aspx.cs">
-      <DependentUpon>ProductsConfiguration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules\ProductsConfiguration.aspx.designer.cs">
-      <DependentUpon>ProductsConfiguration.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\UC\ProductMngmUC.ascx.cs">
-      <DependentUpon>ProductMngmUC.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules\UC\ProductMngmUC.ascx.designer.cs">
-      <DependentUpon>ProductMngmUC.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\UC\ProductCardUC.ascx.cs">
-      <DependentUpon>ProductCardUC.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules\UC\ProductCardUC.ascx.designer.cs">
-      <DependentUpon>ProductCardUC.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Products.aspx.cs">
-      <DependentUpon>Products.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Products.aspx.designer.cs">
-      <DependentUpon>Products.aspx</DependentUpon>
-    </Compile>
     <Compile Include="DataBase\DBBase.cs" />
-    <Compile Include="DataBase\DbFunction.cs" />
     <Compile Include="DataBase\DBFunctionBase.cs" />
     <Compile Include="DataBase\DbStoredProcedure.cs" />
     <Compile Include="e404.aspx.cs">
@@ -1199,41 +1140,6 @@
     <Compile Include="lib\MainPage.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Modules\AddProduct.aspx.cs">
-      <DependentUpon>AddProduct.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules\AddProduct.aspx.designer.cs">
-      <DependentUpon>AddProduct.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\Configuration.aspx.cs">
-      <DependentUpon>Configuration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules\Configuration.aspx.designer.cs">
-      <DependentUpon>Configuration.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\UC\LoginUC.ascx.cs">
-      <DependentUpon>LoginUC.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules\UC\LoginUC.ascx.designer.cs">
-      <DependentUpon>LoginUC.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Modules\UC\ContactUC.ascx.cs">
-      <DependentUpon>ContactUC.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Modules\UC\ContactUC.ascx.designer.cs">
-      <DependentUpon>ContactUC.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Root.Master.cs">
       <DependentUpon>Root.Master</DependentUpon>
@@ -1259,7 +1165,6 @@
     </Compile>
     <Compile Include="Tests\DBTest.cs" />
     <Compile Include="Tests\TestMethodAttribute.cs" />
-    <Compile Include="lib\Toolbar.cs" />
     <Compile Include="lib\Utils.cs" />
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>

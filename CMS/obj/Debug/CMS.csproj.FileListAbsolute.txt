@@ -166,6 +166,8 @@ C:\Users\Mariusz\source\repos\CMS\ourShop\bin\pl\System.Web.Optimization.resourc
 C:\Users\Mariusz\source\repos\CMS\ourShop\bin\pl\Microsoft.AspNet.FriendlyUrls.resources.dll
 C:\Users\Mariusz\source\repos\CMS\ourShop\obj\Debug\CMS.csproj.CopyComplete
 C:\Users\Mariusz\source\repos\CMS\ourShop\obj\Debug\CMS.csprojAssemblyReference.cache
+C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.EntityFrameworkCore.dll
+C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.EntityFrameworkCore.xml
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\NUnit3.TestAdapter.dll
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\NUnit3.TestAdapter.pdb
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\nunit.engine.dll
@@ -241,7 +243,6 @@ C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.Bcl.HashCode.dll
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.EntityFrameworkCore.Abstractions.dll
-C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.EntityFrameworkCore.dll
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.EntityFrameworkCore.Relational.Design.dll
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.Extensions.Caching.Abstractions.dll
@@ -291,7 +292,6 @@ C:\Users\Mariusz\source\repos\CMS\CMS\bin\K4os.Hash.xxHash.xml
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.Bcl.AsyncInterfaces.xml
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.Bcl.HashCode.xml
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.EntityFrameworkCore.xml
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.EntityFrameworkCore.Abstractions.xml
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.EntityFrameworkCore.Relational.xml
 C:\Users\Mariusz\source\repos\CMS\CMS\bin\Microsoft.EntityFrameworkCore.Relational.Design.xml

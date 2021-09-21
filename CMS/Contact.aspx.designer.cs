@@ -21,6 +21,6 @@ namespace CMS
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::CMS.Modules.UC.ContactUC ContactUC1;
+        protected global::System.Web.UI.UserControl ContactUC1;
     }
 }

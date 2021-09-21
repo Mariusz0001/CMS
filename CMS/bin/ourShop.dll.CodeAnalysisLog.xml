@@ -12,10 +12,10 @@
          <Members>
           <Member Name="#GetTableFunction(System.String,System.String,System.Collections.Generic.List`1&lt;System.Data.Entity.Core.Objects.ObjectParameter&gt;)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2021-09-21 18:26:44Z" FixCategory="DependsOnFix">
+            <Message TypeName="Do not dispose objects multiple times" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2021-09-21 18:49:06Z" FixCategory="DependsOnFix">
              <Issue Certainty="75" Level="Warning" Path="C:\Users\Mariusz\source\repos\CMS\CMS\DataBase" File="DBFunctionBase.cs" Line="65">Object 'reader' can be disposed more than once in method 'DBFunctionBase.GetTableFunction(string, string, List&lt;ObjectParameter&gt;)'. To avoid generating a System.ObjectDisposedException you should not call Dispose more than one time on an object.: Lines: 65</Issue>
             </Message>
-            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-09-21 18:26:44Z" FixCategory="DependsOnFix">
+            <Message TypeName="Review SQL queries for security vulnerabilities" Category="Microsoft.Security" CheckId="CA2100" Status="Active" Created="2021-09-21 18:49:06Z" FixCategory="DependsOnFix">
              <Issue Name="WithNonLiterals" Certainty="75" Level="Warning" Path="C:\Users\Mariusz\source\repos\CMS\CMS\DataBase" File="DBFunctionBase.cs" Line="47">The query string passed to 'NpgsqlCommand.NpgsqlCommand(string, NpgsqlConnection)' in 'DBFunctionBase.GetTableFunction(string, string, List&lt;ObjectParameter&gt;)' could contain the following variables 'schema', 'functionName'. If any of these variables could come from user input, consider using a stored procedure or a parameterized SQL query instead of building the query with string concatenations.</Issue>
             </Message>
            </Messages>

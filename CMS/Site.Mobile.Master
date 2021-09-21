@@ -1,6 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Mobile.master.cs" Inherits="CMS.Site_Mobile" MasterPageFile="~/Root.Master" %>
 <%@ Register Src="~/ViewSwitcher.ascx" TagPrefix="friendlyUrls" TagName="ViewSwitcher" %>
-<%@ Register TagPrefix="UC" TagName="LoginUC" Src="~/Modules/UC/LoginUC.ascx" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="bContent">
     <form id="form1" runat="server" onsubmit="OnSubmit();">
@@ -12,9 +11,6 @@
                             <i class="material-icons">menu</i>
                         </a>
                         <a href="/Home" class="navbar-logo center">Rim shop</a>
-
-                        <asp:Panel ID="Panel1" runat="server">    
-                        </asp:Panel>
 
                         <ul class="right">
                              <li><a class="dropdown-trigger" data-target="ManageWebsiteDropDown"><i class="material-icons right">dashboard</i>Manage website</a></li>
@@ -78,44 +74,6 @@
         <main>
             <script type="text/javascript">
 
-                const $menu = $('#LoginCard');
-                var userId = '<%= Session["UserId"] %>';
-
-                $(".dropdown-trigger").dropdown();
-
-                $(document).ready(function () {
-                    $('.sidenav').sidenav();
-                });
-
-                $(document).mouseup(e => {
-                    if (!$menu.is(e.target)
-                        && $menu.has(e.target).length === 0) {
-                        $menu.fadeOut(200, function () {
-                        });
-                    }
-                });
-
-                $(document).ready(function () {
-                    $('.tooltipped').tooltip();
-                });
-
-                function OnSubmit(s, e) {
-                    $("#Loader").show(100);
-                };
-
-                function LoggedButton_Click(s, e) {
-                    if ($menu.is(':hidden')) {
-                        $menu.fadeIn(200, function () {
-                        });
-                    }
-                };
-
-                function LoginButton_Click(s, e) {
-                    if ($menu.is(':hidden')) {
-                        $menu.fadeIn(200, function () {
-                        });
-                    }
-                };
             </script>
 
              <div id="ProductDropDown" class="navbar-dropdown-content">
