@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ourShopModel1.Store" Provider="Npgsql" ProviderManifestToken="12.3" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CategoriesBook">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int4" Nullable="false" />
+    <Property Name="IdCategoriesBook_Parent" Type="int4" />
+    <Property Name="Name" Type="varchar" MaxLength="200" />
+    <Property Name="ModificationDate" Type="date" />
+    <Property Name="ModifcatedBy" Type="date" />
+    <Property Name="Enabled" Type="bool" />
+  </EntityType>
+  <EntityType Name="Settings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int4" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="200" />
+    <Property Name="ValueString" Type="varchar" MaxLength="200" />
+    <Property Name="ValueInt" Type="int4" />
+    <Property Name="ValueDate" Type="date" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int4" Nullable="false" />
+    <Property Name="IdLanguageBook" Type="int4" />
+    <Property Name="Number" Type="varchar" MaxLength="200" />
+    <Property Name="Name" Type="varchar" MaxLength="200" />
+    <Property Name="FirstName" Type="varchar" MaxLength="200" />
+    <Property Name="LastName" Type="varchar" MaxLength="200" />
+    <Property Name="Password" Type="varchar" MaxLength="200" />
+    <Property Name="Position" Type="varchar" MaxLength="200" />
+    <Property Name="Email" Type="varchar" MaxLength="200" />
+    <Property Name="Phone" Type="varchar" MaxLength="200" />
+    <Property Name="CreationDate" Type="date" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="200" />
+    <Property Name="Enabled" Type="bool" />
+  </EntityType>
+  <EntityContainer Name="ourShopModel1StoreContainer">
+    <EntitySet Name="CategoriesBook" EntityType="Self.CategoriesBook" Schema="public" store:Type="Tables" />
+    <EntitySet Name="Settings" EntityType="Self.Settings" Schema="public" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="public" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

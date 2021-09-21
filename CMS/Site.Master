@@ -1,0 +1,190 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="CMS.SiteMaster" MasterPageFile="~/Root.Master" %>
+
+
+<asp:Content ID="Content1" runat="server" ContentPlaceHolderID="bContent">
+    <form id="form1" runat="server" onsubmit="OnSubmit();">
+        <div id="mainPage" runat="server">
+            <header>
+                <nav id="navbar" class="navbar-light-transparent">
+                    <div class="nav-wrapper">
+                        <a href="#" class="sidenav-trigger" data-target="bContent_MobileMenu">
+                            <i class="material-icons">menu</i>
+                        </a>
+                        <a href="/Home" class="brand-logo center">Rim shop</a>
+
+                        <asp:Panel ID="Panel1" runat="server" CssClass="" >    
+                        </asp:Panel>
+
+                        <ul class="right show-on-medium-and-down">
+                           <li><a class="dropdown-trigger" data-target="ManageWebsiteDropDown"><i class="material-icons right">dashboard</i>Manage website</a></li>
+                           
+                           <li><a href="#" class="waves-effect waves-light tooltipped" data-position="bottom" data-tooltip="Your shopping card"><i class="material-icons ">shopping_cart</i></a></li>
+                            <li>
+                                 <asp:LinkButton ID="LoginButton" runat="server" CssClass="waves-effect waves-light" Text="" OnClientClick="LoginButton_Click(); return false;"><i class="material-icons right">person</i></asp:LinkButton>
+                            </li>
+                            <li>
+                                 <asp:LinkButton ID="LoggedButton" Visible="false" runat="server" CssClass="btn-floating waves-effect waves-light center-align" Text="" Font-Size="Larger" OnClientClick="LoggedButton_Click(); return false;" />
+                            </li>
+                            <li>
+                                <input class="form-control right-align white-text s3" type="search" placeholder="Search" />
+                            </li>
+                        </ul>
+                        <ul id="ManageWebsiteDropDown" class="dropdown-content">
+                          <li><a href="/Modules/ProductsConfiguration"><i class="material-icons right">inventory_2</i>Products</a></li>
+                          <li><a href="/Modules/Categories"><i class="material-icons right">category</i>Categories</a></li>
+                          <li class="divider"></li>
+                          <li><a href="/Modules/Configuration"><i class="material-icons right">language</i>Manage website</a></li>
+                          <li><a href="/Modules/Configuration"><i class="material-icons right">dashboard</i>Manage website pages</a></li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <div id="LoginCard" class="loginCard z-depth-2">
+                    <br />
+                    <div class="">
+                        <div id="UnLoggedCard" class="center" runat="server" visible="true">
+                            <i class="material-icons">no_accounts</i>
+                            <div class="container row s12 center">
+
+                                <asp:Label runat="server" ID="NotLoggedInLabel" ForeColor="DimGray" Text="Not logged in..."></asp:Label>
+                            </div>
+                            <div class="loginCardFooter">
+                                <a href="/Login" class="btn btn-link"><i class="material-icons right">login</i> Login</a>
+                            </div>
+                        </div>
+
+                        <div id="LoggedCard" class="center" runat="server" visible="false">
+                            <div class="container row s12 center">
+                                <asp:Label runat="server" ID="NickLabel" ForeColor="Black" Font-Size="X-Large" Font-Bold="true" CssClass="h4"></asp:Label>
+                            </div>
+                            <i class="material-icons ">face</i>
+
+                            <div class="row center">
+                                <asp:Label runat="server" ID="NameLabel" ForeColor="DimGray"></asp:Label>
+                            </div>
+                            <div class="row center">
+                                <asp:Label runat="server" ID="PositionLabel" ForeColor="DimGray" Font-Size="Small"></asp:Label>
+                            </div>
+
+                            <div class="loginCardFooter">
+                                <asp:LinkButton ID="LogoutButton" runat="server" CssClass="btn btn-primary" OnClick="LogoutButton_OnClick">Logout<i class="material-icons right">logout</i></asp:LinkButton>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </header>
+            </div>
+        <main>
+            <script type="text/javascript">
+
+                const $menu = $('#LoginCard');
+                var userId = '<%= Session["UserId"] %>';
+
+                $(document).mouseup(e => {
+                    if (!$menu.is(e.target) && $menu.has(e.target).length === 0) {
+                        $menu.fadeOut(200, function () {
+                        });
+                    }
+                });
+                
+
+                $(".dropdown-trigger").dropdown();
+
+                $(document).ready(function () {
+                    $('.sidenav').sidenav();
+                });
+
+
+                $(document).ready(function () {
+                    $('.tooltipped').tooltip();
+                });
+
+                function LoggedButton_Click(s, e) {
+                    if ($menu.is(':hidden')) {
+                        $menu.fadeIn(200, function () {
+                        });
+                    }
+                }
+
+                function OnSubmit(s, e) {
+                    $("#Loader").show(100);
+                };
+
+
+                function LoginButton_Click(s, e) {
+                    if ($menu.is(':hidden')) {
+                        $menu.fadeIn(200, function () {
+                        });
+                    }
+                }
+
+                
+            </script>
+           
+
+             <div id="ProductDropDown" class="navbar-dropdown-content">
+                    <div class="container col s12">
+                    <div class="row">
+                            <div class="col s7"><span class="flow-text">This div is 7-columns wide on pushed to the right by 5-columns.</span></div>
+                            <div class="col s5"><span class="flow-text">5-columns wide pulled to the left by 7-columns.</span></div>
+                        </div>
+                      </div>
+                </div>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                     
+            </asp:ContentPlaceHolder>
+            <asp:ContentPlaceHolder ID="BodyContent" runat="server">
+
+            </asp:ContentPlaceHolder>
+
+            <asp:ContentPlaceHolder ID="FooterContent" runat="server">
+            </asp:ContentPlaceHolder>
+
+        </main>
+      </form>
+ </asp:Content>
+<asp:Content ID="Content2" runat="server" ContentPlaceHolderID="fContent">
+        <footer class="page-footer">
+            <div class="container" style="padding:0px;">
+                <div class="row"  style="margin-bottom:0px !important;">
+                    <div class="col s6">
+                        <div class="row-footer">
+                            <a class="white-text" href="/Home">
+                                <h5>Home</h5>
+                            </a>
+                        </div>
+                        <div class="row-footer">
+                            <a class="white-text" href="/About">
+                                <p>About</p>
+                            </a>
+                        </div>
+                        <div class="row-footer">
+                            <a class="white-text" href="/Contact">
+                                <p>Contact</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col s6">
+                        <div class="row-footer" style="min-height:50px; margin-top:5px; ">
+                             <a href="https://github.com/Mariusz0001" target="_blank">
+                                <img src="../Content/icons/git_icon.png" alt="GitHub" style="width: 100px; float:left; margin-left:-12px;"/></a>
+                        </div>
+                        <div class="row-footer">
+                            <a class="white-text" target="_blank" href="http://materializecss.com">Materialize</a>
+                        </div>
+                         <div class="row-footer">
+                            <a class="white-text" target="_blank" href="https://www.postgresql.org/">PostgreSQL</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    <a class="brown-text text-lighten-3" href="https://github.com/Mariusz0001">© 2021 Mariusz Pawlus</a>
+                </div>
+            </div>
+        </footer>
+</asp:Content>
+         
