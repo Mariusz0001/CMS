@@ -229,4 +229,3 @@ GRANT EXECUTE ON PROCEDURE public.add_log(integer, integer, character varying, c
 11. Results in the database.
 ![image](https://user-images.githubusercontent.com/29818201/134057964-94f3f5d8-ba42-4f6b-866b-3b3c4dc11bd2.png)
 
-PostgreSQL offer free solution..
